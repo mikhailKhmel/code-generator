@@ -46,7 +46,7 @@
         "arrow-parens": false,
         "trailing-comma": false,
         "no-unused-variable": [
-            true
+            false
         ],
         "prefer-const": [
             true,
