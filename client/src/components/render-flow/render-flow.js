@@ -30,11 +30,7 @@ const RenderFlow = () => {
          setElements((els) => addEdge(params, els.map(x => x.node)))
      }
  */
-    const onConnect =
-        (params) =>
-            setElements((els) =>
-                addEdge({...params}, els)
-            );
+    const onConnect = (params) => setElements((els) => addEdge({...params}, els));
 
     const onLoad = (_reactFlowInstance) =>
         setReactFlowInstance(_reactFlowInstance)
@@ -86,11 +82,28 @@ const RenderFlow = () => {
         st = {...newSettings}
         console.log('save', el)
         const elIndex = elements.findIndex(el => el.id === newSettings.id)
-        setElements((es) => [
-            ...es.slice(0, elIndex),
+        let currentElements = [
+            ...elements.slice(0, elIndex),
             el,
-            ...es.slice(elIndex + 1)
-        ])
+            ...elements.slice(elIndex + 1)
+        ]
+
+        let elementsToRemove = []
+        for (let i = 0; i < currentElements.length; i++) {
+            if (currentElements[i].id.includes('edge')) {
+                console.log('edge', currentElements[i])
+                const targetNode = currentElements.find(y => y.id === currentElements[i].target)
+                console.log('targetNode', targetNode)
+                if (targetNode.data.microserviceType === 'gateway') {
+                    console.log('add element for remove', currentElements[i])
+                    elementsToRemove.push(currentElements[i])
+                }
+            }
+        }
+
+        console.log('elementsToRemove', elementsToRemove)
+        onElementsRemove(elementsToRemove)
+
 
         const stIndex = settings.findIndex(st => st.id === newSettings.id)
         setSettings((sts) => [
@@ -98,6 +111,8 @@ const RenderFlow = () => {
             st,
             ...sts.slice(stIndex + 1)
         ])
+
+
     }
     console.log('elements', elements)
     return (

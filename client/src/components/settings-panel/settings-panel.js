@@ -73,7 +73,7 @@ export default class SettingsPanel extends Component {
                     address: address === undefined ? '' : address,
                     port: port === undefined ? '' : port,
                     cache: cache,
-                    microserviceType: microserviceType === undefined ? '' : microserviceType
+                    microserviceType: microserviceType === undefined ? 'default' : microserviceType
                 })
             }
         }
