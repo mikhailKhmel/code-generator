@@ -1,3 +1,3 @@
-import { generateNewNode, getId, getNodeTypeName, getReactFlowTypeByCustomType } from "./utils";
+import { getId, getNodeTypeName, getReactFlowTypeByCustomType } from "./utils";
 
-export { generateNewNode, getId, getNodeTypeName, getReactFlowTypeByCustomType };
+export { getId, getNodeTypeName, getReactFlowTypeByCustomType };

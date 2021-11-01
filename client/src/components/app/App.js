@@ -3,9 +3,9 @@ import RenderFlow from "../render-flow";
 import './App.css';
 
 function App() {
-  return (
-    <RenderFlow />
-  );
+    return (
+        <RenderFlow/>
+    );
 }
 
 export default App;

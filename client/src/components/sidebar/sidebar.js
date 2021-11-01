@@ -9,7 +9,8 @@ const Sidebar = () => {
 
     return (
         <aside>
-            <div className="react-flow__node-input" onDragStart={(event) => onDragStart(event, 'microservice')} draggable>
+            <div className="react-flow__node-default" onDragStart={(event) => onDragStart(event, 'microservice')}
+                 draggable>
                 Микросервис
             </div>
             <div className="react-flow__node-default" onDragStart={(event) => onDragStart(event, 'queue')} draggable>

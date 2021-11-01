@@ -1,18 +1,31 @@
 import React, { useRef, useState } from 'react';
-import ReactFlow, { ReactFlowProvider, addEdge, removeElements, Controls, Background, MiniMap } from 'react-flow-renderer';
+import ReactFlow, {
+    addEdge,
+    Background,
+    Controls,
+    MiniMap,
+    ReactFlowProvider,
+    removeElements
+} from 'react-flow-renderer';
+import Microservice from '../nodes';
 import SettingsPanel from '../settings-panel/settings-panel';
 import Sidebar from "../sidebar";
-import { getId, getNodeTypeName, getReactFlowTypeByCustomType } from "../utils";
+import { getId, getNodeTypeName } from "../utils";
 
 import './render-flow.css';
+
+const nodeTypes = {
+    microservice: Microservice
+};
 
 const RenderFlow = () => {
     const reactFlowWrapper = useRef(null);
     const [elements, setElements] = useState([]);
-    const [settingsOn, setSettingOn] = useState(null);
+    const [settings, setSettings] = useState(null);
     const [reactFlowInstance, setReactFlowInstance] = useState(null);
 
     const onConnect = (params) => setElements((els) => addEdge(params, els));
+
     const onLoad = (_reactFlowInstance) =>
         setReactFlowInstance(_reactFlowInstance);
 
@@ -35,31 +48,46 @@ const RenderFlow = () => {
             });
             const newNode = {
                 id: getId(elements.length).toString(),
-                type: getReactFlowTypeByCustomType(type),
+                type: type,
                 position,
-                data: { label: getNodeTypeName(type) },
+                data: {label: getNodeTypeName(type), microserviceType: 'default'},
             };
-            setElements((es) => es.concat(newNode));
+            setElements((es) => es.concat({node: newNode, settings: {id: newNode.id}}));
         }
     };
 
     const onNodeDoubleClick = (_, node) => {
-        console.log('open', node.data.label);
-        setSettingOn(node.data.label);
+        const currentSettings = elements.find(x => x.node.id === node.id);
+        console.log('open', currentSettings);
+        setSettings(currentSettings !== undefined ? currentSettings.settings : {});
     }
 
     const onCloseSettings = () => {
         console.log('close');
-        setSettingOn(null);
-    } 
+        setSettings(null);
+    }
 
+    const onSaveSettings = (settings) => {
+        const el = elements.find(el => el.node.id === settings.id);
+        el.node.data.microserviceType = settings.microserviceType;
+        el.node.data.name = settings.name;
+        el.settings = settings;
+        console.log('save', el);
+        const elIndex = elements.findIndex(el => el.node.id === settings.id);
+        setElements((es) => [
+            ...es.slice(0, elIndex),
+            el,
+            ...es.slice(elIndex + 1)
+        ]);
+    }
+    console.log('elements', elements);
     return (
         <div className="render-flow">
             <ReactFlowProvider>
-                <Sidebar />
+                <Sidebar/>
                 <div className="reactflow-wrapper" ref={reactFlowWrapper}>
                     <ReactFlow
-                        elements={elements}
+                        elements={elements.map(x => x.node)}
                         className="flow"
                         onConnect={onConnect}
                         onElementsRemove={onElementsRemove}
@@ -67,13 +95,14 @@ const RenderFlow = () => {
                         onDrop={onDrop}
                         onDragOver={onDragOver}
                         onNodeDoubleClick={onNodeDoubleClick}
+                        nodeTypes={nodeTypes}
                     >
-                        <Controls />
+                        <Controls/>
                         <Background
                             variant='dots'
-                            gap={24}
+                            gap={20}
                             size={0.6}
-                            color='blue'
+                            color='gray'
                         />
                         <MiniMap
                             nodeStrokeColor={(n) => {
@@ -93,7 +122,8 @@ const RenderFlow = () => {
                         />
                     </ReactFlow>
                 </div>
-                {settingsOn === null ? null : <SettingsPanel objectType={settingsOn} onCloseSettings={onCloseSettings} /> }
+                {settings === null ? null :
+                    <SettingsPanel node={settings} onCloseSettings={onCloseSettings} onSaveSettings={onSaveSettings}/>}
             </ReactFlowProvider>
         </div>
 
