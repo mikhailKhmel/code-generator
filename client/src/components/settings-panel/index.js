@@ -1,3 +1,3 @@
-import SettingsPanel from "./settings-panel";
+import SettingsPanel from "./settings-panel"
 
-export default SettingsPanel;
+export default SettingsPanel

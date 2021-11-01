@@ -1,35 +1,35 @@
-import React, { Component } from "react";
+import React, { Component } from "react"
 
-import './settings-panel.css';
+import './settings-panel.css'
 
 export default class SettingsPanel extends Component {
 
     constructor(props) {
-        super(props);
+        super(props)
         this.state = {
             id: '',
             name: '',
             address: '',
             port: '',
             cache: false,
-            microserviceType: ''
-        };
-        this.handleInputChange = this.handleInputChange.bind(this);
-        this.handleSelectChange = this.handleSelectChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+            microserviceType: 'default'
+        }
+        this.handleInputChange = this.handleInputChange.bind(this)
+        this.handleSelectChange = this.handleSelectChange.bind(this)
+        this.handleSubmit = this.handleSubmit.bind(this)
     }
 
     handleInputChange(event) {
-        const target = event.target;
+        const target = event.target
 
-        const value = target.type === 'checkbox' ? target.checked : target.value;
-        const name = target.name;
+        const value = target.type === 'checkbox' ? target.checked : target.value
+        const name = target.name
         if (target.type === 'checkbox') {
-            console.log('input checkbox', value);
+            console.log('input checkbox', value)
         }
         this.setState({
             [name]: value
-        });
+        })
     }
 
     handleSelectChange(event) {
@@ -37,16 +37,16 @@ export default class SettingsPanel extends Component {
     }
 
     handleSubmit(event) {
-        event.preventDefault();
-        this.props.onSaveSettings(this.state);
+        event.preventDefault()
+        this.props.onSaveSettings(this.state)
     }
 
     componentDidMount() {
-        console.log('mount', this.props.node);
-        if (this.props.node.name === undefined) {
-            this.setState({id: this.props.node.id});
+        console.log('mount', this.props.settings)
+        if (this.props.settings.name === undefined) {
+            this.setState({id: this.props.settings.id})
         } else {
-            const {id, name, address, port, cache, microserviceType} = this.props.node;
+            const {id, name, address, port, cache, microserviceType} = this.props.settings
             this.setState({
                 name,
                 id,
@@ -54,36 +54,36 @@ export default class SettingsPanel extends Component {
                 port,
                 cache,
                 microserviceType
-            });
+            })
         }
     }
 
     componentDidUpdate(prevProps, prevState) {
-        console.log('update');
-        console.log('prevProps', prevProps, prevState);
-        console.log('current props', this.props);
+        console.log('update')
+        console.log('prevProps', prevProps, prevState)
+        console.log('current props', this.props)
         if (prevState.id !== '') {
-            if (this.props.node.id !== prevState.id) {
+            if (this.props.settings.id !== prevState.id) {
 
-                const {name, address, port, cache, microserviceType} = this.props.node;
-                console.log('update settings', name, address, port, cache, microserviceType);
+                const {id, name, address, port, cache, microserviceType} = this.props.settings
+                console.log('update settings', name, address, port, cache, microserviceType)
                 this.setState({
                     name: name === undefined ? '' : name,
-                    id: this.props.node.id,
+                    id,
                     address: address === undefined ? '' : address,
                     port: port === undefined ? '' : port,
                     cache: cache,
                     microserviceType: microserviceType === undefined ? '' : microserviceType
-                });
+                })
             }
         }
     }
 
     render() {
-        let label = '';
-        console.log('render', this.state);
+        let label = ''
+        console.log('render', this.state)
         if (this.state.name !== undefined) {
-            label = this.state.name;
+            label = this.state.name
         }
         return (
             <form onSubmit={this.handleSubmit}>
@@ -125,7 +125,7 @@ export default class SettingsPanel extends Component {
                     </div>
                 </div>
             </form>
-        );
+        )
     }
 
 }

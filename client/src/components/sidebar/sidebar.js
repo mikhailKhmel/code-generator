@@ -1,11 +1,11 @@
-import React from 'react';
-import './sidebar.css';
+import React from 'react'
+import './sidebar.css'
 
 const Sidebar = () => {
     const onDragStart = (event, nodeType) => {
-        event.dataTransfer.setData('application/reactflow', nodeType);
-        event.dataTransfer.effectAllowed = 'move';
-    };
+        event.dataTransfer.setData('application/reactflow', nodeType)
+        event.dataTransfer.effectAllowed = 'move'
+    }
 
     return (
         <aside>
@@ -20,7 +20,7 @@ const Sidebar = () => {
                 База данных
             </div>
         </aside>
-    );
-};
+    )
+}
 
-export default Sidebar;
+export default Sidebar

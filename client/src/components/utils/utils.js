@@ -1,28 +1,28 @@
 const getId = (l) => {
-    return l + 1;
+    return l + 1
 }
 
 const getNodeTypeName = (type) => {
     switch (type) {
         case 'microservice':
-            return 'Микросервис';
+            return 'Микросервис'
         case 'queue':
-            return 'Очередь';
+            return 'Очередь'
         case 'database':
             return 'База данных'
         default:
-            return null;
+            return null
     }
 }
 
 const getReactFlowTypeByCustomType = (type) => {
     switch (type) {
         case 'queue' || 'microservice':
-            return 'default';
+            return 'default'
         case 'database':
-            return 'output';
+            return 'output'
         default:
-            return null;
+            return null
     }
 }
 
@@ -30,7 +30,7 @@ export {
     getId,
     getNodeTypeName,
     getReactFlowTypeByCustomType
-};
+}
 
 
 
