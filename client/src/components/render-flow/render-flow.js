@@ -75,6 +75,7 @@ const RenderFlow = () => {
     console.log(newSettings)
     const el = elements.find(el => el.id === newSettings.id)
     let st = settings.find(st => st.id === newSettings.id)
+    // todo: надо переделать для всех типов объектов
     el.data.microserviceType = newSettings.microserviceType
     el.data.name = newSettings.name
     st = { ...newSettings }

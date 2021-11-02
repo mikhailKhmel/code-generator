@@ -77,27 +77,10 @@ export default class MicroservicePanel extends Component {
 
   componentDidMount () {
     console.log('mount', this.props.settings)
-    const {
-      id,
-      name,
-      address,
-      port,
-      cache,
-      microserviceType,
-      type,
-      api
-    } = this.props.settings
     this.setState({
       openApiPanel: false,
       settings: {
-        name,
-        id,
-        address,
-        port,
-        cache,
-        microserviceType,
-        type,
-        api
+        ...this.props.settings
       }
     })
   }
@@ -115,10 +98,11 @@ export default class MicroservicePanel extends Component {
           port,
           cache,
           microserviceType,
-          type
+          type,
+          api
         } = this.props.settings
         console.log('update settings', name, address, port, cache,
-          microserviceType, type)
+          microserviceType, type, api)
         this.setState({
           openApiPanel: false,
           settings:
@@ -133,7 +117,8 @@ export default class MicroservicePanel extends Component {
               cache,
               microserviceType:
                 microserviceType === undefined ? 'default' : microserviceType,
-              type
+              type,
+              api
             }
         })
       }
