@@ -1,0 +1,73 @@
+.add-api-panel {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+
+    border-radius: 15px;
+    background-color: #e0eaf1;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    margin-top: 10px;
+    margin-left: 12px;
+    align-content: center;
+}
+
+.btn-back {
+    position: absolute;
+    border: none;
+    border-radius: 5px;
+    background-color: #50a0ff;
+    top: 10px;
+    right: 10px;
+    width: max-content;
+}
+
+.btn-back:hover {
+    cursor: pointer;
+    background-color: #618cbb;
+}
+
+.object-type {
+    border: 1px solid #585b5e;
+    border-radius: 5px;
+    width: max-content;
+    text-align: center;
+    margin-right: 100px;
+    position: relative;
+    right: 0;
+}
+
+.select-type {
+    margin: 0 10px 10px 9rem;
+    border-radius: 5px;
+    padding: 0 15px 0 15px;
+    text-align: center;
+    width: max-content;
+}
+
+option {
+    text-align: left;
+
+}
+
+.input-method {
+    border: none;
+    border-radius: 5px;
+    width: 200px;
+    margin-left: 30px;
+    margin-bottom: 10px;
+}
+
+.input-request {
+    border: none;
+    border-radius: 5px;
+    width: 200px;
+    margin-left: 65px;
+    margin-bottom: 10px;
+}

@@ -37,6 +37,7 @@
 
 .btn-back:hover {
     cursor: pointer;
+    background-color: #618cbb;
 }
 
 .btn-save {
