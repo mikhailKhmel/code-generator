@@ -1,0 +1,7 @@
+.run-button {
+    position: absolute;
+    right: 10px;
+    bottom: 190px;
+    border-radius: 5px;
+    border: 1px solid #4b6077;
+}

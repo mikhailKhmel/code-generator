@@ -1,3 +1,3 @@
-import RenderFlow from "./render-flow"
+import RenderFlow from './render-flow'
 
 export default RenderFlow
