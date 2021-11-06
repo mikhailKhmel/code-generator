@@ -10,6 +10,13 @@ export default class ApiPanel extends Component {
     this.handleBackApiPanel = this.handleBackApiPanel.bind(this)
     this.handleAddApi = this.handleAddApi.bind(this)
     this.handleCloseAddApi = this.handleCloseAddApi.bind(this)
+    this.handleSaveRequest = this.handleSaveRequest.bind(this)
+    this.handleSaveData = this.handleSaveData.bind(this)
+  }
+
+  componentDidMount () {
+    console.log('mount api panel', this.props)
+    this.setState({ api: this.props.apiData, addApiPanel: false })
   }
 
   handleBackApiPanel () {
@@ -24,10 +31,19 @@ export default class ApiPanel extends Component {
     this.setState({ addApiPanel: false })
   }
 
+  handleSaveRequest (request) {
+    this.setState(st => ({ api: st.api === undefined ? [].concat([request]) : st.api.concat([request]), addApiPanel: false }))
+  }
+
+  handleSaveData () {
+    this.props.onSaveApi(this.state.api)
+  }
+
   render () {
     if (this.state.addApiPanel) {
-      return <AddApiPanel onCloseApiAddPanel={this.handleCloseAddApi} />
+      return <AddApiPanel onCloseApiAddPanel={this.handleCloseAddApi} onSaveRequest={this.handleSaveRequest} />
     }
+    console.log('render api panel', this.state)
     return (
       <div className='api-panel'>
         <div className='row'>
@@ -47,16 +63,24 @@ export default class ApiPanel extends Component {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>GET</td>
-              <td>getUsers</td>
-              <td>/api/users</td>
-            </tr>
+            {
+              this.state.api !== undefined
+                ? this.state.api.map(x => {
+                    return (
+                      <tr key={`${x.type}_${x.method}_${x.request}`}>
+                        <td>{x.type.toUpperCase()}</td>
+                        <td>{x.method}</td>
+                        <td>{x.request}</td>
+                      </tr>
+                    )
+                  })
+                : null
+            }
           </tbody>
         </table>
         <div className='btn-group'>
           <button className='btn-element' onClick={this.handleAddApi}>Добавить API</button>
-          <button className='btn-element'>Сохранить</button>
+          <button className='btn-element' onClick={this.handleSaveData}>Сохранить</button>
         </div>
       </div>
 

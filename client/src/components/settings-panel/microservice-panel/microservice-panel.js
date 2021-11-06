@@ -24,6 +24,7 @@ export default class MicroservicePanel extends Component {
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleOpenApiPanel = this.handleOpenApiPanel.bind(this)
     this.handleBackApiPanel = this.handleBackApiPanel.bind(this)
+    this.handleSaveApi = this.handleSaveApi.bind(this)
   }
 
   handleInputChange (event) {
@@ -125,13 +126,28 @@ export default class MicroservicePanel extends Component {
     }
   }
 
+  handleSaveApi (api) {
+    console.log('handleSaveApi', api, this.state)
+    this.setState(st => {
+      const resultState = {
+        openApiPanel: false,
+        settings: {
+          ...st.settings,
+          api: api
+        }
+      }
+      console.log(resultState)
+      return resultState
+    })
+  }
+
   render () {
     if (this.state.openApiPanel) {
-      return <ApiPanel onBackApiPanel={this.handleBackApiPanel} on />
+      return <ApiPanel onBackApiPanel={this.handleBackApiPanel} onSaveApi={this.handleSaveApi} apiData={this.state.settings.api} />
     }
 
     let label = ''
-    console.log('render', this.state)
+    console.log('render microservice panel', this.state)
     if (this.state.name !== undefined) {
       label = this.state.name
     }

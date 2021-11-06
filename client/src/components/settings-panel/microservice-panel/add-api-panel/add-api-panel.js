@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 
 import './add-api-panel.css'
 
@@ -15,6 +15,7 @@ export default class AddApiPanel extends Component {
     this.handleChangeType = this.handleChangeType.bind(this)
     this.handleChangeMethod = this.handleChangeMethod.bind(this)
     this.handleChangeRequest = this.handleChangeRequest.bind(this)
+    this.handleSaveRequest = this.handleSaveRequest.bind(this)
   }
 
   handleBackApiPanel (event) {
@@ -35,6 +36,11 @@ export default class AddApiPanel extends Component {
   handleChangeRequest (event) {
     event.preventDefault()
     this.setState({ request: event.target.value })
+  }
+
+  handleSaveRequest (event) {
+    event.preventDefault()
+    this.props.onSaveRequest(this.state)
   }
 
   render () {
@@ -65,7 +71,7 @@ export default class AddApiPanel extends Component {
           Запрос
           <input type='text' className='input-request' value={this.state.request} onChange={this.handleChangeRequest} />
         </div>
-        <button className='btn-save' value='Сохранить'>Добавить</button>
+        <button className='btn-save' value='Сохранить' onClick={this.handleSaveRequest}>Добавить</button>
       </div>
     )
   }

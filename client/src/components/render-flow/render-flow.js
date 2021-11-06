@@ -79,7 +79,6 @@ const RenderFlow = () => {
     el.data.microserviceType = newSettings.microserviceType
     el.data.name = newSettings.name
     st = { ...newSettings }
-    console.log('save', el)
     const elIndex = elements.findIndex(el => el.id === newSettings.id)
     const currentElements = [
       ...elements.slice(0, elIndex),
@@ -91,17 +90,13 @@ const RenderFlow = () => {
     const elementsToRemove = []
     for (let i = 0; i < currentElements.length; i++) {
       if (currentElements[i].id.includes('edge')) {
-        console.log('edge', currentElements[i])
         const targetNode = currentElements.find(
           y => y.id === currentElements[i].target)
-        console.log('targetNode', targetNode)
         if (targetNode.data.microserviceType === 'gateway') {
-          console.log('add element for remove', currentElements[i])
           elementsToRemove.push(currentElements[i])
         }
       }
     }
-    console.log('elementsToRemove', elementsToRemove)
     onElementsRemove(elementsToRemove)
 
     const stIndex = settings.findIndex(st => st.id === newSettings.id)
@@ -117,6 +112,7 @@ const RenderFlow = () => {
   }
 
   console.log('elements', elements)
+  console.log('settings', settings)
   return (
     <div className='render-flow'>
       <ReactFlowProvider>
