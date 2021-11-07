@@ -1,3 +1,4 @@
-import Microservice from './microservice/microservice'
+import { Microservice } from './microservice/microservice'
+import { Database } from './database/database'
 
-export default Microservice
+export { Microservice, Database }

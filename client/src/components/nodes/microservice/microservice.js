@@ -7,7 +7,7 @@ const Microservice = ({ data, isConnectable }) => {
     ? { border: '1px solid blue', padding: 10, textAlign: 'center' }
     : { border: '1px solid #777', padding: 10, textAlign: 'center' }
   return (
-    <div style={style}>
+    <div style={style} className='react-flow__node-default'>
       {data.microserviceType !== 'gateway' &&
         <Handle
           type='target'
@@ -32,4 +32,4 @@ const Microservice = ({ data, isConnectable }) => {
     </div>
   )
 }
-export default Microservice
+export { Microservice }

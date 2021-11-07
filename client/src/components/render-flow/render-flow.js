@@ -7,7 +7,7 @@ import ReactFlow, {
   ReactFlowProvider,
   removeElements
 } from 'react-flow-renderer'
-import Microservice from '../nodes'
+import { Database, Microservice } from '../nodes'
 import RunButton from '../run-button'
 import SettingsPanel from '../settings-panel'
 import Sidebar from '../sidebar'
@@ -16,7 +16,8 @@ import { getId, getNodeTypeName } from '../utils'
 import './render-flow.css'
 
 const nodeTypes = {
-  microservice: Microservice
+  microservice: Microservice,
+  database: Database
 }
 
 const RenderFlow = () => {
@@ -53,7 +54,10 @@ const RenderFlow = () => {
         id: getId(elements.length).toString(),
         type: type,
         position,
-        data: { label: getNodeTypeName(type), microserviceType: 'default' }
+        data: { label: getNodeTypeName(type) }
+      }
+      if (type === 'microservice') {
+        newNode.data.microserviceType = 'default'
       }
       setElements((es) => es.concat(newNode))
       setSettings(st => st.concat({ id: newNode.id, name: '', type: type }))
@@ -62,21 +66,21 @@ const RenderFlow = () => {
 
   const onNodeDoubleClick = (_, node) => {
     const currentSettings = settings.find(x => x.id === node.id)
-    console.log('open', currentSettings, node)
     setOpenSettings(currentSettings)
   }
 
   const onCloseSettings = () => {
-    console.log('close')
     setOpenSettings(null)
   }
 
   const onSaveSettings = (newSettings) => {
-    console.log(newSettings)
     const el = elements.find(el => el.id === newSettings.id)
     let st = settings.find(st => st.id === newSettings.id)
-    // todo: надо переделать для всех типов объектов
-    el.data.microserviceType = newSettings.microserviceType
+
+    if (el.type === 'microservice') {
+      el.data.microserviceType = newSettings.microserviceType
+    }
+
     el.data.name = newSettings.name
     st = { ...newSettings }
     const elIndex = elements.findIndex(el => el.id === newSettings.id)
@@ -141,6 +145,7 @@ const RenderFlow = () => {
                 if (n.style?.background) return n.style.background
                 if (n.data.microserviceType === 'gateway') return '#0041d0'
                 if (n.type === 'microservice') return '#1a192b'
+                if (n.type === 'database') return '#db16b0'
 
                 return '#eee'
               }}
