@@ -1,4 +1,4 @@
-.database-panel {
+.add-table-panel {
     position: absolute;
     top: 20px;
     right: 20px;
@@ -23,7 +23,7 @@
 }
 
 .btn-close {
-    position: absolute;
+    display: block;
     border: none;
     background-color: #585b5e;
     top: 10px;
@@ -34,16 +34,30 @@
     cursor: pointer;
 }
 
-.object-name {
+.table-name {
+    display: flex;
+    flex-direction: row;
     border: none;
     width: max-content;
-    margin-left: 10px;
-    margin-right: 10px;
-    margin-bottom: 10px;
+    margin: 50px 10px 5px;
 }
 
 .database-type {
     margin: 0 10px 10px 10px;
     border-radius: 5px;
     padding: 0 15px 0 15px;
+}
+
+.btn-save {
+    margin-bottom: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #94bbe6;
+}
+
+.btn-save:hover {
+    cursor: pointer;
+    background-color: #4b6077;
 }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 
 import './database-panel.css'
+import TablePanel from './table-panel'
 
 export default class DatabasePanel extends Component {
   constructor (props) {
@@ -13,7 +14,8 @@ export default class DatabasePanel extends Component {
         port: '',
         username: '',
         password: '',
-        databaseType: 'sql'
+        databaseType: 'sql',
+        script: ''
       },
       openTablePanel: false
     }
@@ -21,6 +23,8 @@ export default class DatabasePanel extends Component {
     this.handleInputChange = this.handleInputChange.bind(this)
     this.handleSelectChange = this.handleSelectChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleOpenTablePanel = this.handleOpenTablePanel.bind(this)
+    this.handleCloseTablePanel = this.handleCloseTablePanel.bind(this)
   }
 
   componentDidMount () {
@@ -46,12 +50,12 @@ export default class DatabasePanel extends Component {
           port,
           cache,
           databaseType,
-          type
+          type, script
         } = this.props.settings
         console.log('update settings', name, address, port, cache,
-          databaseType, type)
+          databaseType, type, script)
         this.setState({
-          openApiPanel: false,
+          openTablePanel: false,
           settings:
             {
               name: name === undefined ? '' : name,
@@ -64,11 +68,24 @@ export default class DatabasePanel extends Component {
               cache,
               databaseType:
                 databaseType === undefined ? 'sql' : databaseType,
-              type
+              type,
+              script
             }
         })
       }
     }
+  }
+
+  handleOpenTablePanel () {
+    this.setState(st => {
+      console.log('handleOpenTablePanel', st)
+      return { settings: st.settings, openTablePanel: true }
+    })
+  }
+
+  handleCloseTablePanel () {
+    console.log('close table panel')
+    this.setState(st => ({ openTablePanel: false, settings: st.settings }))
   }
 
   handleInputChange (event) {
@@ -104,6 +121,9 @@ export default class DatabasePanel extends Component {
   }
 
   render () {
+    if (this.state.openTablePanel) {
+      return <TablePanel onCloseTablePanel={this.handleCloseTablePanel} />
+    }
     return (
       <form onSubmit={this.handleSubmit}>
         <div className='container-settings'>
@@ -158,7 +178,7 @@ export default class DatabasePanel extends Component {
             </div>
             <button
               className='btn-api'
-              onClick={this.handleOpenApiPanel}
+              onClick={this.handleOpenTablePanel}
             >Описание {this.state.settings.databaseType === 'sql' ? 'таблиц' : 'коллекций'}
             </button>
             <input className='btn-save' type='submit' value='Сохранить' />
