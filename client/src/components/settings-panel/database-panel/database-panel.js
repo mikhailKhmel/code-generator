@@ -15,6 +15,7 @@ export default class DatabasePanel extends Component {
         username: '',
         password: '',
         databaseType: 'sql',
+        tables: [],
         script: ''
       },
       openTablePanel: false
@@ -32,7 +33,8 @@ export default class DatabasePanel extends Component {
     this.setState({
       openTablePanel: false,
       settings: {
-        ...this.props.settings
+        ...this.props.settings,
+        databaseType: 'sql'
       }
     })
   }
@@ -43,34 +45,11 @@ export default class DatabasePanel extends Component {
     console.log('current props', this.props)
     if (prevState.settings.id !== '') {
       if (this.props.settings.id !== prevState.settings.id) {
-        const {
-          id,
-          name,
-          address,
-          port,
-          cache,
-          databaseType,
-          type, script
-        } = this.props.settings
-        console.log('update settings', name, address, port, cache,
-          databaseType, type, script)
         this.setState({
           openTablePanel: false,
-          settings:
-            {
-              name: name === undefined ? '' : name,
-              id,
-              address:
-                address === undefined ? '' : address,
-              port:
-                port === undefined ? '' : port,
-              cache:
-              cache,
-              databaseType:
-                databaseType === undefined ? 'sql' : databaseType,
-              type,
-              script
-            }
+          settings: {
+            ...this.props.settings
+          }
         })
       }
     }
@@ -95,10 +74,10 @@ export default class DatabasePanel extends Component {
     const settingsName = target.name
 
     this.setState((state) => {
-      const { settings, openApiPanel } = state
+      const { settings, openTablePanel } = state
       settings[settingsName] = value
       return ({
-        openApiPanel,
+        openTablePanel,
         settings
       })
     })
@@ -106,10 +85,10 @@ export default class DatabasePanel extends Component {
 
   handleSelectChange (event) {
     this.setState((state) => {
-      const { settings, openApiPanel } = state
+      const { settings, openTablePanel } = state
       settings.databaseType = event.target.value
       return ({
-        openApiPanel,
+        openTablePanel,
         settings
       })
     })
@@ -122,8 +101,17 @@ export default class DatabasePanel extends Component {
 
   render () {
     if (this.state.openTablePanel) {
-      return <TablePanel onCloseTablePanel={this.handleCloseTablePanel} />
+      return (
+        <TablePanel
+          onCloseTablePanel={this.handleCloseTablePanel} tablesData={{
+            tables: [{ name: 'table1', columns: [{ name: 'column1' }], foreignKeys: [] }],
+            script: this.state.settings.script,
+            databaseType: this.state.settings.databaseType
+          }}
+        />
+      )
     }
+    console.log('render database-panel', this.state)
     return (
       <form onSubmit={this.handleSubmit}>
         <div className='container-settings'>

@@ -1,4 +1,4 @@
-.add-table-panel {
+.add-column-panel {
   position: absolute;
   top: 20px;
   right: 20px;
@@ -33,10 +33,11 @@
 }
 
 .table-name {
+  display: flex;
+  flex-direction: row;
   border: none;
-  width: 300px;
-  text-align: center;
-  margin: 10px auto 5px;
+  width: max-content;
+  margin: 50px 10px 5px;
 }
 
 .database-type {
@@ -57,25 +58,4 @@
 .btn-save:hover {
   cursor: pointer;
   background-color: #4b6077;
-}
-
-table,
-tr,
-td {
-  border: 1px solid black;
-  text-align: center;
-  width: 600px;
-}
-
-table {
-  margin: auto;
-}
-
-td {
-  padding: 5px;
-}
-
-.column-row:hover {
-  cursor: pointer;
-  background-color: #618cbb;
 }

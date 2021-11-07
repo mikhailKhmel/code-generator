@@ -1,26 +1,26 @@
 .render-flow {
-    display: flex;
-    flex-direction: row;
-    height: 98.3vh;
+  display: flex;
+  flex-direction: row;
+  height: 98.3vh;
 }
 
 .render-flow aside {
-    border-right: 1px solid #eee;
-    font-size: 12px;
-    background: #fcfcfc;
+  border-right: 1px solid #eee;
+  font-size: 12px;
+  background: #fcfcfc;
 }
 
 .render-flow aside > * {
-    margin: 0 10px 10px 0;
-    cursor: grab;
+  margin: 0 10px 10px 0;
+  cursor: grab;
 }
 
 .render-flow .reactflow-wrapper {
-    flex-grow: 1;
-    height: 100%;
-    z-index: 0;
+  flex-grow: 1;
+  height: 100%;
+  z-index: 0;
 }
 
 .render-flow::after {
-    z-index: -1;
+  z-index: -1;
 }
