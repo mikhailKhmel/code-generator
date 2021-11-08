@@ -24,7 +24,28 @@ export default class AddColumnPanel extends Component {
         }
     this.handleInputChange = this.handleInputChange.bind(this)
     this.handleSelectChange = this.handleSelectChange.bind(this)
-    this.columnTypes = this.columnTypes.bind(this)
+  }
+
+  componentDidMount () {
+    console.log('mount add-column-panel. props:', this.props)
+    this.setState(this.props.databaseType !== 'sql'
+      ? {
+          name: '',
+          type: '',
+          notnull: false,
+          unique: false,
+          index: '',
+          defaultValue: ''
+        }
+      : {
+          name: '',
+          type: '',
+          notnull: false,
+          primaryKey: false,
+          unique: false,
+          defaultValue: ''
+        }
+    )
   }
 
   handleInputChange (event) {
@@ -49,10 +70,10 @@ export default class AddColumnPanel extends Component {
     })
   }
 
-  columnTypes () {
-    return this.props.databaseType === 'sql'
+  columnTypes (databaseType) {
+    return databaseType === 'sql'
       ? (
-        <select value={this.state.column.type}>
+        <select className='input-select' value={this.state.type}>
           <option value='integer'>Число</option>
           <option value='double'>Число с плавающей запятой</option>
           <option value='varchar'>Строка с ограничением</option>
@@ -62,7 +83,7 @@ export default class AddColumnPanel extends Component {
         </select>
         )
       : (
-        <select value={this.state.column.type}>
+        <select className='input-select' value={this.state.type}>
           <option value='integer'>Число</option>
           <option value='double'>Число с плавающей запятой</option>
           <option value='string'>Строка</option>
@@ -75,15 +96,24 @@ export default class AddColumnPanel extends Component {
         )
   }
 
+  settingsTemplate () {
+    // todo: доделать рендеринг настроек для разных типов бд
+  }
+
   render () {
+    console.log('render add-column-panel. state', this.state)
     return (
       <div className='add-column-panel'>
+        <button className='btn-back' onClick={this.handleBackTablePanel}>
+          Назад
+        </button>
         <input
-          name='name' type='text' placeholder='Название поля' value={this.state.column.name}
+          className='input-name'
+          name='name' type='text' placeholder='Название поля' value={this.state.name}
           onChange={this.handleInputChange}
         />
         {
-          this.columnTypes()
+          this.columnTypes(this.props.databaseType)
         }
       </div>
     )

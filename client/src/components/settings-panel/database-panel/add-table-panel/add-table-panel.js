@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-
-import './add-table-panel.css'
 import AddColumnPanel from '../add-column-panel'
+import './add-table-panel.css'
 
 export default class AddTablePanel extends Component {
   constructor (props) {
@@ -12,7 +11,8 @@ export default class AddTablePanel extends Component {
         columns: [],
         foreignKeys: []
       },
-      openColumnPanel: false
+      openColumnPanel: false,
+      databaseType: ''
     }
 
     this.handleBackTablePanel = this.handleBackTablePanel.bind(this)
@@ -21,17 +21,26 @@ export default class AddTablePanel extends Component {
   }
 
   componentDidMount () {
-    console.log('add table panel mount', this.props)
+    console.log('mount add-table-panel. props:', this.props)
+    let table
     if (this.props.table !== undefined) {
-      this.setState({
-        table: {
-          name: this.props.table.name,
-          columns: this.props.table.columns,
-          foreignKeys: this.props.table.foreignKeys
-        },
-        openColumnPanel: false
-      })
+      table = {
+        name: this.props.table.name,
+        columns: this.props.table.columns,
+        foreignKeys: this.props.table.foreignKeys
+      }
+    } else {
+      table = {
+        name: '',
+        columns: [],
+        foreignKeys: []
+      }
     }
+    this.setState({
+      table: table,
+      openColumnPanel: false,
+      databaseType: this.props.databaseType
+    })
   }
 
   handleBackTablePanel () {
@@ -55,13 +64,14 @@ export default class AddTablePanel extends Component {
   }
 
   handleOpenAddColumn () {
-    // todo: не работает открытие панели новой колонки
     this.setState({ openColumnPanel: true })
   }
 
   render () {
+    console.log('render add-table-panel. state:', this.state)
+
     if (this.state.openColumnPanel) {
-      return <AddColumnPanel />
+      return <AddColumnPanel databaseType={this.state.databaseType} />
     }
 
     return (
@@ -71,7 +81,7 @@ export default class AddTablePanel extends Component {
           Назад
         </button>
 
-        <input name='name' type='text' placeholder='Название таблицы' className='table-name' value={this.state.table.name} onChange={this.handleInputChange} />
+        <input className='table-name' name='name' type='text' placeholder='Название таблицы' value={this.state.table.name} onChange={this.handleInputChange} />
 
         <table>
           <thead>

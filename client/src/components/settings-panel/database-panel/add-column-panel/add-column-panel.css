@@ -8,18 +8,6 @@
   flex-direction: column;
 }
 
-.row {
-  display: flex;
-  flex-direction: row;
-}
-
-.object-type {
-  border: 1px solid #585b5e;
-  border-radius: 5px;
-  width: max-content;
-  text-align: center;
-}
-
 .btn-close {
   display: block;
   border: none;
@@ -32,18 +20,17 @@
   cursor: pointer;
 }
 
-.table-name {
-  display: flex;
-  flex-direction: row;
-  border: none;
-  width: max-content;
-  margin: 50px 10px 5px;
-}
-
-.database-type {
+.input-select {
   margin: 0 10px 10px;
   border-radius: 5px;
   padding: 0 15px;
+}
+
+.input-name {
+  margin: 10px 80px 10px 10px;
+  border: none;
+  border-radius: 5px;
+  text-align: center;
 }
 
 .btn-save {

@@ -45,6 +45,7 @@ export default class TablePanel extends Component {
   }
 
   render () {
+    console.log('render table-panel', this.state)
     if (this.state.addTablePanel) {
       return (
         <AddTablePanel
@@ -54,7 +55,7 @@ export default class TablePanel extends Component {
         />
       )
     }
-    console.log('render table-panel', this.state)
+
     return (
       <div className='table-panel'>
         <button className='btn-back' onClick={this.handleCloseTablePanel}>
