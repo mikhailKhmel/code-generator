@@ -164,7 +164,7 @@ const RenderFlow = () => {
               settings={openSettings} onCloseSettings={onCloseSettings}
               onSaveSettings={onSaveSettings}
             />}
-        <RunButton elementsInfo={getAllElementsInfo} />
+        <RunButton elementsInfo={getAllElementsInfo()}/>
       </ReactFlowProvider>
     </div>
 
