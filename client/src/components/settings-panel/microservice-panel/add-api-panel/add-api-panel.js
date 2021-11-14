@@ -58,6 +58,7 @@ export default class AddApiPanel extends Component {
           Тип запроса
           <select className='select-type' value={this.state.type} onChange={this.handleChangeType}>
             <option value='get'>GET</option>
+            <option value='post'>POST</option>
             <option value='put'>PUT</option>
             <option value='patch'>PATCH</option>
             <option value='delete'>DELETE</option>
