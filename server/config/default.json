@@ -1,4 +1,4 @@
 {
-  "port": 5000,
-  "workdir": "../project"
+  "port": 5001,
+  "workdir": "..\\project"
 }

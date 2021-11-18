@@ -5,7 +5,6 @@ const router = Router()
 // /api/generator/run
 router.post('/run', async (req, res) => {
   try {
-
     console.log(req.body)
     const elements = req.body.elements
     const settings = req.body.settings

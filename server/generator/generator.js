@@ -14,7 +14,7 @@ function Generator (elements, settings) {
 
   const microservices = elements.filter(x => x.type === 'microservice')
   for (let i = 0; i < microservices.length; i++) {
-    console.log(`Генерация микросервиса. ID: ${microservices[i].id}, Name: ${microservices[i].data.name}`)
+    console.log(`Генерация микросервиса. ID: ${microservices[i].id}, Name: ${microservices[i].data.name}, Type: ${microservices[i].data.microserviceType}`)
 
     if (microservices[i].data.microserviceType === 'default') {
       GetDefaultMicroservice(microservices[i].data.name, settings.find(x => x.id === microservices[i].id))

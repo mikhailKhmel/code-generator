@@ -1,11 +1,12 @@
 import React from 'react'
-import { withApi } from '../api/with-api'
+import { sendRequestApi } from '../api/api'
 import './run-button.css'
 
 const RunButton = (props) => {
-  const handleRun = async () => {
+  const handleRun = async (event) => {
+    event.preventDefault()
     const info = props.elementsInfo
-    await withApi('/api/generator/run', 'POST', info)
+    await sendRequestApi('/api/generator/run', 'POST', info)
   }
 
   return (

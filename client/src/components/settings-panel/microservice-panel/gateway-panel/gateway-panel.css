@@ -1,0 +1,41 @@
+.gateway-panel {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  border-radius: 15px;
+  background-color: #e0eaf1;
+  display: flex;
+  flex-direction: column;
+}
+
+.gateway-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.gateway-title {
+  border: 1px solid #585b5e;
+  border-radius: 5px;
+  width: max-content;
+  text-align: center;
+  margin-top: 10px;
+  margin-right: 45px;
+  margin-left: 10px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+table,
+tr,
+td {
+  border: 1px solid black;
+  text-align: center;
+}
+
+table {
+  margin: 10px;
+}
+
+td {
+  padding: 5px;
+}

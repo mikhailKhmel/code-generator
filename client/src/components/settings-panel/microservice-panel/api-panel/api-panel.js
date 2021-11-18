@@ -59,7 +59,6 @@ export default class ApiPanel extends Component {
             <tr>
               <td>Тип запроса</td>
               <td>Имя метода обработки запроса</td>
-              <td>Запрос</td>
             </tr>
           </thead>
           <tbody>
@@ -69,7 +68,6 @@ export default class ApiPanel extends Component {
                     return (
                       <tr key={`${x.type}_${x.method}_${x.request}`}>
                         <td>{x.type.toUpperCase()}</td>
-                        <td>{x.method}</td>
                         <td>{x.request}</td>
                       </tr>
                     )
