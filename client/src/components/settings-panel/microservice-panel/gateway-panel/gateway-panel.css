@@ -32,10 +32,27 @@ td {
   text-align: center;
 }
 
-table {
+.gateway-table {
   margin: 10px;
 }
 
 td {
   padding: 5px;
+}
+
+.table-row:hover {
+  cursor: pointer;
+  background-color: #618cbb;
+}
+
+.btn-add-gateway {
+  margin: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #50a0ff;
+}
+
+.btn-add-gateway:hover {
+  cursor: pointer;
+  background-color: #4b6077;
 }

@@ -2,12 +2,11 @@ const fs = require('fs')
 const config = require('config')
 const cmd = require('node-cmd')
 
-let workDir = config.get('workdir')
 const tempDir = '.\\templates\\'
 
-function GenDefaultMicroservice (name, settings) {
+function GenMicroservice (name, settings) {
   try {
-    workDir = `${workDir}\\${name}`
+    const workDir = `${config.get('workdir')}\\${name}`
     if (!fs.existsSync(workDir)) {
       console.log('Создаем папку микросервиса', workDir)
       fs.mkdirSync(workDir)
@@ -28,8 +27,6 @@ function GenDefaultMicroservice (name, settings) {
 
     index = index.replace('{%port%}', settings.port)
 
-    console.log(settings.api)
-
     const req = `
 app.{%type%}('{%request%}', (req, res) => {
   // your code
@@ -38,8 +35,9 @@ app.{%type%}('{%request%}', (req, res) => {
 
     let requests = ''
 
-    if (settings.api !== undefined) {
-      settings.api.foreach((x) => {
+    if (settings.api) {
+      console.log(settings.api)
+      Array.prototype.forEach.call(settings.api, (x) => {
         requests += req
         requests = requests.replace('{%type%}', x.type)
         requests = requests.replace('{%request%}', x.request)
@@ -61,4 +59,40 @@ app.{%type%}('{%request%}', (req, res) => {
   }
 }
 
-exports.GetDefaultMicroservice = GenDefaultMicroservice
+function CreateGatewayEdge (name, { upstreamRequest, downstreamRequest, downstreamPort }) {
+  try {
+    const workDir = `${config.get('workdir')}\\${name}`
+    fs.readFile(`${workDir}\\index.js`, 'utf-8', (err, data) => {
+      if (err) {
+        console.log(err)
+        throw err
+      } else {
+        let indexJS = data
+        let redirectStr = `
+app.all('{%upstreamRequest%}', (req, res) => {
+  res.redirect('http://localhost:{%downstreamPort%}{%downstreamRequest%}')
+})
+  
+{%redirects%}
+          `
+
+        redirectStr = redirectStr.replace('{%upstreamRequest%}', upstreamRequest)
+        redirectStr = redirectStr.replace('{%downstreamPort%}', downstreamPort)
+        redirectStr = redirectStr.replace('{%downstreamRequest%}', downstreamRequest)
+
+        indexJS = indexJS.replace('{%redirects%}', redirectStr)
+
+        fs.writeFile(`${workDir}\\index.js`, indexJS, (error) => {
+          if (error !== null) {
+            console.log('Ошибка перезаписи изменений', error)
+          }
+        })
+      }
+    })
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+exports.GenMicroservice = GenMicroservice
+exports.CreateGatewayEdge = CreateGatewayEdge

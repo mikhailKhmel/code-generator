@@ -4,6 +4,8 @@ const app = express()
 
 const PORT = {%port%}
 
+{%redirects%}
+
 {%api%}
 
 app.listen(PORT, () => {

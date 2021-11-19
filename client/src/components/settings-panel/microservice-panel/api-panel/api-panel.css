@@ -16,11 +16,12 @@
   align-content: center;
 }
 
-.object-type {
+.api-panel-title {
   border: 1px solid #585b5e;
   border-radius: 5px;
   width: max-content;
   text-align: center;
+  margin: 0 10px 10px 10px;
 }
 
 .btn-back {
@@ -65,6 +66,11 @@ table {
 
 td {
   padding: 5px;
+}
+
+.table-row:hover {
+  cursor: pointer;
+  background-color: #618cbb;
 }
 
 .btn-api {

@@ -28,6 +28,7 @@ export default class MicroservicePanel extends Component {
     this.handleSaveApi = this.handleSaveApi.bind(this)
     this.handleOpenGatewayPanel = this.handleOpenGatewayPanel.bind(this)
     this.handleCloseGatewayPanel = this.handleCloseGatewayPanel.bind(this)
+    this.handleSaveGatewayRedirects = this.handleSaveGatewayRedirects.bind(this)
   }
 
   handleInputChange (event) {
@@ -89,11 +90,31 @@ export default class MicroservicePanel extends Component {
 
   componentDidMount () {
     console.log('mount', this.props.settings)
+    const {
+      id,
+      name,
+      port,
+      cache,
+      microserviceType,
+      type,
+      api
+    } = this.props.settings
+    console.log('update settings', name, port, cache,
+      microserviceType, type, api)
     this.setState({
       openApiPanel: false,
-      settings: {
-        ...this.props.settings,
-        microserviceType: 'default'
+      settings:
+      {
+        name: name === undefined ? '' : name,
+        id,
+        port:
+          port === undefined ? '' : port,
+        cache:
+          cache,
+        microserviceType:
+          microserviceType === undefined ? 'default' : microserviceType,
+        type,
+        api: api === undefined ? [] : api
       }
     })
   }
@@ -128,7 +149,7 @@ export default class MicroservicePanel extends Component {
             microserviceType:
               microserviceType === undefined ? 'default' : microserviceType,
             type,
-            api
+            api: api === undefined ? [] : api
           }
         })
       }
@@ -137,17 +158,24 @@ export default class MicroservicePanel extends Component {
 
   handleSaveApi (api) {
     console.log('handleSaveApi', api, this.state)
-    this.setState(st => {
-      const resultState = {
+    this.setState(st => (
+      {
         openApiPanel: false,
         settings: {
           ...st.settings,
           api: api
         }
       }
-      console.log(resultState)
-      return resultState
-    })
+    )
+    )
+  }
+
+  handleSaveGatewayRedirects (redirects) {
+    this.setState(st => ({
+      openApiPanel: false,
+      openGatewayPanel: false,
+      settings: { ...st.settings, redirects }
+    }))
   }
 
   render () {
@@ -156,7 +184,7 @@ export default class MicroservicePanel extends Component {
     }
 
     if (this.state.openGatewayPanel) {
-      return <GatewayPanel onCloseGatewayPanel={this.handleCloseGatewayPanel} />
+      return <GatewayPanel redirects={this.state.settings.redirects} onCloseGatewayPanel={this.handleCloseGatewayPanel} onSaveGatewayRedirects={this.handleSaveGatewayRedirects} />
     }
 
     let label = ''

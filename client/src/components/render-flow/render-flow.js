@@ -27,8 +27,10 @@ const RenderFlow = () => {
   const [openSettings, setOpenSettings] = useState(null)
   const [reactFlowInstance, setReactFlowInstance] = useState(null)
 
-  const onConnect = (params) => setElements(
-    (els) => addEdge({ ...params }, els))
+  const onConnect = (params) => {
+    setElements(
+      (els) => addEdge({ ...params }, els))
+  }
 
   const onLoad = (_reactFlowInstance) =>
     setReactFlowInstance(_reactFlowInstance)
@@ -164,7 +166,7 @@ const RenderFlow = () => {
               settings={openSettings} onCloseSettings={onCloseSettings}
               onSaveSettings={onSaveSettings}
             />}
-        <RunButton elementsInfo={getAllElementsInfo()}/>
+        <RunButton elementsInfo={getAllElementsInfo()} />
       </ReactFlowProvider>
     </div>
 

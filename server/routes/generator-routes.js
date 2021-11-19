@@ -12,7 +12,7 @@ router.post('/run', async (req, res) => {
 
     return res.status(201).json({ message: 'Всё ок' })
   } catch (e) {
-    res.status(500).json({ message: `Что-то пошло не так, ${e}` })
+    res.status(500).json({ message: 'Что-то пошло не так', error: e.toString() })
   }
 })
 

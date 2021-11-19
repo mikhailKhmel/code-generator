@@ -14,7 +14,6 @@ const Microservice = ({ data, isConnectable }) => {
           id='a_input'
           position='top'
           style={{ background: '#555' }}
-          onConnect={(params) => console.log('handle onConnect', params)}
           isConnectable={isConnectable}
         />}
       <div>

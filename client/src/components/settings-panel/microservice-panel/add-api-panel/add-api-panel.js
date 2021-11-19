@@ -3,9 +3,10 @@ import React, { Component } from 'react'
 import './add-api-panel.css'
 
 export default class AddApiPanel extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = {
+      id: 0,
       type: 'get',
       request: ''
     }
@@ -16,27 +17,40 @@ export default class AddApiPanel extends Component {
     this.handleSaveRequest = this.handleSaveRequest.bind(this)
   }
 
-  handleBackApiPanel(event) {
+  componentDidMount () {
+    if (this.props.api) {
+      const { id, type, request } = this.props.api
+      this.setState({ id, type, request })
+    }
+  }
+
+  handleBackApiPanel (event) {
     event.preventDefault()
     this.props.onCloseApiAddPanel()
   }
 
-  handleChangeType(event) {
+  handleChangeType (event) {
     event.preventDefault()
     this.setState({ type: event.target.value })
   }
 
-  handleChangeRequest(event) {
+  handleChangeRequest (event) {
     event.preventDefault()
     this.setState({ request: event.target.value })
   }
 
-  handleSaveRequest(event) {
+  handleSaveRequest (event) {
     event.preventDefault()
-    this.props.onSaveRequest(this.state)
+    const api = this.state
+    if (this.props.api) {
+      this.props.onSaveRequest(api)
+      return
+    }
+    api.id = Math.floor(Math.random() * 100)
+    this.props.onSaveRequest(api)
   }
 
-  render() {
+  render () {
     return (
       <div className='add-api-panel'>
         <div className='row'>
