@@ -40,6 +40,8 @@ function Generator (elements, settings) {
 
   console.log('Очистка файлов')
   CleanFiles()
+
+  console.log('Всё готово!')
 }
 
 exports.Generator = Generator

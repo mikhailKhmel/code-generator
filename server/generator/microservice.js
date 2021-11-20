@@ -54,8 +54,24 @@ app.{%type%}('{%request%}', (req, res) => {
         console.log('Ошибка перезаписи изменений', error)
       }
     })
+
+    // настройка package.json
+    fs.readFile(`${workDir}\\package.json`, 'utf-8', (err, data) => {
+      if (err) {
+        console.log('Ошибка чтения package.json', err)
+        throw err
+      }
+      const packagejson = JSON.parse(data)
+      packagejson.scripts.start = 'node index.js'
+
+      fs.writeFile(`${workDir}\\package.json`, packagejson, (error) => {
+        if (error !== null) {
+          console.log('Ошибка перезаписи изменений', error)
+        }
+      })
+    })
   } catch (error) {
-    console.log('Ошибка', error)
+    console.log('Ошибка создания микросервиса', error)
   }
 }
 
