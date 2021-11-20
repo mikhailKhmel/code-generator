@@ -12,7 +12,6 @@ export default class MicroservicePanel extends Component {
         id: '',
         name: '',
         port: '',
-        cache: false,
         microserviceType: 'default',
         type: 'microservice',
         api: []
@@ -94,12 +93,11 @@ export default class MicroservicePanel extends Component {
       id,
       name,
       port,
-      cache,
       microserviceType,
       type,
       api
     } = this.props.settings
-    console.log('update settings', name, port, cache,
+    console.log('update settings', name, port,
       microserviceType, type, api)
     this.setState({
       openApiPanel: false,
@@ -109,8 +107,6 @@ export default class MicroservicePanel extends Component {
         id,
         port:
           port === undefined ? '' : port,
-        cache:
-          cache,
         microserviceType:
           microserviceType === undefined ? 'default' : microserviceType,
         type,
@@ -129,12 +125,11 @@ export default class MicroservicePanel extends Component {
           id,
           name,
           port,
-          cache,
           microserviceType,
           type,
           api
         } = this.props.settings
-        console.log('update settings', name, port, cache,
+        console.log('update settings', name, port,
           microserviceType, type, api)
         this.setState({
           openApiPanel: false,
@@ -144,8 +139,6 @@ export default class MicroservicePanel extends Component {
             id,
             port:
               port === undefined ? '' : port,
-            cache:
-              cache,
             microserviceType:
               microserviceType === undefined ? 'default' : microserviceType,
             type,
@@ -213,14 +206,6 @@ export default class MicroservicePanel extends Component {
               value={this.state.settings.port} onChange={this.handleInputChange}
             />
             <div>
-              <div className='cache'>
-                <label>Кэш</label>
-                <input
-                  name='cache' type='checkbox' className='check-input'
-                  checked={this.state.settings.cache}
-                  onChange={this.handleInputChange}
-                />
-              </div>
               <select
                 className='microservice-type'
                 value={this.state.settings.microserviceType}
@@ -252,7 +237,7 @@ export default class MicroservicePanel extends Component {
                     className='btn-gateway' value='Настройки перенаправления' onClick={this.handleOpenGatewayPanel}
                   >
                   Настройки перенаправления
-                </button>
+                  </button>
             }
             <input className='btn-save' type='submit' value='Сохранить' />
           </div>
