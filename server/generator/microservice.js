@@ -22,9 +22,7 @@ function GenMicroservice (name, settings) {
 
     // установка порта
     console.log('установка порта')
-
     let index = fs.readFileSync(`${workDir}\\index.js`, 'utf-8')
-
     index = index.replace('{%port%}', settings.port)
 
     const req = `
@@ -49,42 +47,22 @@ app.{%type%}('{%request%}', (req, res) => {
 
     // перезапись изменений
     console.log('содержимое index', index)
-    fs.writeFile(`${workDir}\\index.js`, index, (error) => {
-      if (error !== null) {
-        console.log('Ошибка перезаписи изменений', error)
-      }
-    })
+    fs.writeFileSync(`${workDir}\\index.js`, index)
 
     // настройка package.json
-    fs.readFile(`${workDir}\\package.json`, 'utf-8', (err, data) => {
-      if (err) {
-        console.log('Ошибка чтения package.json', err)
-        throw err
-      }
-      const packagejson = JSON.parse(data)
-      packagejson.scripts.start = 'node index.js'
-
-      fs.writeFile(`${workDir}\\package.json`, packagejson, (error) => {
-        if (error !== null) {
-          console.log('Ошибка перезаписи изменений', error)
-        }
-      })
-    })
+    const packagejson = JSON.parse(fs.readFileSync(`${workDir}\\package.json`, 'utf-8'))
+    packagejson.scripts.start = 'node index.js'
+    fs.writeFileSync(`${workDir}\\package.json`, JSON.stringify(packagejson), 'utf-8')
   } catch (error) {
     console.log('Ошибка создания микросервиса', error)
   }
 }
 
 function CreateGatewayEdge (name, { upstreamRequest, downstreamRequest, downstreamPort }) {
-  try {
-    const workDir = `${config.get('workdir')}\\${name}`
-    fs.readFile(`${workDir}\\index.js`, 'utf-8', (err, data) => {
-      if (err) {
-        console.log(err)
-        throw err
-      } else {
-        let indexJS = data
-        let redirectStr = `
+  console.log('Создание соединения')
+  const workDir = `${config.get('workdir')}\\${name}`
+  let indexJS = fs.readFileSync(`${workDir}\\index.js`, 'utf-8')
+  let redirectStr = `
 app.all('{%upstreamRequest%}', (req, res) => {
   res.redirect('http://localhost:{%downstreamPort%}{%downstreamRequest%}')
 })
@@ -92,22 +70,13 @@ app.all('{%upstreamRequest%}', (req, res) => {
 {%redirects%}
           `
 
-        redirectStr = redirectStr.replace('{%upstreamRequest%}', upstreamRequest)
-        redirectStr = redirectStr.replace('{%downstreamPort%}', downstreamPort)
-        redirectStr = redirectStr.replace('{%downstreamRequest%}', downstreamRequest)
+  redirectStr = redirectStr.replace('{%upstreamRequest%}', upstreamRequest)
+  redirectStr = redirectStr.replace('{%downstreamPort%}', downstreamPort)
+  redirectStr = redirectStr.replace('{%downstreamRequest%}', downstreamRequest)
 
-        indexJS = indexJS.replace('{%redirects%}', redirectStr)
-
-        fs.writeFile(`${workDir}\\index.js`, indexJS, (error) => {
-          if (error !== null) {
-            console.log('Ошибка перезаписи изменений', error)
-          }
-        })
-      }
-    })
-  } catch (err) {
-    console.log(err)
-  }
+  indexJS = indexJS.replace('{%redirects%}', redirectStr)
+  fs.writeFileSync(`${workDir}\\index.js`, indexJS, 'utf-8')
+  console.log('Завершение соединения')
 }
 
 exports.GenMicroservice = GenMicroservice

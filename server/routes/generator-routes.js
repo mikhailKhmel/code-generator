@@ -8,7 +8,7 @@ router.post('/run', async (req, res) => {
     console.log(req.body)
     const elements = req.body.elements
     const settings = req.body.settings
-    Generator(elements, settings)
+    await Generator(elements, settings)
 
     return res.status(201).json({ message: 'Всё ок' })
   } catch (e) {

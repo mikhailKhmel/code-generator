@@ -21,6 +21,7 @@ function Generator (elements, settings) {
 
   const edges = elements.filter(x => x.id.includes('edge'))
   Array.prototype.forEach.call(edges, (edge) => {
+    console.log('установка связи', edge)
     const sourceService = microservices.find(x => x.id === edge.source)
     const sourceSettings = settings.find(x => x.id === sourceService.id)
     const targetService = microservices.find(x => x.id === edge.target)
@@ -29,6 +30,7 @@ function Generator (elements, settings) {
     const targetType = targetService.data.microserviceType
 
     if (sourceType === 'gateway' && targetType === 'default') {
+      console.log('установка связи между', sourceService.data.name, targetService.data.name)
       const redirects = sourceSettings.redirects
       const includesRedirectsAndApi = redirects.filter(x => targetSettings.api.map(x => x.request).includes(x.downstreamRequest))
       Array.prototype.forEach.call(includesRedirectsAndApi, (redirect) => {
@@ -39,8 +41,7 @@ function Generator (elements, settings) {
   })
 
   console.log('Очистка файлов')
-  CleanFiles()
-
+  CleanFiles(microservices.map(x => x.data.name))
   console.log('Всё готово!')
 }
 
