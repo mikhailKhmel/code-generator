@@ -16,12 +16,12 @@ const Sidebar = () => {
       >
         Микросервис
       </div>
-      <div
+      {/* <div
         className='react-flow__node-default'
         onDragStart={(event) => onDragStart(event, 'queue')} draggable
       >
         Очередь
-      </div>
+      </div> */}
       <div
         className='react-flow__node-output'
         onDragStart={(event) => onDragStart(event, 'database')} draggable

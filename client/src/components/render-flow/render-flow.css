@@ -5,13 +5,16 @@
 }
 
 .render-flow aside {
-  border-right: 1px solid #eee;
+  position: absolute;
+  border: 1px solid #eee;
+  margin: 15px;
   font-size: 12px;
   background: #fcfcfc;
+  z-index: 1;
 }
 
 .render-flow aside > * {
-  margin: 0 10px 10px 0;
+  margin: 10px;
   cursor: grab;
 }
 
