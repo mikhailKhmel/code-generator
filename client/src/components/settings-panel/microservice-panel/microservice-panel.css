@@ -1,6 +1,7 @@
 .microservice-panel {
   position: absolute;
-  margin: 15px;
+  top: 20px;
+  right: 20px;
   border-radius: 15px;
   background-color: #e0eaf1;
   display: flex;

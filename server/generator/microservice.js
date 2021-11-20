@@ -27,7 +27,7 @@ function GenMicroservice (name, settings) {
 
     const req = `
 app.{%type%}('{%request%}', (req, res) => {
-  // your code
+  return res.status(200).json({ message: 'ok' })
 })
     `
 
