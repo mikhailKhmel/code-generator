@@ -1,6 +1,6 @@
 const { GenMicroservice, CreateGatewayEdge } = require('./microservice')
 const { CleanFiles } = require('./cleaner')
-const { Dockering } = require('./docker')
+const { Dockering, GenArchive } = require('./docker')
 const fs = require('fs')
 const config = require('config')
 
@@ -48,6 +48,7 @@ function Generator (elements, settings) {
   microservices.forEach(x => {
     Dockering(x.data.name, settings.find(y => y.id === x.id).port)
   })
+  GenArchive(microservices.map(x => x.data.name))
 
   console.log('Всё готово!')
 }

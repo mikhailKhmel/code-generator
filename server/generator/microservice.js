@@ -45,11 +45,10 @@ app.{%type%}('{%request%}', (req, res) => {
 
     index = index.replace('{%api%}', requests)
 
-    // перезапись изменений
-    console.log('содержимое index', index)
+    console.log('перезапись изменений')
     fs.writeFileSync(`${workDir}\\index.js`, index)
 
-    // настройка package.json
+    console.log('настройка package.json')
     const packagejson = JSON.parse(fs.readFileSync(`${workDir}\\package.json`, 'utf-8'))
     packagejson.scripts.start = 'node index.js'
     fs.writeFileSync(`${workDir}\\package.json`, JSON.stringify(packagejson), 'utf-8')
