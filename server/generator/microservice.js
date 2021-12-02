@@ -14,7 +14,10 @@ function GenMicroservice (name, settings) {
 
     // генерация проекта
     console.log('генерация проекта')
-    cmd.runSync(`cd ${workDir} && npm init --yes && npm i express`)
+    cmd.runSync(`cd ${workDir} && npm init --yes`)
+
+    console.log('установка express')
+    cmd.runSync(`cd ${workDir} npm i express`)
 
     // копирование index.js
     console.log('копирование index.js')

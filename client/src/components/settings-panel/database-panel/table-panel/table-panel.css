@@ -59,10 +59,6 @@ td {
   text-align: center;
 }
 
-table {
-  margin: 50px 10px 10px;
-}
-
 td {
   padding: 5px;
 }
@@ -74,6 +70,15 @@ td {
 
 .tables {
   margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 45px;
+  width: 300px;
+}
+
+.textarea {
+  margin: 10px 40px;
+  width: 400px;
+  font-size: small;
 }
 
 .btn-table {
@@ -92,7 +97,7 @@ td {
 
 .btn-group {
   position: center;
-  padding: 5px 150px;
+  padding: 5px;
 }
 
 .btn-element {

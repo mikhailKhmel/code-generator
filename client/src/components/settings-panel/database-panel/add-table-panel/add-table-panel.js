@@ -12,12 +12,15 @@ export default class AddTablePanel extends Component {
         foreignKeys: []
       },
       openColumnPanel: false,
+      editColumn: {},
       databaseType: ''
     }
 
     this.handleBackTablePanel = this.handleBackTablePanel.bind(this)
     this.handleInputChange = this.handleInputChange.bind(this)
-    this.handleOpenAddColumn = this.handleOpenAddColumn.bind(this)
+    this.handleOpenCloseAddColumn = this.handleOpenCloseAddColumn.bind(this)
+    this.handleSaveColumn = this.handleSaveColumn.bind(this)
+    this.handleSaveTable = this.handleSaveTable.bind(this)
   }
 
   componentDidMount () {
@@ -63,15 +66,45 @@ export default class AddTablePanel extends Component {
     })
   }
 
-  handleOpenAddColumn () {
-    this.setState({ openColumnPanel: true })
+  handleOpenCloseAddColumn (value, editColumn) {
+    this.setState({ openColumnPanel: value, editColumn: this.state.table.columns.find(x => x.name === editColumn) })
+  }
+
+  handleSaveColumn (column) {
+    const colIndx = this.state.table.columns.findIndex(x => x.name === column.name)
+    let columns = this.state.table.columns
+    if (colIndx < 0) {
+      columns = [...columns, column]
+    } else {
+      columns = [...columns.slice(0, colIndx), column, ...columns.slice(colIndx + 1)]
+    }
+    this.setState(st => ({
+      ...st,
+      openColumnPanel: false,
+      table: {
+        ...st.table,
+        columns
+      }
+    }))
+  }
+
+  handleSaveTable () {
+    console.log(this.props)
+    this.props.onSaveTable(this.state.table)
   }
 
   render () {
     console.log('render add-table-panel. state:', this.state)
 
     if (this.state.openColumnPanel) {
-      return <AddColumnPanel databaseType={this.state.databaseType} />
+      return (
+        <AddColumnPanel
+          databaseType={this.state.databaseType}
+          onCloseAddColumnPanel={() => this.handleOpenCloseAddColumn(false)}
+          onSaveColumn={this.handleSaveColumn}
+          editColumn={this.state.editColumn}
+        />
+      )
     }
 
     return (
@@ -83,7 +116,7 @@ export default class AddTablePanel extends Component {
 
         <input className='table-name' name='name' type='text' placeholder='Название таблицы' value={this.state.table.name} onChange={this.handleInputChange} />
 
-        <table>
+        <table className='addtablepanel-table'>
           <thead>
             <tr>
               <td>Поля</td>
@@ -94,7 +127,7 @@ export default class AddTablePanel extends Component {
               ? this.state.table.columns.map(x => {
                   return (
                     <tr key={`${x.name}`}>
-                      <td className='column-row'>{x.name}</td>
+                      <td className='column-row' onClick={() => this.handleOpenCloseAddColumn(true, x.name)}>{x.name}</td>
                     </tr>
                   )
                 })
@@ -103,8 +136,8 @@ export default class AddTablePanel extends Component {
         </table>
         <div className='btn-group'>
           <button className='btn-element'>Внешние ключи</button>
-          <button className='btn-element' onClick={this.handleOpenAddColumn}>Добавить</button>
-          <button className='btn-element'>Сохранить</button>
+          <button className='btn-element' onClick={() => this.handleOpenCloseAddColumn(true)}>Добавить</button>
+          <button className='btn-element' onClick={this.handleSaveTable}>Сохранить</button>
         </div>
       </div>
     )

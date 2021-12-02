@@ -217,12 +217,6 @@ export default class MicroservicePanel extends Component {
                 <option value='default'>
                   Обычный
                 </option>
-                <option value='publisher'>
-                  Поставщик
-                </option>
-                <option value='subscriber'>
-                  Получатель
-                </option>
               </select>
             </div>
             <button

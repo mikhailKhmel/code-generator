@@ -10,7 +10,6 @@ export default class DatabasePanel extends Component {
       settings: {
         id: '',
         name: '',
-        address: '',
         port: '',
         username: '',
         password: '',
@@ -104,7 +103,7 @@ export default class DatabasePanel extends Component {
       return (
         <TablePanel
           onCloseTablePanel={this.handleCloseTablePanel} tablesData={{
-            tables: [{ name: 'table1', columns: [{ name: 'column1' }], foreignKeys: [] }],
+            tables: [],
             script: this.state.settings.script,
             databaseType: this.state.settings.databaseType
           }}
@@ -125,14 +124,8 @@ export default class DatabasePanel extends Component {
             </div>
             <input
               name='name' className='object-name' type='text'
-              placeholder='Название'
+              placeholder='Название базы данных'
               value={this.state.settings.name} onChange={this.handleInputChange}
-            />
-            <input
-              name='address' className='object-name' type='text'
-              placeholder='Адрес'
-              value={this.state.settings.address}
-              onChange={this.handleInputChange}
             />
             <input
               name='port' className='object-name' type='text' placeholder='Порт'
@@ -145,7 +138,7 @@ export default class DatabasePanel extends Component {
               onChange={this.handleInputChange}
             />
             <input
-              name='password' className='object-name' type='text'
+              name='password' className='object-name' type='password'
               placeholder='Пароль'
               value={this.state.settings.password}
               onChange={this.handleInputChange}

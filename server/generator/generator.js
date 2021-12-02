@@ -48,7 +48,7 @@ function Generator (elements, settings) {
   microservices.forEach(x => {
     Dockering(x.data.name, settings.find(y => y.id === x.id).port)
   })
-  GenArchive(microservices.map(x => x.data.name))
+  // GenArchive(microservices.map(x => x.data.name))
 
   console.log('Всё готово!')
 }

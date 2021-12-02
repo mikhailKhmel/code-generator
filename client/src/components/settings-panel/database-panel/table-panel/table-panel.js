@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { generateSqlScript } from '../../../utils'
 
 import './table-panel.css'
 import AddTablePanel from '../add-table-panel'
@@ -6,12 +7,14 @@ import AddTablePanel from '../add-table-panel'
 export default class TablePanel extends Component {
   constructor (props) {
     super(props)
-    this.state = { script: '', tables: [], databaseType: '', addTablePanel: false, editTable: '' }
+    this.state = { script: '', tables: [], databaseType: '', addTablePanel: false, editTable: '', editScript: false }
     this.handleShowScript = this.handleShowScript.bind(this)
     this.handleAddTable = this.handleAddTable.bind(this)
     this.handleCloseAddTablePanel = this.handleCloseAddTablePanel.bind(this)
     this.handleCloseTablePanel = this.handleCloseTablePanel.bind(this)
     this.handleEditTable = this.handleEditTable.bind(this)
+    this.handleSaveTable = this.handleSaveTable.bind(this)
+    this.handleChangeScript = this.handleChangeScript.bind(this)
   }
 
   componentDidMount () {
@@ -20,12 +23,14 @@ export default class TablePanel extends Component {
       script: this.props.tablesData.script,
       tables: this.props.tablesData.tables,
       databaseType: this.props.tablesData.databaseType,
-      addTablePanel: false
+      addTablePanel: false,
+      editTable: '',
+      editScript: false
     })
   }
 
   handleShowScript () {
-
+    this.setState(st => ({ ...st, editScript: !st.editScript }))
   }
 
   handleAddTable () {
@@ -37,11 +42,30 @@ export default class TablePanel extends Component {
   }
 
   handleCloseAddTablePanel () {
-    this.setState({ addTablePanel: false })
+    this.setState({ addTablePanel: false, editTable: '' })
   }
 
   handleCloseTablePanel () {
     this.props.onCloseTablePanel()
+  }
+
+  handleSaveTable (table) {
+    const tableIndx = this.state.tables.findIndex(x => x.name === table.name)
+    let tables = this.state.tables
+    if (tableIndx < 0) {
+      tables = [...tables, table]
+    } else {
+      tables = [...tables.slice(0, tableIndx), table, ...tables.slice(tableIndx + 1)]
+    }
+    this.setState(st => ({
+      ...st,
+      addTablePanel: false,
+      tables
+    }))
+  }
+
+  handleChangeScript (event) {
+    console.log(event.target.value)
   }
 
   render () {
@@ -50,6 +74,7 @@ export default class TablePanel extends Component {
       return (
         <AddTablePanel
           onCloseAddTablePanel={this.handleCloseAddTablePanel}
+          onSaveTable={this.handleSaveTable}
           table={this.state.tables.find(x => x.name === this.state.editTable)}
           databaseType={this.state.databaseType}
         />
@@ -73,7 +98,7 @@ export default class TablePanel extends Component {
               ? this.state.tables.map(x => {
                   return (
                     <tr key={`${x.name}`}>
-                      <td className='table-row' onDoubleClick={this.handleEditTable}>{x.name}</td>
+                      <td className='table-row' onClick={this.handleEditTable}>{x.name}</td>
                     </tr>
                   )
                 })
@@ -82,12 +107,23 @@ export default class TablePanel extends Component {
           </tbody>
         </table>
         <div className='btn-group'>
-          <button className='btn-element' onClick={this.handleShowScript}>Итоговый скрипт</button>
+          <button className='btn-element' onClick={this.handleShowScript} disabled={this.state.editScript}>Итоговый скрипт</button>
           <button className='btn-element' onClick={this.handleAddTable}>
             Добавить {this.state.databaseType === 'sql' ? 'таблицу' : 'коллекцию'}
           </button>
-          <button className='btn-element' onClick={this.handleSaveData}>Сохранить</button>
+          <button className='btn-element' onClick={this.handleSaveData} disabled={this.state.editScript}>Сохранить</button>
         </div>
+        {
+          this.state.editScript
+            ? <div>
+              <textarea className='textarea' defaultValue={generateSqlScript(this.state.tables)} onChange={this.handleChangeScript} />
+              <div className='btn-group'>
+                <button className='btn-element' onClick={this.handleSaveScript}>Сохранить скрипт</button>
+              </div>
+
+              </div>
+            : null
+        }
       </div>
 
     )

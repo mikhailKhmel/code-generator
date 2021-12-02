@@ -19,8 +19,8 @@ function Dockering (name, port) {
   dockerfile = dockerfile.replace('{%name%}', name)
   fs.writeFileSync(`${workdir}\\Dockerfile`, dockerfile, 'utf-8')
 
-  console.log(`создание образа ${name}`)
-  cmd.runSync(`cd ${workdir} && docker build . -t ${name}`)
+  /*console.log(`создание образа ${name}`)
+  cmd.runSync(`cd ${workdir} && docker build . -t ${name}`)*/
 }
 
 function GenArchive (names) {
