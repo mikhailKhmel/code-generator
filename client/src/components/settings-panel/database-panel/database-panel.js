@@ -25,6 +25,7 @@ export default class DatabasePanel extends Component {
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleOpenTablePanel = this.handleOpenTablePanel.bind(this)
     this.handleCloseTablePanel = this.handleCloseTablePanel.bind(this)
+    this.handleSaveData = this.handleSaveData.bind(this)
   }
 
   componentDidMount () {
@@ -98,19 +99,25 @@ export default class DatabasePanel extends Component {
     this.props.onSaveSettings(this.state.settings)
   }
 
+  handleSaveData ({script, tables}) {
+    this.setState(st => ({settings: {...st.settings, script, tables}, openTablePanel: false}))
+  }
+
   render () {
+    console.log('render database-panel', this.state)
     if (this.state.openTablePanel) {
       return (
         <TablePanel
           onCloseTablePanel={this.handleCloseTablePanel} tablesData={{
-            tables: [],
-            script: this.state.settings.script,
+            tables: this.state.settings.tables || [],
+            script: this.state.settings.script || '',
             databaseType: this.state.settings.databaseType
           }}
+          onSaveData={this.handleSaveData}
         />
       )
     }
-    console.log('render database-panel', this.state)
+
     return (
       <form onSubmit={this.handleSubmit}>
         <div className='container-settings'>

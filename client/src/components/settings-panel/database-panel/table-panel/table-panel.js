@@ -15,6 +15,7 @@ export default class TablePanel extends Component {
     this.handleEditTable = this.handleEditTable.bind(this)
     this.handleSaveTable = this.handleSaveTable.bind(this)
     this.handleChangeScript = this.handleChangeScript.bind(this)
+    this.handleSaveData = this.handleSaveData.bind(this)
   }
 
   componentDidMount () {
@@ -60,12 +61,17 @@ export default class TablePanel extends Component {
     this.setState(st => ({
       ...st,
       addTablePanel: false,
-      tables
+      tables,
+      script: generateSqlScript(tables)
     }))
   }
 
   handleChangeScript (event) {
-    console.log(event.target.value)
+    this.setState({script: event.target.value})
+  }
+
+  handleSaveData () {
+    this.props.onSaveData({script: this.state.script, tables: this.state.tables})
   }
 
   render () {
@@ -82,46 +88,46 @@ export default class TablePanel extends Component {
     }
 
     return (
-      <div className='table-panel'>
-        <button className='btn-back' onClick={this.handleCloseTablePanel}>
+      <div className="table-panel">
+        <button className="btn-back" onClick={this.handleCloseTablePanel}>
           Назад
         </button>
-        <table className='tables'>
+        <table className="tables">
           <thead>
-            <tr>
-              <td>Список таблиц</td>
-            </tr>
+          <tr>
+            <td>Список таблиц</td>
+          </tr>
           </thead>
           <tbody>
-            {
+          {
             this.state.tables !== undefined
               ? this.state.tables.map(x => {
-                  return (
-                    <tr key={`${x.name}`}>
-                      <td className='table-row' onClick={this.handleEditTable}>{x.name}</td>
-                    </tr>
-                  )
-                })
+                return (
+                  <tr key={`${x.name}`}>
+                    <td className="table-row" onClick={this.handleEditTable}>{x.name}</td>
+                  </tr>
+                )
+              })
               : null
           }
           </tbody>
         </table>
-        <div className='btn-group'>
-          <button className='btn-element' onClick={this.handleShowScript} disabled={this.state.editScript}>Итоговый скрипт</button>
-          <button className='btn-element' onClick={this.handleAddTable}>
+        <div className="btn-group">
+          <button className="btn-element" onClick={this.handleShowScript}>Итоговый
+            скрипт
+          </button>
+          <button className="btn-element" onClick={this.handleAddTable}>
             Добавить {this.state.databaseType === 'sql' ? 'таблицу' : 'коллекцию'}
           </button>
-          <button className='btn-element' onClick={this.handleSaveData} disabled={this.state.editScript}>Сохранить</button>
+          <button className="btn-element" onClick={this.handleSaveData}>Сохранить
+          </button>
         </div>
         {
           this.state.editScript
             ? <div>
-              <textarea className='textarea' defaultValue={generateSqlScript(this.state.tables)} onChange={this.handleChangeScript} />
-              <div className='btn-group'>
-                <button className='btn-element' onClick={this.handleSaveScript}>Сохранить скрипт</button>
-              </div>
-
-              </div>
+              <textarea className="textarea" defaultValue={this.state.script}
+                        onChange={this.handleChangeScript}/>
+            </div>
             : null
         }
       </div>
