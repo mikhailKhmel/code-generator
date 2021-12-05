@@ -16,6 +16,7 @@ export default class TablePanel extends Component {
     this.handleSaveTable = this.handleSaveTable.bind(this)
     this.handleChangeScript = this.handleChangeScript.bind(this)
     this.handleSaveData = this.handleSaveData.bind(this)
+    this.handleRemoveTable = this.handleRemoveTable.bind(this)
   }
 
   componentDidMount () {
@@ -67,11 +68,21 @@ export default class TablePanel extends Component {
   }
 
   handleChangeScript (event) {
-    this.setState({script: event.target.value})
+    this.setState({ script: event.target.value })
   }
 
   handleSaveData () {
-    this.props.onSaveData({script: this.state.script, tables: this.state.tables})
+    this.props.onSaveData({ script: this.state.script, tables: this.state.tables })
+  }
+
+  handleRemoveTable (name) {
+    console.log(name)
+    this.setState(st => ({
+      ...st,
+      addTablePanel: false,
+      tables: st.tables.filter(x => x.name !== name),
+      script: generateSqlScript(st.tables.filter(x => x.name !== name))
+    }))
   }
 
   render () {
@@ -81,6 +92,7 @@ export default class TablePanel extends Component {
         <AddTablePanel
           onCloseAddTablePanel={this.handleCloseAddTablePanel}
           onSaveTable={this.handleSaveTable}
+          onRemoveTable={this.handleRemoveTable}
           table={this.state.tables.find(x => x.name === this.state.editTable)}
           databaseType={this.state.databaseType}
         />

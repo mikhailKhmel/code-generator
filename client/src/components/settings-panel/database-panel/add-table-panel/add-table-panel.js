@@ -136,8 +136,9 @@ export default class AddTablePanel extends Component {
         </table>
         <div className='btn-group'>
           <button className='btn-element'>Внешние ключи</button>
-          <button className='btn-element' onClick={() => this.handleOpenCloseAddColumn(true)}>Добавить</button>
+          <button className='btn-element' onClick={() => this.handleOpenCloseAddColumn(true)}>Добавить поле</button>
           <button className='btn-element' onClick={this.handleSaveTable}>Сохранить</button>
+          <button className='btn-element' onClick={() => this.props.onRemoveTable(this.state.table.name)}>Удалить таблицу</button>
         </div>
       </div>
     )
