@@ -4,9 +4,9 @@ const cmd = require('node-cmd')
 
 const tempDir = '.\\templates\\'
 
-function GenMicroservice (name, settings) {
+function GenMicroservice (uuid, name, settings) {
   try {
-    const workDir = `${config.get('workdir')}\\${name}`
+    const workDir = `${config.get('workdir')}\\${uuid}\\${name}`
     if (!fs.existsSync(workDir)) {
       console.log('Создаем папку микросервиса', workDir)
       fs.mkdirSync(workDir)
@@ -60,9 +60,9 @@ app.{%type%}('{%request%}', (req, res) => {
   }
 }
 
-function CreateGatewayEdge (name, { upstreamRequest, downstreamRequest, downstreamPort }) {
+function CreateGatewayEdge (uuid, name, { upstreamRequest, downstreamRequest, downstreamPort }) {
   console.log('Создание соединения')
-  const workDir = `${config.get('workdir')}\\${name}`
+  const workDir = `${config.get('workdir')}\\${uuid}\\${name}`
   let indexJS = fs.readFileSync(`${workDir}\\index.js`, 'utf-8')
   let redirectStr = `
 app.all('{%upstreamRequest%}', (req, res) => {

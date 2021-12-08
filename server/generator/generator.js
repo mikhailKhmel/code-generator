@@ -6,18 +6,15 @@ const config = require('config')
 
 const workdir = config.get('workdir')
 
-function Generator (elements, settings) {
+async function Generator (uuid, elements, settings) {
   console.log('Запущена генерация')
-
-  if (!fs.existsSync(workdir)) {
-    fs.mkdirSync(workdir)
-    console.log('Рабочая папка создана')
-  }
+  fs.mkdirSync(`${workdir}\\${uuid}`, {recursive: true})
+  console.log('Рабочая папка создана')
 
   const microservices = elements.filter(x => x.type === 'microservice')
   for (let i = 0; i < microservices.length; i++) {
     console.log(`Генерация микросервиса. ID: ${microservices[i].id}, Name: ${microservices[i].data.name}, Type: ${microservices[i].data.microserviceType}`)
-    GenMicroservice(microservices[i].data.name, settings.find(x => x.id === microservices[i].id))
+    GenMicroservice(uuid, microservices[i].data.name, settings.find(x => x.id === microservices[i].id))
   }
 
   const edges = elements.filter(x => x.id.includes('edge'))
@@ -36,19 +33,23 @@ function Generator (elements, settings) {
       const includesRedirectsAndApi = redirects.filter(x => targetSettings.api.map(x => x.request).includes(x.downstreamRequest))
       Array.prototype.forEach.call(includesRedirectsAndApi, (redirect) => {
         const { upstreamRequest, downstreamRequest } = redirect
-        CreateGatewayEdge(sourceService.data.name, { upstreamRequest, downstreamRequest, downstreamPort: targetSettings.port })
+        CreateGatewayEdge(uuid, sourceService.data.name, {
+          upstreamRequest,
+          downstreamRequest,
+          downstreamPort: targetSettings.port
+        })
       })
     }
   })
 
   console.log('Очистка файлов')
-  CleanFiles(microservices.map(x => x.data.name))
+  CleanFiles(uuid, microservices.map(x => x.data.name))
 
   console.log('Докер')
   microservices.forEach(x => {
-    Dockering(x.data.name, settings.find(y => y.id === x.id).port)
+    Dockering(uuid, x.data.name, settings.find(y => y.id === x.id).port)
   })
-  // GenArchive(microservices.map(x => x.data.name))
+  await GenArchive(uuid)
 
   console.log('Всё готово!')
 }

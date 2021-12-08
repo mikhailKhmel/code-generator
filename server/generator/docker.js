@@ -1,13 +1,9 @@
 const fs = require('fs')
 const config = require('config')
-const cmd = require('node-cmd')
+const archiver = require('archiver');
 
-function Dockering (name, port) {
-  // удаление предыдущих образов
-  console.log('Очистка предыдущих образов')
-  cmd.runSync(`docker rmi ${name}`)
-
-  const workdir = `${config.get('workdir')}\\${name}`
+function Dockering (uuid, name, port) {
+  const workdir = `${config.get('workdir')}\\${uuid}\\${name}`
 
   console.log('копирование файлов')
   fs.copyFileSync('.\\templates\\.dockerignore', `${workdir}\\.dockerignore`)
@@ -18,14 +14,26 @@ function Dockering (name, port) {
   dockerfile = dockerfile.replace('{%port%}', port)
   dockerfile = dockerfile.replace('{%name%}', name)
   fs.writeFileSync(`${workdir}\\Dockerfile`, dockerfile, 'utf-8')
-
-  /*console.log(`создание образа ${name}`)
-  cmd.runSync(`cd ${workdir} && docker build . -t ${name}`)*/
 }
 
-function GenArchive (names) {
-  console.log('архивация образа', names)
-  cmd.runSync(`cd ${config.get('workdir')} && docker save -o project.tar ${names.join(' ')}`)
+async function GenArchive (uuid) {
+  console.log('архивация проекта', uuid)
+  fs.mkdirSync(`${config.get('workdir')}\\archive\\${uuid}`, {recursive: true})
+  console.log('создана папка', `${config.get('workdir')}\\archive\\${uuid}`)
+  const archive = archiver('zip', { zlib: { level: 9 }})
+  const stream = fs.createWriteStream(`${config.get('workdir')}\\archive\\${uuid}\\project.zip`);
+
+  return new Promise((resolve, reject) => {
+    archive
+      .directory(`${config.get('workdir')}\\${uuid}\\`, false)
+      .on('error', err => reject(err))
+      .pipe(stream)
+    ;
+
+    stream.on('close', () => resolve());
+    archive.finalize();
+    console.log('завершение архивации')
+  });
 }
 
 exports.Dockering = Dockering
