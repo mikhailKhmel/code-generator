@@ -1,6 +1,6 @@
 const fs = require('fs')
 const config = require('config')
-const archiver = require('archiver');
+const archiver = require('archiver')
 
 function Dockering (uuid, name, port) {
   const workdir = `${config.get('workdir')}\\${uuid}\\${name}`
@@ -18,22 +18,21 @@ function Dockering (uuid, name, port) {
 
 async function GenArchive (uuid) {
   console.log('архивация проекта', uuid)
-  fs.mkdirSync(`${config.get('workdir')}\\archive\\${uuid}`, {recursive: true})
+  fs.mkdirSync(`${config.get('workdir')}\\archive\\${uuid}`, { recursive: true })
   console.log('создана папка', `${config.get('workdir')}\\archive\\${uuid}`)
-  const archive = archiver('zip', { zlib: { level: 9 }})
-  const stream = fs.createWriteStream(`${config.get('workdir')}\\archive\\${uuid}\\project.zip`);
+  const archive = archiver('zip', { zlib: { level: 9 } })
+  const stream = fs.createWriteStream(`${config.get('workdir')}\\archive\\${uuid}\\project.zip`)
 
   return new Promise((resolve, reject) => {
     archive
       .directory(`${config.get('workdir')}\\${uuid}\\`, false)
       .on('error', err => reject(err))
       .pipe(stream)
-    ;
 
-    stream.on('close', () => resolve());
-    archive.finalize();
+    stream.on('close', () => resolve())
+    archive.finalize()
     console.log('завершение архивации')
-  });
+  })
 }
 
 exports.Dockering = Dockering

@@ -8,6 +8,8 @@ function CleanFiles (uuid, names) {
     console.log('Очистка файлов для ', name)
     index = index.replace('{%redirects%}', '')
     fs.writeFileSync(workdir, index, 'utf-8')
+
+    // TODO: удаление node_modules
   })
 }
 

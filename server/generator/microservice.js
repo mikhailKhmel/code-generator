@@ -2,8 +2,6 @@ const fs = require('fs')
 const config = require('config')
 const cmd = require('node-cmd')
 
-const tempDir = '.\\templates\\'
-
 function GenMicroservice (uuid, name, settings) {
   try {
     const workDir = `${config.get('workdir')}\\${uuid}\\${name}`
@@ -17,11 +15,11 @@ function GenMicroservice (uuid, name, settings) {
     cmd.runSync(`cd ${workDir} && npm init --yes`)
 
     console.log('установка express')
-    cmd.runSync(`cd ${workDir} npm i express`)
+    cmd.runSync(`cd ${workDir} && npm i express`)
 
     // копирование index.js
     console.log('копирование index.js')
-    fs.copyFileSync(tempDir + 'temp-index.js', `${workDir}\\index.js`)
+    fs.copyFileSync('.\\templates\\temp-index.js', `${workDir}\\index.js`)
 
     // установка порта
     console.log('установка порта')
@@ -37,7 +35,6 @@ app.{%type%}('{%request%}', (req, res) => {
     let requests = ''
 
     if (settings.api) {
-      console.log(settings.api)
       Array.prototype.forEach.call(settings.api, (x) => {
         requests += req
         requests = requests.replace('{%type%}', x.type)
@@ -55,8 +52,10 @@ app.{%type%}('{%request%}', (req, res) => {
     const packagejson = JSON.parse(fs.readFileSync(`${workDir}\\package.json`, 'utf-8'))
     packagejson.scripts.start = 'node index.js'
     fs.writeFileSync(`${workDir}\\package.json`, JSON.stringify(packagejson), 'utf-8')
+    return { result: true, message: '' }
   } catch (error) {
     console.log('Ошибка создания микросервиса', error)
+    return { result: false, message: error }
   }
 }
 

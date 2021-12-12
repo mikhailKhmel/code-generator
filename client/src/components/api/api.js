@@ -1,4 +1,4 @@
-﻿import Download from 'downloadjs'
+import Download from 'downloadjs'
 
 export async function sendRequestApi (url, method = 'GET', body = null, headers = { 'Content-Type': 'application/json' }) {
   try {

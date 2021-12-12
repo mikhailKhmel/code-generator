@@ -28,8 +28,7 @@ const RenderFlow = () => {
   const [reactFlowInstance, setReactFlowInstance] = useState(null)
 
   const onConnect = (params) => {
-    setElements(
-      (els) => addEdge({ ...params }, els))
+    setElements((els) => addEdge({ ...params }, els))
   }
 
   const onLoad = (_reactFlowInstance) =>
