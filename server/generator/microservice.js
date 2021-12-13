@@ -52,6 +52,10 @@ app.{%type%}('{%request%}', (req, res) => {
     const packagejson = JSON.parse(fs.readFileSync(`${workDir}\\package.json`, 'utf-8'))
     packagejson.scripts.start = 'node index.js'
     fs.writeFileSync(`${workDir}\\package.json`, JSON.stringify(packagejson), 'utf-8')
+
+    console.log('Докер')
+    Dockering(uuid, name, settings.port)
+
     return { result: true, message: '' }
   } catch (error) {
     console.log('Ошибка создания микросервиса', error)
@@ -59,8 +63,21 @@ app.{%type%}('{%request%}', (req, res) => {
   }
 }
 
+function Dockering (uuid, name, port) {
+  const workdir = `${config.get('workdir')}\\${uuid}\\${name}`
+
+  console.log('копирование файлов')
+  fs.copyFileSync('.\\templates\\.dockerignore', `${workdir}\\.dockerignore`)
+  fs.copyFileSync('.\\templates\\Dockerfile', `${workdir}\\Dockerfile`)
+
+  console.log('исправление файлов')
+  let dockerfile = fs.readFileSync(`${workdir}\\Dockerfile`, 'utf-8')
+  dockerfile = dockerfile.replace('{%port%}', port)
+  dockerfile = dockerfile.replace('{%name%}', name)
+  fs.writeFileSync(`${workdir}\\Dockerfile`, dockerfile, 'utf-8')
+}
+
 function CreateGatewayEdge (uuid, name, { upstreamRequest, downstreamRequest, downstreamPort }) {
-  console.log('Создание соединения')
   const workDir = `${config.get('workdir')}\\${uuid}\\${name}`
   let indexJS = fs.readFileSync(`${workDir}\\index.js`, 'utf-8')
   let redirectStr = `

@@ -24,4 +24,10 @@ function createDbConfig (uuid, name, dbSettings) {
   fs.writeFileSync(`${workDir}\\dbconfig.js`, dbconfig)
 }
 
-module.exports = { createDbConfig, installPg }
+function createMigrationFile (uuid, name, script) {
+  const workDir = `${config.get('workdir')}\\${uuid}\\${name}`
+  fs.mkdirSync(`${workDir}\\migrations`, { recursive: true })
+  fs.writeFileSync(`${workDir}\\migrations\\dbinit.sql`, script, 'utf-8')
+}
+
+module.exports = { createDbConfig, installPg, generateSqlScript, createMigrationFile }

@@ -1,9 +1,11 @@
 const { GenMicroservice, CreateGatewayEdge } = require('./microservice')
 const { CleanFiles } = require('./cleaner')
-const { Dockering, GenArchive } = require('./docker')
-const { createDbConfig, installPg } = require('./database-sql')
+const { GenArchive } = require('./archive')
+const { createDbConfig, installPg, createMigrationFile } = require('./database-sql')
+const { generateSqlScript } = require('../../client/src/components/utils/utils')
 const fs = require('fs')
 const config = require('config')
+const { DockerCompose } = require('./dockercompose')
 
 const workdir = config.get('workdir')
 
@@ -46,6 +48,8 @@ async function Generator (uuid, elements, settings) {
           const includesRedirectsAndApi = redirects.filter(x => targetSettings.api.map(x => x.request).includes(x.downstreamRequest))
           Array.prototype.forEach.call(includesRedirectsAndApi, (redirect) => {
             const { upstreamRequest, downstreamRequest } = redirect
+
+            console.log('Создание соединения')
             CreateGatewayEdge(uuid, sourceService.data.name, {
               upstreamRequest,
               downstreamRequest,
@@ -55,24 +59,37 @@ async function Generator (uuid, elements, settings) {
         }
       } else if (sourceService.type === 'microservice' && targetService.type === 'database') {
         console.log('установка связи между базой данных и микросервисом')
-        // 1. установка пакета pg
-        installPg(uuid, sourceService.data.name)
-        // 2. создание dbconfig.js
-        createDbConfig(uuid, sourceService.data.name, { username: targetSettings.username, password: targetSettings.password, port: targetSettings.port, dbname: targetSettings.name })
-      }
-    } catch {
 
+        console.log('установка pg')
+        installPg(uuid, sourceService.data.name)
+
+        console.log('создание dbconfig')
+        createDbConfig(uuid, sourceService.data.name, {
+          username: targetSettings.username,
+          password: targetSettings.password,
+          port: targetSettings.port,
+          dbname: targetSettings.name
+        })
+        let script = targetSettings.script
+        if (script === '' || !script) {
+          console.log('генерация SQL-скрипта')
+          script = generateSqlScript(targetSettings.tables)
+        }
+
+        console.log('создание файла миграции')
+        createMigrationFile(uuid, sourceService.data.name, script)
+      }
+    } catch (err) {
+      return { result: false, message: err }
     }
   })
+  console.log('Создание docker-compose')
+  DockerCompose(uuid, settings.filter(x => x.type === 'microservice'), settings.filter(x => x.type === 'database'))
 
   console.log('Очистка файлов')
   CleanFiles(uuid, microservices.map(x => x.data.name))
 
-  console.log('Докер')
-  microservices.forEach(x => {
-    Dockering(uuid, x.data.name, settings.find(y => y.id === x.id).port)
-  })
-
+  console.log('архивация проекта', uuid)
   await GenArchive(uuid)
 
   console.log('Всё готово!')

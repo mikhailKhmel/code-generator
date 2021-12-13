@@ -9,8 +9,12 @@ function CleanFiles (uuid, names) {
     index = index.replace('{%redirects%}', '')
     fs.writeFileSync(workdir, index, 'utf-8')
 
-    // TODO: удаление node_modules
+    fs.rmSync(`${config.get('workdir')}\\${uuid}\\${name}\\node_modules`, { recursive: true, force: true })
   })
+  let dockercompose = fs.readFileSync(`${config.get('workdir')}\\${uuid}\\docker-compose.yaml`, 'utf-8')
+  dockercompose = dockercompose.replace('{%service%}', '')
+  dockercompose = dockercompose.replace('{%db%}', '')
+  fs.writeFileSync(`${config.get('workdir')}\\${uuid}\\docker-compose.yaml`, dockercompose, 'utf-8')
 }
 
 exports.CleanFiles = CleanFiles
