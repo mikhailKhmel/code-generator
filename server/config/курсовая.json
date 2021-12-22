@@ -95,11 +95,11 @@
       ]
     },
     {
-      "id": "1",
+      "id": "2",
       "name": "Videos",
       "type": "database",
       "databaseType": "sql",
-      "script": "CREATE TABLE videos (id integer PRIMARY KEY );\n",
+      "script": "",
       "tables": [
         {
           "name": "videos",
@@ -126,24 +126,9 @@
               "primary": true,
               "unique": false,
               "defaultValue": ""
-            },
-            {
-              "name": "content_type",
-              "type": "integer",
-              "notnull": true,
-              "primary": false,
-              "unique": false,
-              "defaultValue": ""
             }
           ],
-          "foreignKeys": [
-            {
-              "name": "video_id",
-              "type": "integer",
-              "externalTable": "videos",
-              "externalColumn": "id"
-            }
-          ]
+          "foreignKeys": []
         }
       ],
       "port": "5432",

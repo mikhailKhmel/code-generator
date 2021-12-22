@@ -1,8 +1,7 @@
 const { GenMicroservice, CreateGatewayEdge } = require('./microservice')
 const { CleanFiles } = require('./cleaner')
 const { GenArchive } = require('./archive')
-const { createDbConfig, installPg, createMigrationFile } = require('./database-sql')
-const { generateSqlScript } = require('../../client/src/components/utils/utils')
+const { createDbConfig, installPg, createMigrationFile, generateSqlScript } = require('./database-sql')
 const fs = require('fs')
 const config = require('config')
 const { DockerCompose } = require('./dockercompose')
@@ -58,7 +57,7 @@ async function Generator (uuid, elements, settings) {
           })
         }
       } else if (sourceService.type === 'microservice' && targetService.type === 'database') {
-        console.log('установка связи между базой данных и микросервисом')
+        console.log(`установка связи между базой данных ${targetSettings.name} и микросервисом ${sourceSettings.name}`)
 
         console.log('установка pg')
         installPg(uuid, sourceService.data.name)
@@ -70,6 +69,7 @@ async function Generator (uuid, elements, settings) {
           port: targetSettings.port,
           dbname: targetSettings.name
         })
+
         let script = targetSettings.script
         if (script === '' || !script) {
           console.log('генерация SQL-скрипта')
@@ -84,7 +84,7 @@ async function Generator (uuid, elements, settings) {
     }
   })
   console.log('Создание docker-compose')
-  DockerCompose(uuid, settings.filter(x => x.type === 'microservice'), settings.filter(x => x.type === 'database'))
+  DockerCompose(uuid, settings.filter(x => x.type === 'microservice'), settings.filter(x => x.type === 'database'), elements.filter(x => x.id.includes('edge')))
 
   console.log('Очистка файлов')
   CleanFiles(uuid, microservices.map(x => x.data.name))

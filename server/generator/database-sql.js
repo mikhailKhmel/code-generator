@@ -3,9 +3,8 @@ const config = require('config')
 const cmd = require('node-cmd')
 
 function installPg (uuid, name) {
-  const workDir = `${config.get('workdir')}\\${uuid}\\${name}`
-  console.log('установка pg')
-  cmd.runSync(`cd ${workDir} && npm i pg`)
+  cmd.runSync(`cd ${config.get('workdir')}\\${uuid}\\${name} && npm i pg`)
+  console.log('завершение установки pg')
 }
 
 function createDbConfig (uuid, name, dbSettings) {
@@ -30,4 +29,35 @@ function createMigrationFile (uuid, name, script) {
   fs.writeFileSync(`${workDir}\\migrations\\dbinit.sql`, script, 'utf-8')
 }
 
-module.exports = { createDbConfig, installPg, generateSqlScript, createMigrationFile }
+function generateSqlScript (tables) {
+  let script = ''
+  for (let i = 0; i < tables.length; i++) {
+    const currTable = tables[i]
+    let tableScript = `CREATE TABLE ${currTable.name} (%column%);\n`
+    Array.prototype.forEach.call(currTable.columns, (column) => {
+      let colStr = `${column.name} ${column.type} `
+      if (column.primary) {
+        colStr += 'PRIMARY KEY '
+      }
+      if (column.unique) {
+        colStr += 'UNIQUE '
+      }
+      if (column.notnull) {
+        colStr += 'NOT NULL '
+      }
+      if (column.defaultValue !== '') {
+        colStr += `DEFAULT ${column.defaultValue} `
+      }
+      colStr += ', %column%'
+      tableScript = tableScript.replace('%column%', colStr)
+    })
+    currTable.foreignKeys.forEach(column => {
+      const colStr = `${column.name} ${column.type} REFERENCES ${column.externalTable} (${column.externalColumn}), %column%`
+      tableScript = tableScript.replace('%column%', colStr)
+    })
+    script += tableScript.replace(', %column%', '')
+  }
+  return script
+}
+
+module.exports = { createDbConfig, installPg, createMigrationFile, generateSqlScript }

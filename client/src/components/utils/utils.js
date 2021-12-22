@@ -26,55 +26,6 @@ const getReactFlowTypeByCustomType = (type) => {
   }
 }
 
-/*
-[
-    {
-        "name": "table1",
-        "columns": [
-            {
-                "name": "column1",
-                "type": "integer",
-                "notnull": false,
-                "primary": false,
-                "unique": false,
-                "defaultValue": ""
-            },
-            {
-                "name": "column2",
-                "type": "varchar",
-                "notnull": true,
-                "primary": true,
-                "unique": false,
-                "defaultValue": "def"
-            }
-        ],
-        "foreignKeys": []
-    },
-    {
-        "name": "table2",
-        "columns": [
-            {
-                "name": "id",
-                "type": "integer",
-                "notnull": false,
-                "primary": true,
-                "unique": false,
-                "defaultValue": ""
-            },
-            {
-                "name": "name",
-                "type": "integer",
-                "notnull": true,
-                "primary": false,
-                "unique": true,
-                "defaultValue": "def"
-            }
-        ],
-        "foreignKeys": []
-    }
-]
-*/
-
 const generateSqlScript = (tables) => {
   let script = ''
   for (let i = 0; i < tables.length; i++) {
