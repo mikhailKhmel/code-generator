@@ -12,6 +12,7 @@ import RunButton from '../run-button'
 import SettingsPanel from '../settings-panel'
 import Sidebar from '../sidebar'
 import { getId, getNodeTypeName } from '../utils'
+import Notification from '../notification'
 
 import './render-flow.css'
 
@@ -26,6 +27,7 @@ const RenderFlow = () => {
   const [settings, setSettings] = useState([])
   const [openSettings, setOpenSettings] = useState(null)
   const [reactFlowInstance, setReactFlowInstance] = useState(null)
+  const [error, setError] = useState(null)
 
   const onConnect = (params) => {
     setElements((els) => addEdge({ ...params }, els))
@@ -116,6 +118,14 @@ const RenderFlow = () => {
     return { elements, settings }
   }
 
+  const onHandleError = ({ title, description, ok }) => {
+    setError({ title, description, ok })
+  }
+
+  const handleCloseNotification = () => {
+    setError(null)
+  }
+
   console.log('elements', elements)
   console.log('settings', settings)
   return (
@@ -165,7 +175,9 @@ const RenderFlow = () => {
               settings={openSettings} onCloseSettings={onCloseSettings}
               onSaveSettings={onSaveSettings}
             />}
-        <RunButton elementsInfo={getAllElementsInfo()} />
+        <RunButton elementsInfo={getAllElementsInfo()} onHandleError={onHandleError} />
+        {error ? <Notification title={error.title} description={error.description} ok={error.ok} onCloseNotification={handleCloseNotification} /> : null}
+
       </ReactFlowProvider>
     </div>
 

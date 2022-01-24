@@ -6,11 +6,13 @@ const RunButton = (props) => {
   const handleRun = async (event) => {
     event.preventDefault()
     const info = props.elementsInfo
-    await sendRequestApi('/api/generator/run', 'POST', info)
+    const res = await sendRequestApi('/api/generator/run', 'POST', info)
+    console.log(res)
+    props.onHandleError(res)
   }
 
   return (
-    <button className='run-button' value='Run' onClick={handleRun}>Run</button>
+    <button className='run-button' value='Run' onClick={handleRun}>Генерация проекта</button>
   )
 }
 

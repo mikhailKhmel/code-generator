@@ -4,4 +4,13 @@
     bottom: 190px;
     border-radius: 5px;
     border: 1px solid #4b6077;
+    background-color: #94bbe6;
+    color: #4b6077;
+    width: 200px;
+}
+
+.run-button:hover {
+    background-color: #4b6077;
+    color: #94bbe6;
+    cursor: pointer;
 }

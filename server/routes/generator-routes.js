@@ -1,5 +1,4 @@
 const { Router } = require('express')
-const fs = require('fs')
 const path = require('path')
 const { v4: uuidv4 } = require('uuid')
 const { Generator } = require('../generator/generator')
@@ -8,9 +7,12 @@ const router = Router()
 // /api/generator/run
 router.post('/run', async (req, res) => {
   try {
-    const json = JSON.parse(await fs.readFileSync('config\\курсовая.json', 'utf8'))
-    const elements = json.elements
-    const settings = json.settings
+    const elements = req.body.elements
+    const settings = req.body.settings
+    console.log(elements, settings)
+    if (!elements || !settings || elements.length === 0 || settings.length === 0) {
+      return res.status(500).json({ message: 'Отсутствуют данные', error: 'Данные не переданы' })
+    }
     const uuid = uuidv4()
     const { result, message } = await Generator(uuid, elements, settings)
     if (result) {
