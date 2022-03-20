@@ -24,7 +24,7 @@
     flex-direction: row;
     margin: 5px;
     align-content: center;
-  }
+}
 
 .notification-close {
     position: absolute;

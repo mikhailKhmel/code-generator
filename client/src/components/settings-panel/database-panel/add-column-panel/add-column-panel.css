@@ -1,73 +1,73 @@
 .add-column-panel {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  border-radius: 15px;
-  background-color: #e0eaf1;
-  display: flex;
-  flex-direction: column;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    border-radius: 15px;
+    background-color: #e0eaf1;
+    display: flex;
+    flex-direction: column;
 }
 
 .checkbox-settings {
-  margin: 10px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+    margin: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 .checkbox-settings > input {
-  margin-top: 6px;
+    margin-top: 6px;
 }
 
 .btn-close {
-  display: block;
-  border: none;
-  background-color: #585b5e;
-  top: 10px;
-  right: 10px;
+    display: block;
+    border: none;
+    background-color: #585b5e;
+    top: 10px;
+    right: 10px;
 }
 
 .btn-close:hover {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .input-select {
-  margin: 0 10px 10px;
-  border-radius: 5px;
-  padding: 0 15px;
+    margin: 0 10px 10px;
+    border-radius: 5px;
+    padding: 0 15px;
 }
 
 .input-defaultvalue {
-  width: 260px;
-  margin-bottom: 10px;
-  margin-left: 10px;
-  margin-right: 10px;
-  border: none;
-  border-radius: 5px;
-  text-align: center;
+    width: 260px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 5px;
+    text-align: center;
 }
 
 .input-name {
-  margin: 10px 80px 10px 10px;
-  border: none;
-  border-radius: 5px;
-  text-align: center;
+    margin: 10px 80px 10px 10px;
+    border: none;
+    border-radius: 5px;
+    text-align: center;
 }
 
 .btn-save {
-  margin-bottom: 10px;
-  margin-left: 10px;
-  margin-right: 10px;
-  border: none;
-  border-radius: 5px;
-  background-color: #94bbe6;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #94bbe6;
 }
 
 .btn-save:hover {
-  cursor: pointer;
-  background-color: #4b6077;
+    cursor: pointer;
+    background-color: #4b6077;
 }
 
 .btn-group {
-  margin-left: 20px;
+    margin-left: 20px;
 }

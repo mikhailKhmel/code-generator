@@ -98,45 +98,45 @@ export default class TablePanel extends Component {
     }
 
     return (
-      <div className='table-panel'>
-        <button className='btn-back' onClick={this.handleCloseTablePanel}>
+      <div className="table-panel">
+        <button className="btn-back" onClick={this.handleCloseTablePanel}>
           Назад
         </button>
-        <table className='tables'>
+        <table className="tables">
           <thead>
-            <tr>
-              <td>Список таблиц</td>
-            </tr>
+          <tr>
+            <td>Список таблиц</td>
+          </tr>
           </thead>
           <tbody>
-            {
+          {
             this.state.tables !== undefined
               ? this.state.tables.map(x => {
-                  return (
-                    <tr key={`${x.name}`}>
-                      <td className='table-row' onClick={this.handleEditTable}>{x.name}</td>
-                    </tr>
-                  )
-                })
+                return (
+                  <tr key={`${x.name}`}>
+                    <td className="table-row" onClick={this.handleEditTable}>{x.name}</td>
+                  </tr>
+                )
+              })
               : null
           }
           </tbody>
         </table>
-        <div className='btn-group'>
-          <button className='btn-element' onClick={this.handleShowScript}>Итоговый
+        <div className="btn-group">
+          <button className="btn-element" onClick={this.handleShowScript}>Итоговый
             скрипт
           </button>
-          <button className='btn-element' onClick={this.handleAddTable}>
+          <button className="btn-element" onClick={this.handleAddTable}>
             Добавить таблицу
           </button>
-          <button className='btn-element' onClick={this.handleSaveData}>Сохранить
+          <button className="btn-element" onClick={this.handleSaveData}>Сохранить
           </button>
         </div>
         {
           this.state.editScript
             ? <div>
               <textarea
-                className='textarea' defaultValue={this.state.script}
+                className="textarea" defaultValue={this.state.script}
                 onChange={this.handleChangeScript}
               />
             </div>

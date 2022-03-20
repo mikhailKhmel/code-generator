@@ -105,37 +105,40 @@ export default class AddTablePanel extends Component {
     }
 
     return (
-      <div className='add-table-panel'>
+      <div className="add-table-panel">
 
-        <button className='btn-back' onClick={this.handleBackTablePanel}>
+        <button className="btn-back" onClick={this.handleBackTablePanel}>
           Назад
         </button>
 
-        <input className='table-name' name='name' type='text' placeholder='Название таблицы' value={this.state.table.name} onChange={this.handleInputChange} />
+        <input className="table-name" name="name" type="text" placeholder="Название таблицы"
+               value={this.state.table.name} onChange={this.handleInputChange}/>
 
-        <table className='addtablepanel-table'>
+        <table className="addtablepanel-table">
           <thead>
-            <tr>
-              <td>Поля</td>
-            </tr>
+          <tr>
+            <td>Поля</td>
+          </tr>
           </thead>
           <tbody>
-            {this.state.table.columns !== undefined
-              ? this.state.table.columns.map(x => {
-                  return (
-                    <tr key={`${x.name}`}>
-                      <td className='column-row' onClick={() => this.handleOpenCloseAddColumn(true, x.name)}>{x.name}</td>
-                    </tr>
-                  )
-                })
-              : null}
+          {this.state.table.columns !== undefined
+            ? this.state.table.columns.map(x => {
+              return (
+                <tr key={`${x.name}`}>
+                  <td className="column-row" onClick={() => this.handleOpenCloseAddColumn(true, x.name)}>{x.name}</td>
+                </tr>
+              )
+            })
+            : null}
           </tbody>
         </table>
-        <div className='btn-group'>
-          <button className='btn-element'>Внешние ключи</button>
-          <button className='btn-element' onClick={() => this.handleOpenCloseAddColumn(true)}>Добавить поле</button>
-          <button className='btn-element' onClick={this.handleSaveTable}>Сохранить</button>
-          <button className='btn-element' onClick={() => this.props.onRemoveTable(this.state.table.name)}>Удалить таблицу</button>
+        <div className="btn-group">
+          <button className="btn-element">Внешние ключи</button>
+          <button className="btn-element" onClick={() => this.handleOpenCloseAddColumn(true)}>Добавить поле</button>
+          <button className="btn-element" onClick={this.handleSaveTable}>Сохранить</button>
+          <button className="btn-element" onClick={() => this.props.onRemoveTable(this.state.table.name)}>Удалить
+            таблицу
+          </button>
         </div>
       </div>
     )

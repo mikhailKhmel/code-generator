@@ -85,8 +85,8 @@ export default class DatabasePanel extends Component {
     this.props.onSaveSettings(this.state.settings)
   }
 
-  handleSaveData ({script, tables}) {
-    this.setState(st => ({settings: {...st.settings, script, tables}, openTablePanel: false}))
+  handleSaveData ({ script, tables }) {
+    this.setState(st => ({ settings: { ...st.settings, script, tables }, openTablePanel: false }))
   }
 
   render () {
@@ -95,9 +95,9 @@ export default class DatabasePanel extends Component {
       return (
         <TablePanel
           onCloseTablePanel={this.handleCloseTablePanel} tablesData={{
-            tables: this.state.settings.tables || [],
-            script: this.state.settings.script || ''
-          }}
+          tables: this.state.settings.tables || [],
+          script: this.state.settings.script || ''
+        }}
           onSaveData={this.handleSaveData}
         />
       )
@@ -105,42 +105,42 @@ export default class DatabasePanel extends Component {
 
     return (
       <form onSubmit={this.handleSubmit}>
-        <div className='container-settings'>
-          <div className='database-panel'>
-            <div className='row'>
-              <p className='object-type'>База данных</p>
+        <div className="container-settings">
+          <div className="database-panel">
+            <div className="row">
+              <p className="object-type">База данных</p>
               <button
-                className='btn-close'
+                className="btn-close"
                 onClick={() => this.props.onCloseSettings()}
               />
             </div>
             <input
-              name='name' className='object-name' type='text'
-              placeholder='Название базы данных'
+              name="name" className="object-name" type="text"
+              placeholder="Название базы данных"
               value={this.state.settings.name} onChange={this.handleInputChange}
             />
             <input
-              name='port' className='object-name' type='text' placeholder='Порт'
+              name="port" className="object-name" type="text" placeholder="Порт"
               value={this.state.settings.port} onChange={this.handleInputChange}
             />
             <input
-              name='username' className='object-name' type='text'
-              placeholder='Имя пользователя'
+              name="username" className="object-name" type="text"
+              placeholder="Имя пользователя"
               value={this.state.settings.username}
               onChange={this.handleInputChange}
             />
             <input
-              name='password' className='object-name' type='password'
-              placeholder='Пароль'
+              name="password" className="object-name" type="password"
+              placeholder="Пароль"
               value={this.state.settings.password}
               onChange={this.handleInputChange}
             />
             <button
-              className='btn-api'
+              className="btn-api"
               onClick={this.handleOpenTablePanel}
             >Описание таблиц
             </button>
-            <input className='btn-save' type='submit' value='Сохранить' />
+            <input className="btn-save" type="submit" value="Сохранить"/>
           </div>
         </div>
       </form>

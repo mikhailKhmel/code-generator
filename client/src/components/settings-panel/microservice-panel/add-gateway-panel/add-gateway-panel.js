@@ -38,17 +38,19 @@ export default class AddGatewayPanel extends Component {
   render () {
     const { upstreamRequest, downstreamRequest } = this.state
     return (
-      <div className='add-gateway-panel'>
-        <div className='add-gateway-row'>
-          <p className='add-gateway-title'>Новое перенаправления</p>
+      <div className="add-gateway-panel">
+        <div className="add-gateway-row">
+          <p className="add-gateway-title">Новое перенаправления</p>
           <button
-            className='btn-close'
+            className="btn-close"
             onClick={() => this.props.onCloseAddGatewayPanel()}
           />
         </div>
-        <input className='add-gateway-input' name='upstreamRequest' type='text' placeholder='Входящий запрос' value={upstreamRequest} onChange={this.handleInputChange} />
-        <input className='add-gateway-input' name='downstreamRequest' type='text' placeholder='Выходящий запрос' value={downstreamRequest} onChange={this.handleInputChange} />
-        <button className='btn-save' onClick={this.handleSaveAddGateway}>Сохранить</button>
+        <input className="add-gateway-input" name="upstreamRequest" type="text" placeholder="Входящий запрос"
+               value={upstreamRequest} onChange={this.handleInputChange}/>
+        <input className="add-gateway-input" name="downstreamRequest" type="text" placeholder="Выходящий запрос"
+               value={downstreamRequest} onChange={this.handleInputChange}/>
+        <button className="btn-save" onClick={this.handleSaveAddGateway}>Сохранить</button>
       </div>
     )
   }

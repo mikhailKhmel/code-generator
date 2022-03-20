@@ -66,40 +66,42 @@ export default class GatewayPanel extends Component {
     }
 
     return (
-      <div className='gateway-panel'>
-        <div className='gateway-row'>
-          <p className='gateway-title'>Настройки перенаправления</p>
+      <div className="gateway-panel">
+        <div className="gateway-row">
+          <p className="gateway-title">Настройки перенаправления</p>
           <button
-            className='btn-close'
+            className="btn-close"
             onClick={() => this.props.onCloseGatewayPanel()}
           />
         </div>
-        <div className='gateway-row'>
-          <table className='gateway-table'>
+        <div className="gateway-row">
+          <table className="gateway-table">
             <thead>
-              <tr>
-                <td>Входящий запрос</td>
-                <td>Выходящий запрос и порт</td>
-              </tr>
+            <tr>
+              <td>Входящий запрос</td>
+              <td>Выходящий запрос и порт</td>
+            </tr>
             </thead>
             <tbody>
-              {this.state.redirects.map(x => {
-                return (
-                  <tr
-                    key={x.id}
-                    className='table-row'
-                    onDoubleClick={() => this.handleEditRedirect(x.id)}
-                  >
-                    <td>{x.upstreamRequest}</td>
-                    <td>{x.downstreamRequest}</td>
-                  </tr>
-                )
-              })}
+            {this.state.redirects.map(x => {
+              return (
+                <tr
+                  key={x.id}
+                  className="table-row"
+                  onDoubleClick={() => this.handleEditRedirect(x.id)}
+                >
+                  <td>{x.upstreamRequest}</td>
+                  <td>{x.downstreamRequest}</td>
+                </tr>
+              )
+            })}
             </tbody>
           </table>
         </div>
-        <button className='btn-add-gateway' onClick={() => this.handleAddGatewayPanel(true)}>Добавить перенаправление</button>
-        <button className='btn-save' onClick={() => this.props.onSaveGatewayRedirects(this.state.redirects)}>Сохранить</button>
+        <button className="btn-add-gateway" onClick={() => this.handleAddGatewayPanel(true)}>Добавить перенаправление
+        </button>
+        <button className="btn-save" onClick={() => this.props.onSaveGatewayRedirects(this.state.redirects)}>Сохранить
+        </button>
       </div>
     )
   }

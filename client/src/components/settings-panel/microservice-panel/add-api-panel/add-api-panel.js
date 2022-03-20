@@ -52,30 +52,30 @@ export default class AddApiPanel extends Component {
 
   render () {
     return (
-      <div className='add-api-panel'>
-        <div className='row'>
-          <button className='btn-back' onClick={this.handleBackApiPanel}>
+      <div className="add-api-panel">
+        <div className="row">
+          <button className="btn-back" onClick={this.handleBackApiPanel}>
             Назад
           </button>
-          <div className='object-type'>
+          <div className="object-type">
             Добавление нового запроса
           </div>
         </div>
-        <div className='row'>
+        <div className="row">
           Тип запроса
-          <select className='select-type' value={this.state.type} onChange={this.handleChangeType}>
-            <option value='get'>GET</option>
-            <option value='post'>POST</option>
-            <option value='put'>PUT</option>
-            <option value='patch'>PATCH</option>
-            <option value='delete'>DELETE</option>
+          <select className="select-type" value={this.state.type} onChange={this.handleChangeType}>
+            <option value="get">GET</option>
+            <option value="post">POST</option>
+            <option value="put">PUT</option>
+            <option value="patch">PATCH</option>
+            <option value="delete">DELETE</option>
           </select>
         </div>
-        <div className='row'>
+        <div className="row">
           Запрос
-          <input type='text' className='input-request' value={this.state.request} onChange={this.handleChangeRequest} />
+          <input type="text" className="input-request" value={this.state.request} onChange={this.handleChangeRequest}/>
         </div>
-        <button className='btn-save' value='Сохранить' onClick={this.handleSaveRequest}>Добавить</button>
+        <button className="btn-save" value="Сохранить" onClick={this.handleSaveRequest}>Добавить</button>
       </div>
     )
   }

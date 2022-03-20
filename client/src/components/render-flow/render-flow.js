@@ -7,7 +7,7 @@ import ReactFlow, {
   ReactFlowProvider,
   removeElements
 } from 'react-flow-renderer'
-import { Database, Microservice, Client } from '../nodes'
+import { Client, Database, Microservice } from '../nodes'
 import RunButton from '../run-button'
 import SettingsPanel from '../settings-panel'
 import Sidebar from '../sidebar'
@@ -32,7 +32,7 @@ const RenderFlow = () => {
   const [error, setError] = useState(null)
 
   const onConnect = (params) => {
-    setElements((els) => addEdge({ ...params, animated: true, style: {stroke: 'red'} }, els))
+    setElements((els) => addEdge({ ...params, animated: true, style: { stroke: 'red' } }, els))
   }
 
   const onLoad = (_reactFlowInstance) =>
@@ -85,6 +85,11 @@ const RenderFlow = () => {
 
     if (el.type === 'microservice') {
       el.data.microserviceType = newSettings.microserviceType
+      if (el.data.microserviceType === 'gateway') {
+        el.data.label = 'Перенаправляющий Микросервис'
+      } else {
+        el.data.label = 'Микросервис'
+      }
     }
 
     el.data.name = newSettings.name
@@ -132,13 +137,13 @@ const RenderFlow = () => {
   console.log('elements', elements)
   console.log('settings', settings)
   return (
-    <div className='render-flow'>
+    <div className="render-flow">
       <ReactFlowProvider>
-        <Sidebar />
-        <div className='reactflow-wrapper' ref={reactFlowWrapper}>
+        <Sidebar/>
+        <div className="reactflow-wrapper" ref={reactFlowWrapper}>
           <ReactFlow
             elements={elements}
-            className='flow'
+            className="flow"
             onConnect={onConnect}
             onElementsRemove={onElementsRemove}
             onLoad={onLoad}
@@ -148,19 +153,20 @@ const RenderFlow = () => {
             nodeTypes={nodeTypes}
             connectionLineComponent={connectionLine}
           >
-            <Controls />
+            <Controls/>
             <Background
-              variant='dots'
+              variant="dots"
               gap={20}
               size={0.6}
-              color='gray'
+              color="gray"
             />
             <MiniMap
               nodeStrokeColor={(n) => {
                 if (n.style?.background) return n.style.background
-                if (n.data.microserviceType === 'gateway') return '#0041d0'
-                if (n.type === 'microservice') return '#1a192b'
+                if (n.data.microserviceType === 'gateway') return '#3be235'
+                if (n.type === 'microservice') return '#777'
                 if (n.type === 'database') return '#db16b0'
+                if (n.type === 'client') return '#0041d0'
 
                 return '#eee'
               }}
@@ -176,11 +182,12 @@ const RenderFlow = () => {
         {openSettings === null
           ? null
           : <SettingsPanel
-              settings={openSettings} onCloseSettings={onCloseSettings}
-              onSaveSettings={onSaveSettings}
-            />}
-        <RunButton elementsInfo={getAllElementsInfo()} onHandleError={onHandleError} />
-        {error ? <Notification title={error.title} description={error.description} ok={error.ok} onCloseNotification={handleCloseNotification} /> : null}
+            settings={openSettings} onCloseSettings={onCloseSettings}
+            onSaveSettings={onSaveSettings}
+          />}
+        <RunButton elementsInfo={getAllElementsInfo()} onHandleError={onHandleError}/>
+        {error ? <Notification title={error.title} description={error.description} ok={error.ok}
+                               onCloseNotification={handleCloseNotification}/> : null}
 
       </ReactFlowProvider>
     </div>

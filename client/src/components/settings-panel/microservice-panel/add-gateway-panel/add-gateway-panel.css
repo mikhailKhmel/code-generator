@@ -1,28 +1,28 @@
 .add-gateway-panel {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  border-radius: 15px;
-  background-color: #e0eaf1;
-  display: flex;
-  flex-direction: column;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    border-radius: 15px;
+    background-color: #e0eaf1;
+    display: flex;
+    flex-direction: column;
 }
 
 .add-gateway-row {
-  display: flex;
-  flex-direction: row;
+    display: flex;
+    flex-direction: row;
 }
 
 .add-gateway-title {
-  border: 1px solid #585b5e;
-  border-radius: 5px;
-  width: max-content;
-  text-align: center;
-  margin-top: 10px;
-  margin-right: 45px;
-  margin-left: 10px;
-  padding-left: 5px;
-  padding-right: 5px;
+    border: 1px solid #585b5e;
+    border-radius: 5px;
+    width: max-content;
+    text-align: center;
+    margin-top: 10px;
+    margin-right: 45px;
+    margin-left: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
 .add-gateway-input {
@@ -31,4 +31,4 @@
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 10px;
-  }
+}

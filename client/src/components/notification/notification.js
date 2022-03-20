@@ -37,20 +37,20 @@ export default class Notification extends Component {
     styleNotification += !this.state.ok ? ' error' : ' success'
     return (
       <div className={styleNotification}>
-        <div className='notification-row'>
-          <button className='notification-close' onClick={this.handleCloseNotification}>
+        <div className="notification-row">
+          <button className="notification-close" onClick={this.handleCloseNotification}>
             X
           </button>
-          <div className='notification-title'>
+          <div className="notification-title">
             {this.state.title}
           </div>
         </div>
         {this.state.description
-          ? <div className='notification-row'>
-            <div className='notification-description'>
+          ? <div className="notification-row">
+            <div className="notification-description">
               {this.state.description}
             </div>
-            </div>
+          </div>
           : null}
 
       </div>

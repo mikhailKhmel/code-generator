@@ -12,7 +12,7 @@ const RunButton = (props) => {
   }
 
   return (
-    <button className='run-button' value='Run' onClick={handleRun}>Генерация проекта</button>
+    <button className="run-button" value="Run" onClick={handleRun}>Генерация проекта</button>
   )
 }
 

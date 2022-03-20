@@ -102,16 +102,16 @@ export default class MicroservicePanel extends Component {
     this.setState({
       openApiPanel: false,
       settings:
-      {
-        name: name === undefined ? '' : name,
-        id,
-        port:
-          port === undefined ? '' : port,
-        microserviceType:
-          microserviceType === undefined ? 'default' : microserviceType,
-        type,
-        api: api === undefined ? [] : api
-      }
+        {
+          name: name === undefined ? '' : name,
+          id,
+          port:
+            port === undefined ? '' : port,
+          microserviceType:
+            microserviceType === undefined ? 'default' : microserviceType,
+          type,
+          api: api === undefined ? [] : api
+        }
     })
   }
 
@@ -134,16 +134,16 @@ export default class MicroservicePanel extends Component {
         this.setState({
           openApiPanel: false,
           settings:
-          {
-            name: name === undefined ? '' : name,
-            id,
-            port:
-              port === undefined ? '' : port,
-            microserviceType:
-              microserviceType === undefined ? 'default' : microserviceType,
-            type,
-            api: api === undefined ? [] : api
-          }
+            {
+              name: name === undefined ? '' : name,
+              id,
+              port:
+                port === undefined ? '' : port,
+              microserviceType:
+                microserviceType === undefined ? 'default' : microserviceType,
+              type,
+              api: api === undefined ? [] : api
+            }
         })
       }
     }
@@ -152,14 +152,14 @@ export default class MicroservicePanel extends Component {
   handleSaveApi (api) {
     console.log('handleSaveApi', api, this.state)
     this.setState(st => (
-      {
-        openApiPanel: false,
-        settings: {
-          ...st.settings,
-          api: api
+        {
+          openApiPanel: false,
+          settings: {
+            ...st.settings,
+            api: api
+          }
         }
-      }
-    )
+      )
     )
   }
 
@@ -173,11 +173,13 @@ export default class MicroservicePanel extends Component {
 
   render () {
     if (this.state.openApiPanel) {
-      return <ApiPanel onBackApiPanel={this.handleBackApiPanel} onSaveApi={this.handleSaveApi} apiData={this.state.settings.api} />
+      return <ApiPanel onBackApiPanel={this.handleBackApiPanel} onSaveApi={this.handleSaveApi}
+                       apiData={this.state.settings.api}/>
     }
 
     if (this.state.openGatewayPanel) {
-      return <GatewayPanel redirects={this.state.settings.redirects} onCloseGatewayPanel={this.handleCloseGatewayPanel} onSaveGatewayRedirects={this.handleSaveGatewayRedirects} />
+      return <GatewayPanel redirects={this.state.settings.redirects} onCloseGatewayPanel={this.handleCloseGatewayPanel}
+                           onSaveGatewayRedirects={this.handleSaveGatewayRedirects}/>
     }
 
     let label = ''
@@ -188,52 +190,56 @@ export default class MicroservicePanel extends Component {
     return (
       <form onSubmit={this.handleSubmit}>
         <div>
-          <div className='microservice-panel'>
-            <div className='row'>
-              <p className='object-type'>Микросервис</p>
+          <div className="microservice-panel">
+            <div className="row">
+              <p className="object-type">Микросервис</p>
               <button
-                className='btn-close'
+                className="btn-close"
                 onClick={() => this.props.onCloseSettings()}
               />
             </div>
             <input
-              name='name' className='object-name' type='text'
+              name="name" className="object-name" type="text"
               placeholder={`Название ${label}`}
               value={this.state.settings.name} onChange={this.handleInputChange}
             />
             <input
-              name='port' className='object-name' type='text' placeholder='Порт'
+              name="port" className="object-name" type="text" placeholder="Порт"
               value={this.state.settings.port} onChange={this.handleInputChange}
             />
             <div>
               <select
-                className='microservice-type'
+                className="microservice-type"
                 value={this.state.settings.microserviceType}
                 onChange={this.handleSelectChange}
               >
-                <option value='gateway'>
+                <option value="gateway">
                   Перенаправляющий
                 </option>
-                <option value='default'>
+                <option value="default">
                   Обычный
                 </option>
               </select>
             </div>
-            <button
-              className='btn-api'
-              onClick={this.handleOpenApiPanel}
-            >Настроить API
-            </button>
+            {
+              this.state.settings.microserviceType === 'gateway' ?
+                null
+                : <button
+                  className="btn-api"
+                  onClick={this.handleOpenApiPanel}
+                >Настроить API
+                </button>
+            }
             {
               this.state.settings.microserviceType !== 'gateway'
                 ? null
                 : <button
-                    className='btn-gateway' value='Настройки перенаправления' onClick={this.handleOpenGatewayPanel}
-                  >
+                  className="btn-gateway" value="Настройки перенаправления" onClick={this.handleOpenGatewayPanel}
+                >
                   Настройки перенаправления
-                  </button>
+                </button>
             }
-            <input className='btn-save' type='submit' value='Сохранить' />
+            <input className="btn-save" type="submit" value="Сохранить"/>
           </div>
         </div>
       </form>
