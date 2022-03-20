@@ -17,6 +17,8 @@ import Notification from '../notification'
 import './render-flow.css'
 import connectionLine from './connection-line'
 import { getPort } from '../utils/utils'
+import SaveButton from '../save-button'
+import OpenButton from '../open-button'
 
 const nodeTypes = {
   client: Client,
@@ -119,6 +121,27 @@ const RenderFlow = () => {
     setError(null)
   }
 
+  const handleSave = () => {
+    const element = document.createElement('a')
+    const file = new Blob([JSON.stringify(getAllElementsInfo())], {
+      type: 'text/plain'
+    })
+    element.href = URL.createObjectURL(file)
+    element.download = 'mymodel.json'
+    document.body.appendChild(element)
+    element.click()
+  }
+
+  const handleOpen = (file) => {
+    const fileReader = new FileReader()
+    fileReader.readAsText(file, 'UTF-8')
+    fileReader.onload = e => {
+      const data = JSON.parse(e.target.result)
+      setElements(data['elements'])
+      setSettings(data['settings'])
+    }
+  }
+
   console.log('elements', elements)
   console.log('settings', settings)
   return (
@@ -170,6 +193,8 @@ const RenderFlow = () => {
             settings={openSettings} onCloseSettings={onCloseSettings}
             onSaveSettings={onSaveSettings}
           />}
+        <SaveButton onSave={handleSave}/>
+        <OpenButton onOpen={handleOpen}/>
         <RunButton elementsInfo={getAllElementsInfo()} onHandleError={onHandleError}/>
         {error ? <Notification title={error.title} description={error.description} ok={error.ok}
                                onCloseNotification={handleCloseNotification}/> : null}
