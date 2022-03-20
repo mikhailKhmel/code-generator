@@ -11,7 +11,6 @@ export default class MicroservicePanel extends Component {
       settings: {
         id: '',
         name: '',
-        port: '',
         microserviceType: 'default',
         type: 'microservice',
         api: []
@@ -92,12 +91,11 @@ export default class MicroservicePanel extends Component {
     const {
       id,
       name,
-      port,
       microserviceType,
       type,
       api
     } = this.props.settings
-    console.log('update settings', name, port,
+    console.log('update settings', name,
       microserviceType, type, api)
     this.setState({
       openApiPanel: false,
@@ -105,8 +103,6 @@ export default class MicroservicePanel extends Component {
         {
           name: name === undefined ? '' : name,
           id,
-          port:
-            port === undefined ? '' : port,
           microserviceType:
             microserviceType === undefined ? 'default' : microserviceType,
           type,
@@ -124,12 +120,11 @@ export default class MicroservicePanel extends Component {
         const {
           id,
           name,
-          port,
           microserviceType,
           type,
           api
         } = this.props.settings
-        console.log('update settings', name, port,
+        console.log('update settings', name,
           microserviceType, type, api)
         this.setState({
           openApiPanel: false,
@@ -137,8 +132,6 @@ export default class MicroservicePanel extends Component {
             {
               name: name === undefined ? '' : name,
               id,
-              port:
-                port === undefined ? '' : port,
               microserviceType:
                 microserviceType === undefined ? 'default' : microserviceType,
               type,
@@ -202,10 +195,6 @@ export default class MicroservicePanel extends Component {
               name="name" className="object-name" type="text"
               placeholder={`Название ${label}`}
               value={this.state.settings.name} onChange={this.handleInputChange}
-            />
-            <input
-              name="port" className="object-name" type="text" placeholder="Порт"
-              value={this.state.settings.port} onChange={this.handleInputChange}
             />
             <div>
               <select

@@ -16,6 +16,7 @@ import Notification from '../notification'
 
 import './render-flow.css'
 import connectionLine from './connection-line'
+import { getPort } from '../utils/utils'
 
 const nodeTypes = {
   client: Client,
@@ -83,6 +84,7 @@ const RenderFlow = () => {
     const el = elements.find(el => el.id === newSettings.id)
     let st = settings.find(st => st.id === newSettings.id)
 
+
     if (el.type === 'microservice') {
       el.data.microserviceType = newSettings.microserviceType
       if (el.data.microserviceType === 'gateway') {
@@ -94,25 +96,8 @@ const RenderFlow = () => {
 
     el.data.name = newSettings.name
     st = { ...newSettings }
-    const elIndex = elements.findIndex(el => el.id === newSettings.id)
-    const currentElements = [
-      ...elements.slice(0, elIndex),
-      el,
-      ...elements.slice(elIndex + 1)
-    ]
-    // определяем какие связи надо удалить
-    // сейчас удаляются только если целевой элемент - перенаправляющий микросервис
-    const elementsToRemove = []
-    for (let i = 0; i < currentElements.length; i++) {
-      if (currentElements[i].id.includes('edge')) {
-        const targetNode = currentElements.find(
-          y => y.id === currentElements[i].target)
-        if (targetNode.data.microserviceType === 'gateway') {
-          elementsToRemove.push(currentElements[i])
-        }
-      }
-    }
-    onElementsRemove(elementsToRemove)
+    let ports = settings.map(x => x.port)
+    st.port = getPort(ports)
 
     const stIndex = settings.findIndex(st => st.id === newSettings.id)
     setSettings((sts) => [

@@ -57,9 +57,23 @@ const generateSqlScript = (tables) => {
   return script
 }
 
+const getPort = (ports) => {
+  const port = Math.floor(Math.random() * (5999 - 5000 + 1) + 5000)
+  if (ports === undefined) {
+    return port
+  } else {
+    if (ports.includes(port)) {
+      return getPort(ports)
+    } else {
+      return port
+    }
+  }
+}
+
 export {
   getId,
   getNodeTypeName,
   getReactFlowTypeByCustomType,
-  generateSqlScript
+  generateSqlScript,
+  getPort
 }

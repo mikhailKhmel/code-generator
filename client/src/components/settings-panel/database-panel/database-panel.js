@@ -10,7 +10,6 @@ export default class DatabasePanel extends Component {
       settings: {
         id: '',
         name: '',
-        port: '',
         username: '',
         password: '',
         tables: [],
@@ -118,10 +117,6 @@ export default class DatabasePanel extends Component {
               name="name" className="object-name" type="text"
               placeholder="Название базы данных"
               value={this.state.settings.name} onChange={this.handleInputChange}
-            />
-            <input
-              name="port" className="object-name" type="text" placeholder="Порт"
-              value={this.state.settings.port} onChange={this.handleInputChange}
             />
             <input
               name="username" className="object-name" type="text"
