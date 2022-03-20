@@ -13,7 +13,6 @@ export default class DatabasePanel extends Component {
         port: '',
         username: '',
         password: '',
-        databaseType: 'sql',
         tables: [],
         script: ''
       },
@@ -21,7 +20,6 @@ export default class DatabasePanel extends Component {
     }
 
     this.handleInputChange = this.handleInputChange.bind(this)
-    this.handleSelectChange = this.handleSelectChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleOpenTablePanel = this.handleOpenTablePanel.bind(this)
     this.handleCloseTablePanel = this.handleCloseTablePanel.bind(this)
@@ -33,8 +31,7 @@ export default class DatabasePanel extends Component {
     this.setState({
       openTablePanel: false,
       settings: {
-        ...this.props.settings,
-        databaseType: 'sql'
+        ...this.props.settings
       }
     })
   }
@@ -83,17 +80,6 @@ export default class DatabasePanel extends Component {
     })
   }
 
-  handleSelectChange (event) {
-    this.setState((state) => {
-      const { settings, openTablePanel } = state
-      settings.databaseType = event.target.value
-      return ({
-        openTablePanel,
-        settings
-      })
-    })
-  }
-
   handleSubmit (event) {
     event.preventDefault()
     this.props.onSaveSettings(this.state.settings)
@@ -110,8 +96,7 @@ export default class DatabasePanel extends Component {
         <TablePanel
           onCloseTablePanel={this.handleCloseTablePanel} tablesData={{
             tables: this.state.settings.tables || [],
-            script: this.state.settings.script || '',
-            databaseType: this.state.settings.databaseType
+            script: this.state.settings.script || ''
           }}
           onSaveData={this.handleSaveData}
         />
@@ -150,24 +135,10 @@ export default class DatabasePanel extends Component {
               value={this.state.settings.password}
               onChange={this.handleInputChange}
             />
-            <div>
-              <select
-                className='database-type'
-                value={this.state.settings.databaseType}
-                onChange={this.handleSelectChange}
-              >
-                <option value='sql'>
-                  SQL
-                </option>
-                <option value='nosql'>
-                  NoSQL
-                </option>
-              </select>
-            </div>
             <button
               className='btn-api'
               onClick={this.handleOpenTablePanel}
-            >Описание {this.state.settings.databaseType === 'sql' ? 'таблиц' : 'коллекций'}
+            >Описание таблиц
             </button>
             <input className='btn-save' type='submit' value='Сохранить' />
           </div>

@@ -12,8 +12,7 @@ export default class AddTablePanel extends Component {
         foreignKeys: []
       },
       openColumnPanel: false,
-      editColumn: {},
-      databaseType: ''
+      editColumn: {}
     }
 
     this.handleBackTablePanel = this.handleBackTablePanel.bind(this)
@@ -41,8 +40,7 @@ export default class AddTablePanel extends Component {
     }
     this.setState({
       table: table,
-      openColumnPanel: false,
-      databaseType: this.props.databaseType
+      openColumnPanel: false
     })
   }
 
@@ -99,7 +97,6 @@ export default class AddTablePanel extends Component {
     if (this.state.openColumnPanel) {
       return (
         <AddColumnPanel
-          databaseType={this.state.databaseType}
           onCloseAddColumnPanel={() => this.handleOpenCloseAddColumn(false)}
           onSaveColumn={this.handleSaveColumn}
           editColumn={this.state.editColumn}

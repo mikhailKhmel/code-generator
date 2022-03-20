@@ -7,7 +7,7 @@ import AddTablePanel from '../add-table-panel'
 export default class TablePanel extends Component {
   constructor (props) {
     super(props)
-    this.state = { script: '', tables: [], databaseType: '', addTablePanel: false, editTable: '', editScript: false }
+    this.state = { script: '', tables: [], addTablePanel: false, editTable: '', editScript: false }
     this.handleShowScript = this.handleShowScript.bind(this)
     this.handleAddTable = this.handleAddTable.bind(this)
     this.handleCloseAddTablePanel = this.handleCloseAddTablePanel.bind(this)
@@ -24,7 +24,6 @@ export default class TablePanel extends Component {
     this.setState({
       script: this.props.tablesData.script,
       tables: this.props.tablesData.tables,
-      databaseType: this.props.tablesData.databaseType,
       addTablePanel: false,
       editTable: '',
       editScript: false
@@ -94,7 +93,6 @@ export default class TablePanel extends Component {
           onSaveTable={this.handleSaveTable}
           onRemoveTable={this.handleRemoveTable}
           table={this.state.tables.find(x => x.name === this.state.editTable)}
-          databaseType={this.state.databaseType}
         />
       )
     }
@@ -129,7 +127,7 @@ export default class TablePanel extends Component {
             скрипт
           </button>
           <button className='btn-element' onClick={this.handleAddTable}>
-            Добавить {this.state.databaseType === 'sql' ? 'таблицу' : 'коллекцию'}
+            Добавить таблицу
           </button>
           <button className='btn-element' onClick={this.handleSaveData}>Сохранить
           </button>
