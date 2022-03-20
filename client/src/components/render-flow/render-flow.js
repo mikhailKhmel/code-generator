@@ -15,6 +15,7 @@ import { getId, getNodeTypeName } from '../utils'
 import Notification from '../notification'
 
 import './render-flow.css'
+import connectionLine from './connection-line'
 
 const nodeTypes = {
   microservice: Microservice,
@@ -30,7 +31,7 @@ const RenderFlow = () => {
   const [error, setError] = useState(null)
 
   const onConnect = (params) => {
-    setElements((els) => addEdge({ ...params }, els))
+    setElements((els) => addEdge({ ...params, animated: true, style: {stroke: 'red'} }, els))
   }
 
   const onLoad = (_reactFlowInstance) =>
@@ -143,6 +144,7 @@ const RenderFlow = () => {
             onDragOver={onDragOver}
             onNodeDoubleClick={onNodeDoubleClick}
             nodeTypes={nodeTypes}
+            connectionLineComponent={connectionLine}
           >
             <Controls />
             <Background
