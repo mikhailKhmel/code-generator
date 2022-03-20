@@ -10,6 +10,8 @@ const getNodeTypeName = (type) => {
       return 'Очередь'
     case 'database':
       return 'База данных'
+    case 'client':
+      return 'Клиент'
     default:
       return null
   }
@@ -17,7 +19,9 @@ const getNodeTypeName = (type) => {
 
 const getReactFlowTypeByCustomType = (type) => {
   switch (type) {
-    case 'queue' || 'microservice':
+    case 'client':
+      return 'input'
+    case 'microservice':
       return 'default'
     case 'database':
       return 'output'

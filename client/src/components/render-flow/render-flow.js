@@ -7,7 +7,7 @@ import ReactFlow, {
   ReactFlowProvider,
   removeElements
 } from 'react-flow-renderer'
-import { Database, Microservice } from '../nodes'
+import { Database, Microservice, Client } from '../nodes'
 import RunButton from '../run-button'
 import SettingsPanel from '../settings-panel'
 import Sidebar from '../sidebar'
@@ -18,6 +18,7 @@ import './render-flow.css'
 import connectionLine from './connection-line'
 
 const nodeTypes = {
+  client: Client,
   microservice: Microservice,
   database: Database
 }
@@ -69,6 +70,7 @@ const RenderFlow = () => {
   }
 
   const onNodeDoubleClick = (_, node) => {
+    if (node.type === 'client') return
     const currentSettings = settings.find(x => x.id === node.id)
     setOpenSettings(currentSettings)
   }
