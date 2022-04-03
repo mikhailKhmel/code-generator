@@ -1,5 +1,6 @@
 const { Router } = require('express')
 const path = require('path')
+const fs = require('fs')
 const { v4: uuidv4 } = require('uuid')
 const { Generator } = require('../generator/generator')
 const router = Router()
@@ -26,6 +27,14 @@ router.post('/run', async (req, res) => {
   } catch (e) {
     return res.status(500).json({ message: 'Что-то пошло не так', error: e.toString() })
   }
+})
+
+router.get('/example', async (req, res) => {
+  const fullpath = path.resolve(__dirname, '..\\examples')
+  const files = fs.readdirSync(fullpath).map((filename) => fullpath + `\\${filename}`)
+  const rndFile = files[Math.floor(Math.random()*files.length)]
+  const content = JSON.parse(fs.readFileSync(rndFile, 'utf-8'))
+  return res.json(content)
 })
 
 module.exports = router

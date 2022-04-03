@@ -145,7 +145,8 @@ const RenderFlow = () => {
 
   const handleExampleClick = async () => {
     const data = await getRandomExample()
-    console.log(data)
+    setElements(data['elements'])
+    setSettings(data['settings'])
   }
 
   console.log('elements', elements)
