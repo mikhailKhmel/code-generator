@@ -1,0 +1,16 @@
+.random-example-btn {
+    position: absolute;
+    right: 10px;
+    bottom: 280px;
+    border-radius: 5px;
+    border: 1px solid #4b6077;
+    background-color: #94bbe6;
+    color: #4b6077;
+    width: 165px;
+}
+
+.random-example-btn:hover {
+    background-color: #4b6077;
+    color: #94bbe6;
+    cursor: pointer;
+}

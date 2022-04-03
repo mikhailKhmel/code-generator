@@ -6,7 +6,6 @@ const SaveButton = (props) => {
     <div>
       <button className="save-button" value="Run" onClick={props.onSave}>Сохранить модель</button>
     </div>
-
   )
 }
 

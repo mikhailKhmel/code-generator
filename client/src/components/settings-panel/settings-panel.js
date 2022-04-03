@@ -16,8 +16,10 @@ const SettingsPanel = (props) => {
       )
     case 'database':
       return (
-        <DatabasePanel settings={settings} onSaveSettings={onSaveSettings} onCloseSettings={onCloseSettings}/>
+        <DatabasePanel settings={settings} onSaveSettings={onSaveSettings} onCloseSettings={onCloseSettings} />
       )
+      default:
+        throw new Error()
   }
 }
 

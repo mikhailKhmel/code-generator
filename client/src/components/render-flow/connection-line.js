@@ -26,7 +26,7 @@ export default ({
     <g>
       <path
         fill="none"
-        stroke="#222"
+        stroke="#426cc6"
         strokeWidth={1.5}
         className="animated"
         d={dAttr}

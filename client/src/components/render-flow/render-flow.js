@@ -7,6 +7,7 @@ import ReactFlow, {
   ReactFlowProvider,
   removeElements
 } from 'react-flow-renderer'
+import { getRandomExample } from '../api/api'
 import { Client, Database, Microservice } from '../nodes'
 import RunButton from '../run-button'
 import SettingsPanel from '../settings-panel'
@@ -19,6 +20,7 @@ import connectionLine from './connection-line'
 import { getPort } from '../utils/utils'
 import SaveButton from '../save-button'
 import OpenButton from '../open-button'
+import RandomExampleBtn from '../random-example-btn/random-example-btn'
 
 const nodeTypes = {
   client: Client,
@@ -35,7 +37,7 @@ const RenderFlow = () => {
   const [error, setError] = useState(null)
 
   const onConnect = (params) => {
-    setElements((els) => addEdge({ ...params, animated: true, style: { stroke: 'red' } }, els))
+    setElements((els) => addEdge({ ...params, animated: true, style: { stroke: '#426cc6' } }, els))
   }
 
   const onLoad = (_reactFlowInstance) =>
@@ -85,7 +87,6 @@ const RenderFlow = () => {
   const onSaveSettings = (newSettings) => {
     const el = elements.find(el => el.id === newSettings.id)
     let st = settings.find(st => st.id === newSettings.id)
-
 
     if (el.type === 'microservice') {
       el.data.microserviceType = newSettings.microserviceType
@@ -142,12 +143,17 @@ const RenderFlow = () => {
     }
   }
 
+  const handleExampleClick = async () => {
+    const data = await getRandomExample()
+    console.log(data)
+  }
+
   console.log('elements', elements)
   console.log('settings', settings)
   return (
     <div className="render-flow">
       <ReactFlowProvider>
-        <Sidebar/>
+        <Sidebar />
         <div className="reactflow-wrapper" ref={reactFlowWrapper}>
           <ReactFlow
             elements={elements}
@@ -161,7 +167,7 @@ const RenderFlow = () => {
             nodeTypes={nodeTypes}
             connectionLineComponent={connectionLine}
           >
-            <Controls/>
+            <Controls />
             <Background
               variant="dots"
               gap={20}
@@ -193,11 +199,12 @@ const RenderFlow = () => {
             settings={openSettings} onCloseSettings={onCloseSettings}
             onSaveSettings={onSaveSettings}
           />}
-        <SaveButton onSave={handleSave}/>
-        <OpenButton onOpen={handleOpen}/>
-        <RunButton elementsInfo={getAllElementsInfo()} onHandleError={onHandleError}/>
+        <RandomExampleBtn onClick={handleExampleClick} />
+        <SaveButton onSave={handleSave} />
+        <OpenButton onOpen={handleOpen} />
+        <RunButton elementsInfo={getAllElementsInfo()} onHandleError={onHandleError} />
         {error ? <Notification title={error.title} description={error.description} ok={error.ok}
-                               onCloseNotification={handleCloseNotification}/> : null}
+          onCloseNotification={handleCloseNotification} /> : null}
 
       </ReactFlowProvider>
     </div>
