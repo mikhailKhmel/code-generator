@@ -8,8 +8,6 @@ function CleanFiles (uuid, names) {
     console.log('Очистка файлов для ', name)
     index = index.replace('{%redirects%}', '')
     fs.writeFileSync(workdir, index, 'utf-8')
-
-    fs.rmSync(`${config.get('workdir')}/${uuid}/${name}/node_modules`, { recursive: true, force: true })
   })
   let dockercompose = fs.readFileSync(`${config.get('workdir')}/${uuid}/docker-compose.yaml`, 'utf-8')
   dockercompose = dockercompose.replace('{%service%}', '')
