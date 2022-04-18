@@ -10,7 +10,7 @@ const workdir = config.get('workdir')
 
 async function Generator (uuid, elements, settings) {
   console.log('Запущена генерация')
-  fs.mkdirSync(`${workdir}\\${uuid}`, { recursive: true })
+  fs.mkdirSync(`${workdir}/${uuid}`, { recursive: true })
   console.log('Рабочая папка создана')
 
   const microservices = elements.filter(x => x.type === 'microservice')

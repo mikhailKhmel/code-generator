@@ -17,7 +17,7 @@ router.post('/run', async (req, res) => {
     const uuid = uuidv4()
     const { result, message } = await Generator(uuid, elements, settings)
     if (result) {
-      return res.download(path.resolve(__dirname, `..\\..\\projects\\archive\\${uuid}\\project.zip`))
+      return res.download(path.resolve(__dirname, `../../projects/archive/${uuid}/project.zip`))
     } else {
       console.log(message)
       return res.status(204).json({
@@ -30,9 +30,11 @@ router.post('/run', async (req, res) => {
 })
 
 router.get('/example', async (req, res) => {
-  const fullpath = path.resolve(__dirname, '..\\examples')
-  const files = fs.readdirSync(fullpath).map((filename) => fullpath + `\\${filename}`)
-  const rndFile = files[Math.floor(Math.random()*files.length)]
+  const fullpath = path.normalize(path.join(__dirname, '../', 'examples'))
+  console.log(fullpath)
+  const files = fs.readdirSync(fullpath).map((filename) => path.join(fullpath, `${filename}`))
+  console.log(files)
+  const rndFile = files[Math.floor(Math.random() * files.length)]
   const content = JSON.parse(fs.readFileSync(rndFile, 'utf-8'))
   return res.json(content)
 })

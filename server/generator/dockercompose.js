@@ -44,19 +44,19 @@ if (!String.prototype.replaceAll) {
 }
 
 function DockerCompose (uuid, microserviceSettings, databaseSettings, edges) {
-  const workdir = `${config.get('workdir')}\\${uuid}`
+  const workdir = `${config.get('workdir')}/${uuid}`
 
   console.log('копирование шаблона temp-docker-compose.yaml')
-  fs.copyFileSync('.\\templates\\temp-docker-compose.yaml', `${workdir}\\docker-compose.yaml`)
+  fs.copyFileSync('./templates/temp-docker-compose.yaml', `${workdir}/docker-compose.yaml`)
 
   console.log('чтение docker-compose')
-  let dockercompose = fs.readFileSync(`${workdir}\\docker-compose.yaml`, 'utf-8')
+  let dockercompose = fs.readFileSync(`${workdir}/docker-compose.yaml`, 'utf-8')
 
   console.log('установка настроек сервисов')
   for (let i = 0; i < microserviceSettings.length; i++) {
     const path = `${microserviceSettings[i].name}`
     let currService = service.replaceAll('{%servicename%}', microserviceSettings[i].name.toLowerCase())
-    currService = currService.replaceAll('{%dockerpath%}', path.replaceAll('\\', '/'))
+    currService = currService.replaceAll('{%dockerpath%}', path.replaceAll('/', '/'))
     currService = currService.replaceAll('{%port%}', microserviceSettings[i].port)
     dockercompose = dockercompose.replace('{%service%}', currService)
   }
@@ -74,7 +74,7 @@ function DockerCompose (uuid, microserviceSettings, databaseSettings, edges) {
   }
 
   console.log('запись docker-compose')
-  fs.writeFileSync(`${workdir}\\docker-compose.yaml`, dockercompose)
+  fs.writeFileSync(`${workdir}/docker-compose.yaml`, dockercompose)
 }
 
 module.exports = { DockerCompose }

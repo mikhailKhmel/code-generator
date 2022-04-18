@@ -4,7 +4,7 @@ const cmd = require('node-cmd')
 
 function GenMicroservice (uuid, name, settings) {
   try {
-    const workDir = `${config.get('workdir')}\\${uuid}\\${name}`
+    const workDir = `${config.get('workdir')}/${uuid}/${name}`
     if (!fs.existsSync(workDir)) {
       console.log('Создаем папку микросервиса', workDir)
       fs.mkdirSync(workDir)
@@ -19,11 +19,11 @@ function GenMicroservice (uuid, name, settings) {
 
     // копирование index.js
     console.log('копирование index.js')
-    fs.copyFileSync('.\\templates\\temp-index.js', `${workDir}\\index.js`)
+    fs.copyFileSync('./templates/temp-index.js', `${workDir}/index.js`)
 
     // установка порта
     console.log('установка порта')
-    let index = fs.readFileSync(`${workDir}\\index.js`, 'utf-8')
+    let index = fs.readFileSync(`${workDir}/index.js`, 'utf-8')
     index = index.replace('{%port%}', settings.port)
 
     const req = `
@@ -46,12 +46,12 @@ app.{%type%}('{%request%}', (req, res) => {
     index = index.replace('{%api%}', requests)
 
     console.log('перезапись изменений')
-    fs.writeFileSync(`${workDir}\\index.js`, index)
+    fs.writeFileSync(`${workDir}/index.js`, index)
 
     console.log('настройка package.json')
-    const packagejson = JSON.parse(fs.readFileSync(`${workDir}\\package.json`, 'utf-8'))
+    const packagejson = JSON.parse(fs.readFileSync(`${workDir}/package.json`, 'utf-8'))
     packagejson.scripts.start = 'node index.js'
-    fs.writeFileSync(`${workDir}\\package.json`, JSON.stringify(packagejson), 'utf-8')
+    fs.writeFileSync(`${workDir}/package.json`, JSON.stringify(packagejson), 'utf-8')
 
     console.log('Докер')
     Dockering(uuid, name, settings.port)
@@ -64,22 +64,22 @@ app.{%type%}('{%request%}', (req, res) => {
 }
 
 function Dockering (uuid, name, port) {
-  const workdir = `${config.get('workdir')}\\${uuid}\\${name}`
+  const workdir = `${config.get('workdir')}/${uuid}/${name}`
 
   console.log('копирование файлов')
-  fs.copyFileSync('.\\templates\\.dockerignore', `${workdir}\\.dockerignore`)
-  fs.copyFileSync('.\\templates\\Dockerfile', `${workdir}\\Dockerfile`)
+  fs.copyFileSync('./templates/.dockerignore', `${workdir}/.dockerignore`)
+  fs.copyFileSync('./templates/Dockerfile', `${workdir}/Dockerfile`)
 
   console.log('исправление файлов')
-  let dockerfile = fs.readFileSync(`${workdir}\\Dockerfile`, 'utf-8')
+  let dockerfile = fs.readFileSync(`${workdir}/Dockerfile`, 'utf-8')
   dockerfile = dockerfile.replace('{%port%}', port)
   dockerfile = dockerfile.replace('{%name%}', name)
-  fs.writeFileSync(`${workdir}\\Dockerfile`, dockerfile, 'utf-8')
+  fs.writeFileSync(`${workdir}/Dockerfile`, dockerfile, 'utf-8')
 }
 
 function CreateGatewayEdge (uuid, name, { upstreamRequest, downstreamRequest, downstreamPort }) {
-  const workDir = `${config.get('workdir')}\\${uuid}\\${name}`
-  let indexJS = fs.readFileSync(`${workDir}\\index.js`, 'utf-8')
+  const workDir = `${config.get('workdir')}/${uuid}/${name}`
+  let indexJS = fs.readFileSync(`${workDir}/index.js`, 'utf-8')
   let redirectStr = `
 app.all('{%upstreamRequest%}', (req, res) => {
   res.redirect('http://localhost:{%downstreamPort%}{%downstreamRequest%}')
@@ -93,7 +93,7 @@ app.all('{%upstreamRequest%}', (req, res) => {
   redirectStr = redirectStr.replace('{%downstreamRequest%}', downstreamRequest)
 
   indexJS = indexJS.replace('{%redirects%}', redirectStr)
-  fs.writeFileSync(`${workDir}\\index.js`, indexJS, 'utf-8')
+  fs.writeFileSync(`${workDir}/index.js`, indexJS, 'utf-8')
   console.log('Завершение соединения')
 }
 
