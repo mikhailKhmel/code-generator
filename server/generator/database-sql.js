@@ -1,9 +1,11 @@
 const fs = require('fs')
 const config = require('config')
-const cmd = require('node-cmd')
 
 function installPg (uuid, name) {
-  cmd.runSync(`cd ${config.get('workdir')}/${uuid}/${name} && npm i pg`)
+  const workDir = `${config.get('workdir')}/${uuid}/${name}`
+  const packagejson = JSON.parse(fs.readFileSync(`${workDir}/package.json`, 'utf-8'))
+  packagejson.dependencies.pg = '^8.7.3'
+  fs.writeFileSync(`${workDir}/package.json`, JSON.stringify(packagejson), 'utf-8')
   console.log('завершение установки pg')
 }
 
@@ -23,8 +25,8 @@ function createDbConfig (uuid, name, dbSettings) {
   fs.writeFileSync(`${workDir}/dbconfig.js`, dbconfig)
 }
 
-function createMigrationFile (uuid, name, script) {
-  const workDir = `${config.get('workdir')}/${uuid}/${name}`
+function createMigrationFile (uuid, script) {
+  const workDir = `${config.get('workdir')}/${uuid}`
   fs.mkdirSync(`${workDir}/migrations`, { recursive: true })
   fs.writeFileSync(`${workDir}/migrations/dbinit.sql`, script, 'utf-8')
 }

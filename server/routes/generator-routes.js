@@ -10,7 +10,6 @@ router.post('/run', async (req, res) => {
   try {
     const elements = req.body.elements
     const settings = req.body.settings
-    console.log(elements, settings)
     if (!elements || !settings || elements.length === 0 || settings.length === 0) {
       return res.status(500).json({ message: 'Отсутствуют данные', error: 'Данные не переданы' })
     }

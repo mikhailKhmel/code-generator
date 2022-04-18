@@ -14,8 +14,8 @@ function GenMicroservice (uuid, name, settings) {
     console.log('генерация проекта')
     cmd.runSync(`cd ${workDir} && npm init --yes`)
 
-    console.log('установка express')
-    cmd.runSync(`cd ${workDir} && npm i express`)
+    /*console.log('установка express')
+    cmd.runSync(`cd ${workDir} && npm i express`)*/
 
     // копирование index.js
     console.log('копирование index.js')
@@ -51,6 +51,7 @@ app.{%type%}('{%request%}', (req, res) => {
     console.log('настройка package.json')
     const packagejson = JSON.parse(fs.readFileSync(`${workDir}/package.json`, 'utf-8'))
     packagejson.scripts.start = 'node index.js'
+    packagejson.dependencies = { express: '^4.17.3' }
     fs.writeFileSync(`${workDir}/package.json`, JSON.stringify(packagejson), 'utf-8')
 
     console.log('Докер')

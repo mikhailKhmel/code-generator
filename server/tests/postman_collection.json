@@ -1,0 +1,77 @@
+{
+  "info": {
+    "_postman_id": "7b64f0ff-f8b5-4c2d-97ab-dc4842b0e241",
+    "name": "New Collection",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "New Request",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var path = require('path'),\r",
+              "  async = require('async'), //https://www.npmjs.com/package/async\r",
+              "  newman = require('newman'),\r",
+              "\r",
+              "  parametersForTestRun = {\r",
+              "    collection: path.join(__dirname, 'postman_collection.json'), // your collection\r",
+              "    environment: path.join(__dirname, 'postman_environment.json'), //your env\r",
+              "  };\r",
+              "\r",
+              "parallelCollectionRun = function(done) {\r",
+              "  newman.run(parametersForTestRun, done);\r",
+              "};\r",
+              "\r",
+              "// Runs the Postman sample collection thrice, in parallel.\r",
+              "async.parallel([\r",
+              "    parallelCollectionRun,\r",
+              "    parallelCollectionRun,\r",
+              "    parallelCollectionRun\r",
+              "  ],\r",
+              "  function(err, results) {\r",
+              "    err && console.error(err);\r",
+              "\r",
+              "    results.forEach(function(result) {\r",
+              "      var failures = result.run.failures;\r",
+              "      console.info(failures.length ? JSON.stringify(failures.failures, null, 2) :\r",
+              "        `${result.collection.name} ran successfully.`);\r",
+              "    });\r",
+              "  });"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"elements\": [\r\n        {\r\n            \"id\": \"1\",\r\n            \"type\": \"client\",\r\n            \"position\": {\r\n                \"x\": 593,\r\n                \"y\": 122\r\n            },\r\n            \"data\": {\r\n                \"label\": \"Клиент\"\r\n            }\r\n        },\r\n        {\r\n            \"id\": \"2\",\r\n            \"type\": \"microservice\",\r\n            \"position\": {\r\n                \"x\": 469,\r\n                \"y\": 291\r\n            },\r\n            \"data\": {\r\n                \"label\": \"Перенаправляющий Микросервис\",\r\n                \"microserviceType\": \"gateway\",\r\n                \"name\": \"GatewayService\"\r\n            }\r\n        },\r\n        {\r\n            \"id\": \"3\",\r\n            \"type\": \"microservice\",\r\n            \"position\": {\r\n                \"x\": 727,\r\n                \"y\": 443\r\n            },\r\n            \"data\": {\r\n                \"label\": \"Микросервис\",\r\n                \"microserviceType\": \"default\",\r\n                \"name\": \"VideoService\"\r\n            }\r\n        },\r\n        {\r\n            \"id\": \"4\",\r\n            \"type\": \"microservice\",\r\n            \"position\": {\r\n                \"x\": 415,\r\n                \"y\": 465\r\n            },\r\n            \"data\": {\r\n                \"label\": \"Микросервис\",\r\n                \"microserviceType\": \"default\",\r\n                \"name\": \"MusicService\"\r\n            }\r\n        },\r\n        {\r\n            \"source\": \"1\",\r\n            \"sourceHandle\": \"a_output\",\r\n            \"target\": \"2\",\r\n            \"targetHandle\": \"a_input\",\r\n            \"animated\": true,\r\n            \"style\": {\r\n                \"stroke\": \"#426cc6\"\r\n            },\r\n            \"id\": \"reactflow__edge-1a_output-2a_input\"\r\n        },\r\n        {\r\n            \"source\": \"2\",\r\n            \"sourceHandle\": \"a_output\",\r\n            \"target\": \"4\",\r\n            \"targetHandle\": \"a_input\",\r\n            \"animated\": true,\r\n            \"style\": {\r\n                \"stroke\": \"#426cc6\"\r\n            },\r\n            \"id\": \"reactflow__edge-2a_output-4a_input\"\r\n        },\r\n        {\r\n            \"source\": \"2\",\r\n            \"sourceHandle\": \"a_output\",\r\n            \"target\": \"3\",\r\n            \"targetHandle\": \"a_input\",\r\n            \"animated\": true,\r\n            \"style\": {\r\n                \"stroke\": \"#426cc6\"\r\n            },\r\n            \"id\": \"reactflow__edge-2a_output-3a_input\"\r\n        },\r\n        {\r\n            \"id\": \"8\",\r\n            \"type\": \"database\",\r\n            \"position\": {\r\n                \"x\": 453,\r\n                \"y\": 639\r\n            },\r\n            \"data\": {\r\n                \"label\": \"База данных\",\r\n                \"name\": \"Database\"\r\n            }\r\n        },\r\n        {\r\n            \"source\": \"4\",\r\n            \"sourceHandle\": \"a_output\",\r\n            \"target\": \"8\",\r\n            \"targetHandle\": \"a_input\",\r\n            \"animated\": true,\r\n            \"style\": {\r\n                \"stroke\": \"#426cc6\"\r\n            },\r\n            \"id\": \"reactflow__edge-4a_output-8a_input\"\r\n        },\r\n        {\r\n            \"source\": \"3\",\r\n            \"sourceHandle\": \"a_output\",\r\n            \"target\": \"8\",\r\n            \"targetHandle\": \"a_input\",\r\n            \"animated\": true,\r\n            \"style\": {\r\n                \"stroke\": \"#426cc6\"\r\n            },\r\n            \"id\": \"reactflow__edge-3a_output-8a_input\"\r\n        }\r\n    ],\r\n    \"settings\": [\r\n        {\r\n            \"id\": \"1\",\r\n            \"name\": \"\",\r\n            \"type\": \"client\"\r\n        },\r\n        {\r\n            \"name\": \"GatewayService\",\r\n            \"id\": \"2\",\r\n            \"microserviceType\": \"gateway\",\r\n            \"type\": \"microservice\",\r\n            \"api\": [],\r\n            \"#426cc6irects\": [\r\n                {\r\n                    \"id\": 54,\r\n                    \"upstreamRequest\": \"/api/video\",\r\n                    \"downstreamRequest\": \"/video\"\r\n                },\r\n                {\r\n                    \"id\": 43,\r\n                    \"upstreamRequest\": \"/api/music\",\r\n                    \"downstreamRequest\": \"/music\"\r\n                }\r\n            ],\r\n            \"port\": 5165\r\n        },\r\n        {\r\n            \"name\": \"VideoService\",\r\n            \"id\": \"3\",\r\n            \"microserviceType\": \"default\",\r\n            \"type\": \"microservice\",\r\n            \"api\": [\r\n                {\r\n                    \"id\": 26,\r\n                    \"type\": \"get\",\r\n                    \"request\": \"/video\"\r\n                }\r\n            ],\r\n            \"port\": 5333\r\n        },\r\n        {\r\n            \"name\": \"MusicService\",\r\n            \"id\": \"4\",\r\n            \"microserviceType\": \"default\",\r\n            \"type\": \"microservice\",\r\n            \"api\": [\r\n                {\r\n                    \"id\": 64,\r\n                    \"type\": \"get\",\r\n                    \"request\": \"/music\"\r\n                }\r\n            ],\r\n            \"port\": 5096\r\n        },\r\n        {\r\n            \"id\": \"8\",\r\n            \"name\": \"Database\",\r\n            \"type\": \"database\",\r\n            \"username\": \"admin\",\r\n            \"password\": \"1234\",\r\n            \"script\": \"CREATE TABLE Music (id integer PRIMARY KEY , name varchar(255) NOT NULL , create_datetime datetime );\\nCREATE TABLE Videos (id integer PRIMARY KEY , name varchar(255) NOT NULL );\\n\",\r\n            \"tables\": [\r\n                {\r\n                    \"name\": \"Music\",\r\n                    \"columns\": [\r\n                        {\r\n                            \"name\": \"id\",\r\n                            \"type\": \"integer\",\r\n                            \"notnull\": false,\r\n                            \"primary\": true,\r\n                            \"unique\": false,\r\n                            \"defaultValue\": \"\"\r\n                        },\r\n                        {\r\n                            \"name\": \"name\",\r\n                            \"type\": \"varchar(255)\",\r\n                            \"notnull\": true,\r\n                            \"primary\": false,\r\n                            \"unique\": false,\r\n                            \"defaultValue\": \"\"\r\n                        },\r\n                        {\r\n                            \"name\": \"create_datetime\",\r\n                            \"type\": \"datetime\",\r\n                            \"notnull\": false,\r\n                            \"primary\": false,\r\n                            \"unique\": false,\r\n                            \"defaultValue\": \"\"\r\n                        }\r\n                    ],\r\n                    \"foreignKeys\": []\r\n                },\r\n                {\r\n                    \"name\": \"Videos\",\r\n                    \"columns\": [\r\n                        {\r\n                            \"name\": \"id\",\r\n                            \"type\": \"integer\",\r\n                            \"notnull\": false,\r\n                            \"primary\": true,\r\n                            \"unique\": false,\r\n                            \"defaultValue\": \"\"\r\n                        },\r\n                        {\r\n                            \"name\": \"name\",\r\n                            \"type\": \"varchar(255)\",\r\n                            \"notnull\": true,\r\n                            \"primary\": false,\r\n                            \"unique\": false,\r\n                            \"defaultValue\": \"\"\r\n                        }\r\n                    ],\r\n                    \"foreignKeys\": []\r\n                }\r\n            ],\r\n            \"port\": 5144\r\n        }\r\n    ]\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:5001/api/generator/run",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5001",
+          "path": [
+            "api",
+            "generator",
+            "run"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

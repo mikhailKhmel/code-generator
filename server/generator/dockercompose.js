@@ -27,7 +27,7 @@ const db =
       - "{%port%}:5432"
     volumes:
       - ./postgresdata:/var/lib/postgresql/data
-      - ./{%servicename%}/migrations/dbinit.sql:/docker-entrypoint-initdb.d/dbinit.sql
+      - ./migrations/dbinit.sql:/docker-entrypoint-initdb.d/dbinit.sql
     restart: always
     environment:
       POSTGRES_USER: {%username%}
@@ -43,7 +43,7 @@ if (!String.prototype.replaceAll) {
     }
 }
 
-function DockerCompose (uuid, microserviceSettings, databaseSettings, edges) {
+function DockerCompose (uuid, microserviceSettings, databaseSettings) {
   const workdir = `${config.get('workdir')}/${uuid}`
 
   console.log('копирование шаблона temp-docker-compose.yaml')
@@ -67,9 +67,6 @@ function DockerCompose (uuid, microserviceSettings, databaseSettings, edges) {
     currDb = currDb.replaceAll('{%port%}', databaseSettings[i].port)
     currDb = currDb.replaceAll('{%username%}', databaseSettings[i].username)
     currDb = currDb.replaceAll('{%password%}', databaseSettings[i].password)
-    currDb = currDb.replaceAll('{%servicename%}', microserviceSettings.find(x =>
-      x.id === (edges.find(x =>
-        x.target === databaseSettings[i].id)).source).name)
     dockercompose = dockercompose.replace('{%db%}', currDb)
   }
 

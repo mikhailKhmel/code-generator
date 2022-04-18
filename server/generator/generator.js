@@ -9,7 +9,7 @@ const { DockerCompose } = require('./dockercompose')
 const workdir = config.get('workdir')
 
 async function Generator (uuid, elements, settings) {
-  console.log('Запущена генерация')
+  console.log(`Запущена генерация ${uuid}`)
   fs.mkdirSync(`${workdir}/${uuid}`, { recursive: true })
   console.log('Рабочая папка создана')
 
@@ -69,20 +69,24 @@ async function Generator (uuid, elements, settings) {
           port: targetSettings.port,
           dbname: targetSettings.name
         })
-
-        let script = targetSettings.script
-        if (script === '' || !script) {
-          console.log('генерация SQL-скрипта')
-          script = generateSqlScript(targetSettings.tables)
-        }
-
-        console.log('создание файла миграции')
-        createMigrationFile(uuid, sourceService.data.name, script)
       }
     } catch (err) {
       return { result: false, message: err }
     }
   })
+
+  const databases = settings.filter(x => x.type === 'database')
+  databases.forEach((db) => {
+    let script = db.script
+    if (script === '' || !script) {
+      console.log('генерация SQL-скрипта')
+      script = generateSqlScript(db.tables)
+    }
+
+    console.log('создание файла миграции')
+    createMigrationFile(uuid, script)
+  })
+
   console.log('Создание docker-compose')
   DockerCompose(uuid, settings.filter(x => x.type === 'microservice'), settings.filter(x => x.type === 'database'), elements.filter(x => x.id.includes('edge')))
 
