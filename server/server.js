@@ -4,9 +4,9 @@ const app = express()
 
 const fs = require('fs')
 const path = require('path')
-const logpath = path.isAbsolute(config.get('logfile')) ? config.get('logfile') : __dirname
+const logPath = path.isAbsolute(config.get('logfile')) ? config.get('logfile') : __dirname
 
-const log_file = fs.createWriteStream(path.join(logpath, 'debug.log'), { flags: 'w' })
+const log_file = fs.createWriteStream(path.join(logPath, 'debug.log'), { flags: 'w' })
 const log_stdout = process.stdout
 
 console.log = function (d) {
