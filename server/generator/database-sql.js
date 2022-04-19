@@ -62,4 +62,8 @@ function generateSqlScript (tables) {
   return script
 }
 
+function generateFakeData() {
+  // 1. 
+}
+
 module.exports = { createDbConfig, installPg, createMigrationFile, generateSqlScript }
