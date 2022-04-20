@@ -20,6 +20,6 @@ export async function sendRequestApi (url, method = 'GET', body = null, headers 
 }
 
 export async function getRandomExample () {
-  const res = await fetch('/api/generator/example', {method: 'GET'})
+  const res = await fetch('/api/generator/example', { method: 'GET' })
   return await res.json()
 }

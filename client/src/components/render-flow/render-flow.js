@@ -154,7 +154,7 @@ const RenderFlow = () => {
   return (
     <div className="render-flow">
       <ReactFlowProvider>
-        <Sidebar />
+        <Sidebar/>
         <div className="reactflow-wrapper" ref={reactFlowWrapper}>
           <ReactFlow
             elements={elements}
@@ -168,7 +168,7 @@ const RenderFlow = () => {
             nodeTypes={nodeTypes}
             connectionLineComponent={connectionLine}
           >
-            <Controls />
+            <Controls/>
             <Background
               variant="dots"
               gap={20}
@@ -200,12 +200,12 @@ const RenderFlow = () => {
             settings={openSettings} onCloseSettings={onCloseSettings}
             onSaveSettings={onSaveSettings}
           />}
-        <RandomExampleBtn onClick={handleExampleClick} />
-        <SaveButton onSave={handleSave} />
-        <OpenButton onOpen={handleOpen} />
-        <RunButton elementsInfo={getAllElementsInfo()} onHandleError={onHandleError} />
+        <RandomExampleBtn onClick={handleExampleClick}/>
+        <SaveButton onSave={handleSave}/>
+        <OpenButton onOpen={handleOpen}/>
+        <RunButton elementsInfo={getAllElementsInfo()} onHandleError={onHandleError}/>
         {error ? <Notification title={error.title} description={error.description} ok={error.ok}
-          onCloseNotification={handleCloseNotification} /> : null}
+                               onCloseNotification={handleCloseNotification}/> : null}
 
       </ReactFlowProvider>
     </div>

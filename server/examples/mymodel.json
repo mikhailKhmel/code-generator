@@ -178,7 +178,7 @@
       "type": "database",
       "username": "admin",
       "password": "1234",
-      "script": "CREATE TABLE Music (id integer PRIMARY KEY , name varchar(255) NOT NULL , create_datetime datetime );\nCREATE TABLE Videos (id integer PRIMARY KEY , name varchar(255) NOT NULL );\n",
+      "script": "CREATE TABLE Music (id integer PRIMARY KEY , name varchar(255) NOT NULL , create_datetime timestamp );\nCREATE TABLE Videos (id integer PRIMARY KEY , name varchar(255) NOT NULL );\n",
       "tables": [
         {
           "name": "Music",
@@ -201,14 +201,15 @@
             },
             {
               "name": "create_datetime",
-              "type": "datetime",
+              "type": "timestamp",
               "notnull": false,
               "primary": false,
               "unique": false,
               "defaultValue": ""
             }
           ],
-          "foreignKeys": []
+          "foreignKeys": [],
+          "rndValues": 10
         },
         {
           "name": "Videos",
@@ -230,10 +231,11 @@
               "defaultValue": ""
             }
           ],
-          "foreignKeys": []
+          "foreignKeys": [],
+          "rndValues": 1000
         }
       ],
-      "port": 5144
+      "port": 5245
     }
   ]
 }

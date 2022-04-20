@@ -9,10 +9,7 @@
 }
 
 .checkbox-settings {
-    margin-left: 20px;
-    margin-right: 20px;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin: 10px 20px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;

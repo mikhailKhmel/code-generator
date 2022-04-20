@@ -70,12 +70,13 @@ export default class AddColumnPanel extends Component {
   columnTypes () {
     return (
       <select className="input-select" value={this.state.type} onChange={this.handleSelectChange}>
+        <option value="uuid">UUID</option>
         <option value="integer">Число</option>
         <option value="double">Число с плавающей запятой</option>
         <option value="varchar(255)">Строка с ограничением</option>
         <option value="text">Строка без ограничений</option>
         <option value="boolean">Булево значение</option>
-        <option value="datetime">Дата и время</option>
+        <option value="timestamp">Дата и время</option>
       </select>
     )
   }
@@ -104,17 +105,17 @@ export default class AddColumnPanel extends Component {
         }
         <div>
           <div className="checkbox-settings">
-            <label for="notnull">Непустое</label>
+            <label>Непустое</label>
             <input name="notnull" type="checkbox" onChange={this.handleCheckboxChange}
                    checked={this.state.notnull}/>
           </div>
           <div className="checkbox-settings">
-            <label for="unique">Уникальное</label>
+            <label>Уникальное</label>
             <input name="unique" type="checkbox" onChange={this.handleCheckboxChange}
                    checked={this.state.unique}/>
           </div>
           <div className="checkbox-settings">
-            <label for="primary">Первичный ключ</label>
+            <label>Первичный ключ</label>
             <input name="primary" type="checkbox" onChange={this.handleCheckboxChange}
                    checked={this.state.primary}/>
           </div>

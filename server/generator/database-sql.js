@@ -60,6 +60,7 @@ function generateSqlScript (tables) {
     })
     script += tableScript.replace(', %column%', '')
   }
+
   return script
 }
 
@@ -70,33 +71,39 @@ function getValue (dataType) {
     case  'double':
       return { quotes: false, value: faker.datatype.float().toString() }
     case  'varchar(255)':
-      return { quotes: true, value: faker.datatype.string(50) }
+      return { quotes: true, value: faker.lorem.words(10) }
     case 'text':
-      return { quotes: true, value: faker.datatype.string(50) }
+      return { quotes: true, value: faker.lorem.words(10) }
     case  'boolean':
       return { quotes: false, value: faker.datatype.boolean().toString() }
-    case 'datetime':
+    case 'timestamp':
       return { quotes: true, value: faker.datatype.datetime().toISOString().replace('T', ' ').replace('Z', '') }
+    case 'uuid':
+      return { quotes: true, value: faker.datatype.uuid() }
   }
 }
 
 function generateFakeData (tables) {
   let inserts = []
   for (let tblIndx = 0; tblIndx < tables.length; tblIndx++) {
-    const columns = tables[tblIndx].columns
-    let insertTemplate = `insert into ${tables[tblIndx].name} (%column%) values (%value%);`
-    for (let columnIndx = 0; columnIndx < columns.length; columnIndx++) {
-      const column = columns[columnIndx]
-      let value = getValue(column.type)
-      let insertValue = value.quotes ? `'${value.value}'` : `${value.value}`
-      insertTemplate = insertTemplate.replace('%column%', `${column.name}, %column%`)
-      insertTemplate = insertTemplate.replace('%value%', `${insertValue}, %value%`)
-      if (columnIndx === columns.length - 1) {
-        insertTemplate = insertTemplate.replace(', %column%', '')
-        insertTemplate = insertTemplate.replace(', %value%', '')
+    const table = tables[tblIndx]
+    for (let i = 0; i < table.rndValues; i++) {
+      const columns = table.columns
+      let insertTemplate = `insert into ${tables[tblIndx].name} (%column%)
+                            values (%value%);`
+      for (let columnIndx = 0; columnIndx < columns.length; columnIndx++) {
+        const column = columns[columnIndx]
+        let { quotes, value } = getValue(column.type)
+        let insertValue = quotes ? `'${value}'` : `${value}`
+        insertTemplate = insertTemplate.replace('%column%', `${column.name}, %column%`)
+        insertTemplate = insertTemplate.replace('%value%', `${insertValue}, %value%`)
+        if (columnIndx === columns.length - 1) {
+          insertTemplate = insertTemplate.replace(', %column%', '')
+          insertTemplate = insertTemplate.replace(', %value%', '')
+        }
       }
+      inserts.push(insertTemplate)
     }
-    inserts.push(insertTemplate)
   }
   return inserts
 }
