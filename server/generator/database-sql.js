@@ -1,5 +1,6 @@
 const fs = require('fs')
 const config = require('config')
+const { faker } = require('@faker-js/faker')
 
 function installPg (uuid, name) {
   const workDir = `${config.get('workdir')}/${uuid}/${name}`
@@ -62,8 +63,42 @@ function generateSqlScript (tables) {
   return script
 }
 
-function generateFakeData() {
-  // 1. 
+function getValue (dataType) {
+  switch (dataType) {
+    case 'integer':
+      return { quotes: false, value: faker.datatype.number().toString() }
+    case  'double':
+      return { quotes: false, value: faker.datatype.float().toString() }
+    case  'varchar(255)':
+      return { quotes: true, value: faker.datatype.string(50) }
+    case 'text':
+      return { quotes: true, value: faker.datatype.string(50) }
+    case  'boolean':
+      return { quotes: false, value: faker.datatype.boolean().toString() }
+    case 'datetime':
+      return { quotes: true, value: faker.datatype.datetime().toISOString().replace('T', ' ').replace('Z', '') }
+  }
 }
 
-module.exports = { createDbConfig, installPg, createMigrationFile, generateSqlScript }
+function generateFakeData (tables) {
+  let inserts = []
+  for (let tblIndx = 0; tblIndx < tables.length; tblIndx++) {
+    const columns = tables[tblIndx].columns
+    let insertTemplate = `insert into ${tables[tblIndx].name} (%column%) values (%value%);`
+    for (let columnIndx = 0; columnIndx < columns.length; columnIndx++) {
+      const column = columns[columnIndx]
+      let value = getValue(column.type)
+      let insertValue = value.quotes ? `'${value.value}'` : `${value.value}`
+      insertTemplate = insertTemplate.replace('%column%', `${column.name}, %column%`)
+      insertTemplate = insertTemplate.replace('%value%', `${insertValue}, %value%`)
+      if (columnIndx === columns.length - 1) {
+        insertTemplate = insertTemplate.replace(', %column%', '')
+        insertTemplate = insertTemplate.replace(', %value%', '')
+      }
+    }
+    inserts.push(insertTemplate)
+  }
+  return inserts
+}
+
+module.exports = { createDbConfig, installPg, createMigrationFile, generateSqlScript, generateFakeData }

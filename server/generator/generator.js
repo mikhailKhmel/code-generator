@@ -1,7 +1,13 @@
 const { GenMicroservice, CreateGatewayEdge } = require('./microservice')
 const { CleanFiles } = require('./cleaner')
 const { GenArchive } = require('./archive')
-const { createDbConfig, installPg, createMigrationFile, generateSqlScript } = require('./database-sql')
+const {
+  createDbConfig,
+  installPg,
+  createMigrationFile,
+  generateSqlScript,
+  generateFakeData
+} = require('./database-sql')
 const fs = require('fs')
 const config = require('config')
 const { DockerCompose } = require('./dockercompose')
@@ -82,6 +88,8 @@ async function Generator (uuid, elements, settings) {
       console.log('генерация SQL-скрипта')
       script = generateSqlScript(db.tables)
     }
+
+    script += generateFakeData(db.tables).join('\n')
 
     console.log('создание файла миграции')
     createMigrationFile(uuid, script)

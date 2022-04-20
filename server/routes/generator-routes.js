@@ -24,6 +24,7 @@ router.post('/run', async (req, res) => {
       })
     }
   } catch (e) {
+    console.error(e.toString())
     return res.status(500).json({ message: 'Что-то пошло не так', error: e.toString() })
   }
 })
