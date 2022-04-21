@@ -3,7 +3,7 @@ const path = require('path'),
   newman = require('newman'),
 
   parametersForTestRun = {
-    collection: path.join(__dirname, 'postman_collection.json'),
+    collection: path.join(__dirname, 'postman_collection_model2.json'),
   }
 
 parallelCollectionRun = function (done) {

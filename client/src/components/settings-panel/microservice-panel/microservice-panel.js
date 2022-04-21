@@ -13,7 +13,8 @@ export default class MicroservicePanel extends Component {
         name: '',
         microserviceType: 'default',
         type: 'microservice',
-        api: []
+        api: [],
+        redirects: []
       },
       openApiPanel: false,
       openGatewayPanel: false
@@ -93,10 +94,11 @@ export default class MicroservicePanel extends Component {
       name,
       microserviceType,
       type,
-      api
+      api,
+      redirects
     } = this.props.settings
     console.log('update settings', name,
-      microserviceType, type, api)
+      microserviceType, type, api, redirects)
     this.setState({
       openApiPanel: false,
       settings:
@@ -106,7 +108,8 @@ export default class MicroservicePanel extends Component {
           microserviceType:
             microserviceType === undefined ? 'default' : microserviceType,
           type,
-          api: api === undefined ? [] : api
+          api: api === undefined ? [] : api,
+          redirects: redirects === undefined ? [] : redirects,
         }
     })
   }
@@ -122,10 +125,11 @@ export default class MicroservicePanel extends Component {
           name,
           microserviceType,
           type,
-          api
+          api,
+          redirects
         } = this.props.settings
         console.log('update settings', name,
-          microserviceType, type, api)
+          microserviceType, type, api, redirects)
         this.setState({
           openApiPanel: false,
           settings:
@@ -135,7 +139,8 @@ export default class MicroservicePanel extends Component {
               microserviceType:
                 microserviceType === undefined ? 'default' : microserviceType,
               type,
-              api: api === undefined ? [] : api
+              api: api === undefined ? [] : api,
+              redirects: redirects === undefined ? [] : redirects
             }
         })
       }
@@ -160,7 +165,7 @@ export default class MicroservicePanel extends Component {
     this.setState(st => ({
       openApiPanel: false,
       openGatewayPanel: false,
-      settings: { ...st.settings, redirects }
+      settings: { ...st.settings, redirects: redirects }
     }))
   }
 

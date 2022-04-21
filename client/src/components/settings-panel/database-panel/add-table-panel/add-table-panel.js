@@ -142,7 +142,7 @@ export default class AddTablePanel extends Component {
         <div className="input-number">
           <label>Заполнить случайными значениями</label>
           <input name="rndValues" type="number" onChange={this.handleInputChange}
-                 defaultValue={this.props.table.rndValues}
+                 defaultValue={this.state.table.rndValues}
                  max={1000} min={0}/>
         </div>
         <div className="btn-group">

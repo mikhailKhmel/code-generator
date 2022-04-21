@@ -61,6 +61,19 @@ async function Generator (uuid, elements, settings) {
               downstreamPort: targetSettings.port
             })
           })
+        } else if (sourceType === 'gateway' && targetType === 'gateway') {
+          const redirects = sourceSettings.redirects
+          const includesRedirectsAndApi = redirects.filter(x => targetSettings.redirects.map(x => x.upstreamRequest).includes(x.downstreamRequest))
+          Array.prototype.forEach.call(includesRedirectsAndApi, (redirect) => {
+            const { upstreamRequest, downstreamRequest } = redirect
+
+            console.log('Создание соединения')
+            CreateGatewayEdge(uuid, sourceService.data.name, {
+              upstreamRequest,
+              downstreamRequest,
+              downstreamPort: targetSettings.port
+            })
+          })
         }
       } else if (sourceService.type === 'microservice' && targetService.type === 'database') {
         console.log(`установка связи между базой данных ${targetSettings.name} и микросервисом ${sourceSettings.name}`)
@@ -85,7 +98,9 @@ async function Generator (uuid, elements, settings) {
   databases.forEach((db) => {
     let script = db.script
     if (script === '' || !script) {
-      console.log('генерация SQL-скрипта')
+      console.log('генерация SQL-скрипта', db.tables)
+      if (db.tables === undefined)
+        return
       script = generateSqlScript(db.tables)
     }
 

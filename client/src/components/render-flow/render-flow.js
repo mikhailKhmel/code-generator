@@ -128,7 +128,7 @@ const RenderFlow = () => {
       type: 'text/plain'
     })
     element.href = URL.createObjectURL(file)
-    element.download = 'mymodel.json'
+    element.download = 'model1.json'
     document.body.appendChild(element)
     element.click()
   }

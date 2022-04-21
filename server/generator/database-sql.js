@@ -61,7 +61,7 @@ function generateSqlScript (tables) {
     script += tableScript.replace(', %column%', '')
   }
 
-  return script
+  return script + '\n'
 }
 
 function getValue (dataType) {
@@ -84,6 +84,7 @@ function getValue (dataType) {
 }
 
 function generateFakeData (tables) {
+  console.log('генерация случайных данных')
   let inserts = []
   for (let tblIndx = 0; tblIndx < tables.length; tblIndx++) {
     const table = tables[tblIndx]
