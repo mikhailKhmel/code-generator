@@ -9,7 +9,7 @@ const RunButton = (props) => {
     event.preventDefault()
     setInProcess(true)
     const info = props.elementsInfo
-    const res = await sendRequestApi('/api/generator/run', 'POST', info)
+    const res = await sendRequestApi(`/api/generator/run/${props.projectName}`, 'POST', info)
     console.log(res)
     props.onHandleError(res)
     setInProcess(false)

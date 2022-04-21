@@ -32,6 +32,7 @@ const RenderFlow = () => {
   const reactFlowWrapper = useRef(null)
   const [elements, setElements] = useState([])
   const [settings, setSettings] = useState([])
+  const [projectName, setProjectName] = useState('Мой проект')
   const [openSettings, setOpenSettings] = useState(null)
   const [reactFlowInstance, setReactFlowInstance] = useState(null)
   const [error, setError] = useState(null)
@@ -128,7 +129,7 @@ const RenderFlow = () => {
       type: 'text/plain'
     })
     element.href = URL.createObjectURL(file)
-    element.download = 'model1.json'
+    element.download = `${projectName}.json`
     document.body.appendChild(element)
     element.click()
   }
@@ -149,11 +150,17 @@ const RenderFlow = () => {
     setSettings(data['settings'])
   }
 
+  const handleProjectName = (event) => {
+    event.preventDefault()
+    setProjectName(event.target.value)
+  }
+
   console.log('elements', elements)
   console.log('settings', settings)
   return (
     <div className="render-flow">
       <ReactFlowProvider>
+        <input className="input-project-name" type="text" value={projectName} onChange={handleProjectName}/>
         <Sidebar/>
         <div className="reactflow-wrapper" ref={reactFlowWrapper}>
           <ReactFlow
@@ -203,7 +210,7 @@ const RenderFlow = () => {
         <RandomExampleBtn onClick={handleExampleClick}/>
         <SaveButton onSave={handleSave}/>
         <OpenButton onOpen={handleOpen}/>
-        <RunButton elementsInfo={getAllElementsInfo()} onHandleError={onHandleError}/>
+        <RunButton projectName={projectName} elementsInfo={getAllElementsInfo()} onHandleError={onHandleError}/>
         {error ? <Notification title={error.title} description={error.description} ok={error.ok}
                                onCloseNotification={handleCloseNotification}/> : null}
 

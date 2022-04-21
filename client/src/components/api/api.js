@@ -11,7 +11,8 @@ export async function sendRequestApi (url, method = 'GET', body = null, headers 
       return { title: message.message, description: message.error, ok: res.ok }
     } else {
       const blob = await res.blob()
-      Download(blob, 'project.zip')
+      const projectName = url.split('/')
+      Download(blob, `${projectName[projectName.length - 1]}.zip`)
       return { title: 'Успешная генерация', description: '', ok: res.ok }
     }
   } catch (error) {

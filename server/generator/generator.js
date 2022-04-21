@@ -14,7 +14,7 @@ const { DockerCompose } = require('./dockercompose')
 
 const workdir = config.get('workdir')
 
-async function Generator (uuid, elements, settings) {
+async function Generator (uuid, projectName, elements, settings) {
   console.log(`Запущена генерация ${uuid}`)
   fs.mkdirSync(`${workdir}/${uuid}`, { recursive: true })
   console.log('Рабочая папка создана')
@@ -117,7 +117,7 @@ async function Generator (uuid, elements, settings) {
   CleanFiles(uuid, microservices.map(x => x.data.name))
 
   console.log('архивация проекта', uuid)
-  await GenArchive(uuid)
+  await GenArchive(uuid, projectName)
 
   console.log('Всё готово!')
   return { result: true, message: '' }

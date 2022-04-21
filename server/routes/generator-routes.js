@@ -6,17 +6,18 @@ const { Generator } = require('../generator/generator')
 const router = Router()
 
 // /api/generator/run
-router.post('/run', async (req, res) => {
+router.post('/run/:projectName', async (req, res) => {
   try {
+    const projectName = req.params.projectName
     const elements = req.body.elements
     const settings = req.body.settings
     if (!elements || !settings || elements.length === 0 || settings.length === 0) {
       return res.status(500).json({ message: 'Отсутствуют данные', error: 'Данные не переданы' })
     }
     const uuid = uuidv4()
-    const { result, message } = await Generator(uuid, elements, settings)
+    const { result, message } = await Generator(uuid, projectName, elements, settings)
     if (result) {
-      return res.download(path.resolve(__dirname, `../../projects/archive/${uuid}/project.zip`))
+      return res.download(path.resolve(__dirname, `../../projects/archive/${uuid}/${projectName}.zip`))
     } else {
       console.log(message)
       return res.status(204).json({
