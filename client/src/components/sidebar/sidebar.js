@@ -13,11 +13,18 @@ const Sidebar = () => {
         Клиент
       </div>
       <div
+        className="react-flow__node-default" style={{'border': '1px solid #3be235'}}
+        onDragStart={(event) => onDragStart(event, 'gateway')}
+        draggable
+      >
+        Перенаправляющий Микросервис
+      </div>
+      <div
         className="react-flow__node-default"
         onDragStart={(event) => onDragStart(event, 'microservice')}
         draggable
       >
-        Микросервис
+        Обычный Микросервис
       </div>
       <div
         className="react-flow__node-output"

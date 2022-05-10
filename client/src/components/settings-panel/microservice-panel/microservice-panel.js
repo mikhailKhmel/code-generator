@@ -115,9 +115,6 @@ export default class MicroservicePanel extends Component {
   }
 
   componentDidUpdate (prevProps, prevState) {
-    console.log('update')
-    console.log('prevProps', prevProps, prevState)
-    console.log('current props', this.props)
     if (prevState.settings.id !== '') {
       if (this.props.settings.id !== prevState.settings.id) {
         const {
@@ -128,8 +125,6 @@ export default class MicroservicePanel extends Component {
           api,
           redirects
         } = this.props.settings
-        console.log('update settings', name,
-          microserviceType, type, api, redirects)
         this.setState({
           openApiPanel: false,
           settings:
@@ -201,20 +196,6 @@ export default class MicroservicePanel extends Component {
               placeholder={`Название ${label}`}
               value={this.state.settings.name} onChange={this.handleInputChange}
             />
-            <div>
-              <select
-                className="microservice-type"
-                value={this.state.settings.microserviceType}
-                onChange={this.handleSelectChange}
-              >
-                <option value="gateway">
-                  Перенаправляющий
-                </option>
-                <option value="default">
-                  Обычный
-                </option>
-              </select>
-            </div>
             {
               this.state.settings.microserviceType === 'gateway' ?
                 null

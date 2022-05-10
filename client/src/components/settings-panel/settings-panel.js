@@ -6,6 +6,14 @@ const SettingsPanel = (props) => {
   console.log('open SettingsPanel', props)
   const { settings, onSaveSettings, onCloseSettings } = props
   switch (settings.type) {
+    case 'gateway':
+      return (
+        <MicroservicePanel
+          settings={{...settings, microserviceType: 'gateway'}}
+          onSaveSettings={onSaveSettings}
+          onCloseSettings={onCloseSettings}
+        />
+      )
     case 'microservice':
       return (
         <MicroservicePanel

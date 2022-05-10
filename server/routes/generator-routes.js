@@ -17,7 +17,7 @@ router.post('/run/:projectName', async (req, res) => {
     const uuid = uuidv4()
     const { result, message } = await Generator(uuid, projectName, elements, settings)
     if (result) {
-      return res.download(path.resolve(__dirname, `../../projects/archive/${uuid}/${projectName}.zip`))
+      return res.status(201).download(path.resolve(__dirname, `../../projects/archive/${uuid}/${projectName}.zip`))
     } else {
       console.log(message)
       return res.status(204).json({

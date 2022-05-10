@@ -5,9 +5,9 @@ const getId = (l) => {
 const getNodeTypeName = (type) => {
   switch (type) {
     case 'microservice':
-      return 'Микросервис'
-    case 'queue':
-      return 'Очередь'
+      return 'Обычный Микросервис'
+    case 'gateway':
+      return 'Перенаправляющий Микросервис'
     case 'database':
       return 'База данных'
     case 'client':
@@ -22,6 +22,8 @@ const getReactFlowTypeByCustomType = (type) => {
     case 'client':
       return 'input'
     case 'microservice':
+      return 'default'
+    case 'gateawy':
       return 'default'
     case 'database':
       return 'output'

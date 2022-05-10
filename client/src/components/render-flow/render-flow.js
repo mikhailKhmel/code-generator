@@ -8,7 +8,7 @@ import ReactFlow, {
   removeElements
 } from 'react-flow-renderer'
 import { getRandomExample } from '../api/api'
-import { Client, Database, Microservice } from '../nodes'
+import { Client, Database, Gateway, Microservice } from '../nodes'
 import RunButton from '../run-button'
 import SettingsPanel from '../settings-panel'
 import Sidebar from '../sidebar'
@@ -25,7 +25,8 @@ import RandomExampleBtn from '../random-example-btn/random-example-btn'
 const nodeTypes = {
   client: Client,
   microservice: Microservice,
-  database: Database
+  database: Database,
+  gateway: Gateway
 }
 
 const RenderFlow = () => {
@@ -189,6 +190,7 @@ const RenderFlow = () => {
                 if (n.type === 'microservice') return '#777'
                 if (n.type === 'database') return '#db16b0'
                 if (n.type === 'client') return '#0041d0'
+                if (n.type === 'gateway') return '#3be235'
 
                 return '#eee'
               }}
@@ -207,7 +209,7 @@ const RenderFlow = () => {
             settings={openSettings} onCloseSettings={onCloseSettings}
             onSaveSettings={onSaveSettings}
           />}
-        <RandomExampleBtn onClick={handleExampleClick}/>
+        {/* <RandomExampleBtn onClick={handleExampleClick}/> */}
         <SaveButton onSave={handleSave}/>
         <OpenButton onOpen={handleOpen}/>
         <RunButton projectName={projectName} elementsInfo={getAllElementsInfo()} onHandleError={onHandleError}/>
