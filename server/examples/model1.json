@@ -13,7 +13,7 @@
     },
     {
       "id": "2",
-      "type": "microservice",
+      "type": "gateway",
       "position": {
         "x": 469,
         "y": 291

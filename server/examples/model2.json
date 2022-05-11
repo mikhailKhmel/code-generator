@@ -26,7 +26,7 @@
     },
     {
       "id": "3",
-      "type": "microservice",
+      "type": "gateway",
       "position": {
         "x": 643,
         "y": 382
@@ -155,7 +155,7 @@
     },
     {
       "id": "14",
-      "type": "microservice",
+      "type": "gateway",
       "position": {
         "x": 905,
         "y": 580
