@@ -209,7 +209,7 @@ const RenderFlow = () => {
             settings={openSettings} onCloseSettings={onCloseSettings}
             onSaveSettings={onSaveSettings}
           />}
-        {/* <RandomExampleBtn onClick={handleExampleClick}/> */}
+        <RandomExampleBtn onClick={handleExampleClick}/>
         <SaveButton onSave={handleSave}/>
         <OpenButton onOpen={handleOpen}/>
         <RunButton projectName={projectName} elementsInfo={getAllElementsInfo()} onHandleError={onHandleError}/>

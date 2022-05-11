@@ -19,7 +19,6 @@ export default class GatewayPanel extends Component {
   }
 
   componentDidMount () {
-    console.log('gateway-panel. props:', this.props)
     this.setState({
       redirects: this.props.redirects === undefined ? [] : this.props.redirects,
       openAddGatewayPanel: false,
@@ -54,7 +53,6 @@ export default class GatewayPanel extends Component {
   }
 
   render () {
-    console.log('render gateway-panel. state:', this.state)
 
     if (this.state.openAddGatewayPanel) {
       return (

@@ -175,11 +175,6 @@ export default class MicroservicePanel extends Component {
         onSaveGatewayRedirects={this.handleSaveGatewayRedirects} />
     }
 
-    let label = ''
-    console.log('render microservice panel', this.state)
-    if (this.state.name !== undefined) {
-      label = this.state.name
-    }
     return (
       <form onSubmit={this.handleSubmit}>
         <div>
@@ -193,7 +188,7 @@ export default class MicroservicePanel extends Component {
             </div>
             <input
               name="name" className="object-name" type="text"
-              placeholder={`Название ${label}`}
+              placeholder={`Название`}
               value={this.state.settings.name} onChange={this.handleInputChange}
             />
             {
