@@ -197,7 +197,7 @@ export default class MicroservicePanel extends Component {
                 : <button
                   className="btn-api"
                   onClick={this.handleOpenApiPanel}
-                >Настроить API
+                >Настройки API
                 </button>
             }
             {

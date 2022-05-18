@@ -78,7 +78,7 @@ export default class GatewayPanel extends Component {
             <thead>
             <tr>
               <td>Входящий запрос</td>
-              <td>Выходящий запрос и порт</td>
+              <td>Выходящий запрос</td>
             </tr>
             </thead>
             <tbody>
@@ -87,7 +87,7 @@ export default class GatewayPanel extends Component {
                 <tr
                   key={x.id}
                   className="table-row"
-                  onDoubleClick={() => this.handleEditRedirect(x.id)}
+                  onClick={() => this.handleEditRedirect(x.id)}
                 >
                   <td>{x.upstreamRequest}</td>
                   <td>{x.downstreamRequest}</td>

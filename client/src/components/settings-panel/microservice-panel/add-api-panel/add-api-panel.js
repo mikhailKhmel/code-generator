@@ -72,7 +72,7 @@ export default class AddApiPanel extends Component {
           </select>
         </div>
         <div className="row">
-          Запрос
+          Путь запроса
           <input type="text" className="input-request" value={this.state.request} onChange={this.handleChangeRequest}/>
         </div>
         <button className="btn-save" value="Сохранить" onClick={this.handleSaveRequest}>Добавить</button>

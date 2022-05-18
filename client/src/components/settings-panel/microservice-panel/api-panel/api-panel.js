@@ -74,14 +74,14 @@ export default class ApiPanel extends Component {
             Назад
           </button>
           <div className="api-panel-title">
-            Настройка API
+            Настройки API
           </div>
         </div>
         <table>
           <thead>
           <tr>
             <td>Тип запроса</td>
-            <td>Имя метода обработки запроса</td>
+            <td>Путь запроса</td>
           </tr>
           </thead>
           <tbody>
