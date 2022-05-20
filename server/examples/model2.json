@@ -243,7 +243,6 @@
       "id": "3",
       "microserviceType": "gateway",
       "type": "microservice",
-      "api": [],
       "redirects": [
         {
           "id": 33,

@@ -3,7 +3,7 @@ import AddColumnPanel from '../add-column-panel'
 import './add-table-panel.css'
 
 export default class AddTablePanel extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       table: {
@@ -23,7 +23,7 @@ export default class AddTablePanel extends Component {
     this.handleSaveTable = this.handleSaveTable.bind(this)
   }
 
-  componentDidMount () {
+  componentDidMount() {
     console.log('mount add-table-panel. props:', this.props)
     let table
     if (this.props.table !== undefined) {
@@ -47,11 +47,11 @@ export default class AddTablePanel extends Component {
     })
   }
 
-  handleBackTablePanel () {
+  handleBackTablePanel() {
     this.props.onCloseAddTablePanel()
   }
 
-  handleInputChange (event) {
+  handleInputChange(event) {
     const target = event.target
 
     const value = target.value
@@ -71,11 +71,11 @@ export default class AddTablePanel extends Component {
     })
   }
 
-  handleOpenCloseAddColumn (value, editColumn) {
+  handleOpenCloseAddColumn(value, editColumn) {
     this.setState({ openColumnPanel: value, editColumn: this.state.table.columns.find(x => x.name === editColumn) })
   }
 
-  handleSaveColumn (column) {
+  handleSaveColumn(column) {
     const colIndx = this.state.table.columns.findIndex(x => x.name === column.name)
     let columns = this.state.table.columns
     if (colIndx < 0) {
@@ -93,12 +93,12 @@ export default class AddTablePanel extends Component {
     }))
   }
 
-  handleSaveTable () {
+  handleSaveTable() {
     console.log(this.props)
     this.props.onSaveTable(this.state.table)
   }
 
-  render () {
+  render() {
     console.log('render add-table-panel. state:', this.state)
 
     if (this.state.openColumnPanel) {
@@ -119,39 +119,36 @@ export default class AddTablePanel extends Component {
         </button>
 
         <input className="table-name" name="name" type="text" placeholder="Название таблицы"
-               value={this.state.table.name} onChange={this.handleInputChange}/>
+          value={this.state.table.name} onChange={this.handleInputChange} />
 
         <table className="addtablepanel-table">
           <thead>
-          <tr>
-            <td>Поля</td>
-          </tr>
+            <tr>
+              <td>Поля</td>
+            </tr>
           </thead>
           <tbody>
-          {this.state.table.columns !== undefined
-            ? this.state.table.columns.map(x => {
-              return (
-                <tr key={`${x.name}`}>
-                  <td className="column-row" onClick={() => this.handleOpenCloseAddColumn(true, x.name)}>{x.name}</td>
-                </tr>
-              )
-            })
-            : null}
+            {this.state.table.columns !== undefined
+              ? this.state.table.columns.map(x => {
+                return (
+                  <tr key={`${x.name}`}>
+                    <td className="column-row" onClick={() => this.handleOpenCloseAddColumn(true, x.name)}>{x.name}</td>
+                  </tr>
+                )
+              })
+              : null}
           </tbody>
         </table>
         <div className="input-number">
           <label>Количество случайных значений</label>
           <input name="rndValues" type="number" onChange={this.handleInputChange}
-                 defaultValue={this.state.table.rndValues}
-                 max={1000} min={0}/>
+            defaultValue={this.state.table.rndValues}
+            max={1000} min={0} />
         </div>
         <div className="btn-group">
-          <button className="btn-element">Внешние ключи</button>
           <button className="btn-element" onClick={() => this.handleOpenCloseAddColumn(true)}>Добавить поле</button>
           <button className="btn-element" onClick={this.handleSaveTable}>Сохранить</button>
-          <button className="btn-element" onClick={() => this.props.onRemoveTable(this.state.table.name)}>Удалить
-            таблицу
-          </button>
+          <button className="btn-element" onClick={() => this.props.onRemoveTable(this.state.table.name)}>Удалить таблицу</button>
         </div>
       </div>
     )
