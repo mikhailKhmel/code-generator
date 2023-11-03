@@ -54,10 +54,6 @@ function generateSqlScript (tables) {
       colStr += ', %column%'
       tableScript = tableScript.replace('%column%', colStr)
     })
-    currTable.foreignKeys.forEach(column => {
-      const colStr = `${column.name} ${column.type} REFERENCES ${column.externalTable} (${column.externalColumn}), %column%`
-      tableScript = tableScript.replace('%column%', colStr)
-    })
     script += tableScript.replace(', %column%', '')
   }
 
